@@ -172,7 +172,11 @@ class WaSessionOptimizer {
           throwErrorOnTosBlock: false,
           bypassCSP: true,
           
-          // 使用默认Chromium启动参数以兼容multi-device模式
+          // 使用默认Chromium启动参数；在受限环境时允许最小无沙箱
+          chromiumArgs: process.env.WA_CHROMIUM_NO_SANDBOX === 'true' ? [
+            '--no-sandbox',
+            '--disable-setuid-sandbox'
+          ] : undefined,
         });
         
         // Wait for connection with timeout
