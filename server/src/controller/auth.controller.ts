@@ -218,13 +218,7 @@ export class AuthController {
       // Only generate new access token, keep same refresh token
       const accessToken = jwt.sign(tokenPayload, ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
   
-      res.cookie("access_token", accessToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-        maxAge: 15 * 60 * 1000, // 15 minutes
-        path: "/", // must be same path as login cookie
-      });
+      res.cookie("access_token", accessToken, getCookieOptions(15 * 60 * 1000));
 
   
       return res.json({
