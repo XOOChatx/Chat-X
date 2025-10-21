@@ -265,6 +265,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           return;
         }
         
+        // Check if we have any cookies first
+        const hasCookies = document.cookie.includes("access_token") || document.cookie.includes("refresh_token");
+        if (!hasCookies) {
+          console.log("🔍 AUTH: No auth cookies found, setting user to null");
+          setUser(null);
+          setIsLoading(false);
+          return;
+        }
+        
         console.log("🔍 AUTH: Checking user authentication...");
         const res = await fetchWithAuth(`${API_URL}/auth/me`, { method: "GET" });
         
@@ -606,24 +615,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };  
 
   const logout = async () => {
-    console.log("🚪 LOGOUT: Starting logout process");
+    console.log("🚪 LOGOUT: Starting AGGRESSIVE logout process");
     
-    // Set a flag to prevent auto-login
-    sessionStorage.setItem("force_logout", "true");
-    
-    // Immediately clear user state to prevent UI issues
-    setUser(null);
-    
-    // Clear storage FIRST
-    try {
-      localStorage.clear();
-      sessionStorage.setItem("force_logout", "true"); // Keep this flag
-      console.log("🚪 LOGOUT: Storage cleared");
-    } catch (e) {
-      console.log("🚪 LOGOUT: Storage clear error:", e);
-    }
-    
-    // Clear all state
+    // Immediately clear user state
     setUser(null);
     setRoles([]);
     setUsers([]);
@@ -635,11 +629,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setSubordinates([]);
     setErrors(null);
     
+    // Clear all storage
+    try {
+      localStorage.clear();
+      sessionStorage.clear();
+      console.log("🚪 LOGOUT: All storage cleared");
+    } catch (e) {
+      console.log("🚪 LOGOUT: Storage clear error:", e);
+    }
+    
     // Stop auto-refresh
     try {
       stopTokenAutoRefresh();
     } catch (e) {
       console.log("🚪 LOGOUT: Stop refresh error:", e);
+    }
+    
+    // Manually clear all cookies
+    try {
+      document.cookie.split(";").forEach(function(c) { 
+        document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
+      });
+      console.log("🚪 LOGOUT: All cookies cleared manually");
+    } catch (e) {
+      console.log("🚪 LOGOUT: Manual cookie clear error:", e);
     }
     
     // Call backend logout endpoint
@@ -659,9 +672,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       console.log("🚪 LOGOUT: Backend call failed:", error);
     }
     
-    // Force redirect to login page immediately
+    // Set logout flag and redirect
+    sessionStorage.setItem("force_logout", "true");
     console.log("🚪 LOGOUT: Redirecting to login page...");
-    window.location.replace("/");
+    
+    // Use multiple redirect methods to ensure it works
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 50);
+    
+    setTimeout(() => {
+      window.location.replace("/");
+    }, 100);
   }
 
   const hasPermission = (permission: string): boolean => {
