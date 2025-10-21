@@ -86,6 +86,7 @@ if (!process.env.CHROME_PATH) {
 // 允许的前端域名（全局常量，供 CORS 与 Socket.IO 共用）
 const ALLOWED_ORIGINS = [
   'https://frontend-production-56b7.up.railway.app',
+  'https://www.evolution-x.io',
   'http://localhost:3000',
   'https://localhost:3000',
   'http://localhost:3001',
