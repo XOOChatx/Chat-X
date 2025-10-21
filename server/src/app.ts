@@ -98,10 +98,21 @@ const app = express();
 // ===== CORS CONFIG (MUST BE FIRST) =====
 const corsOptions = {
   origin: (origin: string | undefined, cb: (err: Error | null, allow?: boolean) => void) => {
-    if (!origin) return cb(null, true);          // 服务器到服务器或 curl
+    if (!origin) {
+      console.log('🌐 CORS: No origin header (server-to-server request)');
+      return cb(null, true);
+    }
+    
     console.log('🌐 CORS检查来源:', origin);
     const isAllowed = ALLOWED_ORIGINS.includes(origin);
-    console.log('🌐 CORS允许状态:', isAllowed);
+    console.log('🌐 CORS允许状态:', isAllowed, 'for origin:', origin);
+    
+    if (isAllowed) {
+      console.log('✅ CORS: Origin allowed');
+    } else {
+      console.log('❌ CORS: Origin not allowed. Allowed origins:', ALLOWED_ORIGINS);
+    }
+    
     cb(null, isAllowed);
   },
   credentials: true,
@@ -122,18 +133,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
 
-// 额外的预检请求处理
-app.use((req, res, next) => {
-  if (req.method === 'OPTIONS') {
-    res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin, Access-Control-Request-Method, Access-Control-Request-Headers');
-    res.header('Access-Control-Allow-Credentials', 'true');
-    res.header('Access-Control-Max-Age', '86400');
-    return res.status(200).end();
-  }
-  next();
-});
 // ===== END CORS CONFIG =====
 
 app.use(cookieParser());
