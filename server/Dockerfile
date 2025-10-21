@@ -42,7 +42,6 @@ ENV CHROME_PATH=/usr/bin/chromium \
     PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     WA_HEADLESS=true \
     WA_CHROMIUM_NO_SANDBOX=true \
-    NODE_ENV=production \
     PORT=3001
 
 WORKDIR /app
@@ -57,6 +56,9 @@ RUN if [ -f package-lock.json ]; then \
 
 COPY . .
 RUN npm run build
+
+# Only set production env after build so devDependencies are available to TypeScript
+ENV NODE_ENV=production
 
 EXPOSE 3001
 CMD ["node", "dist/app.js"]
