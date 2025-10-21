@@ -49,9 +49,12 @@ r.get("/login/qr", requireAdmin, async (req: any, res: any) => {
     
     if (dataUrl && dataUrl.length > 0) {
       console.log(`✅ 返回WhatsApp QR码: ${id}`);
+      // Add header to indicate QR is ready and frontend should stop polling
+      res.header('X-QR-Status', 'ready');
       res.json({ dataUrl }); // 前端期望的格式
     } else {
       console.log(`⏳ WhatsApp QR码未就绪: ${id}`);
+      res.header('X-QR-Status', 'pending');
       res.status(202).json({ pending: true });
     }
   } catch (error: any) {
