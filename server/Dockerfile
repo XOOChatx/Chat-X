@@ -48,7 +48,12 @@ ENV CHROME_PATH=/usr/bin/chromium \
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm ci
+# Use npm ci if lockfile exists, else fallback to npm install
+RUN if [ -f package-lock.json ]; then \
+      npm ci --no-audit --no-fund; \
+    else \
+      npm install --no-audit --no-fund; \
+    fi
 
 COPY . .
 RUN npm run build
