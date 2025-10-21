@@ -49,8 +49,17 @@ r.get("/login/qr", requireAdmin, async (req: any, res: any) => {
     
     if (dataUrl && dataUrl.length > 0) {
       console.log(`✅ 返回WhatsApp QR码: ${id}`);
-      // Add header to indicate QR is ready and frontend should stop polling
+      
+      // Calculate QR expiration info
+      const { getWaQr } = require('../services/wa-simple-final.service');
+      const qrExpiryKey = `${id}_expires`;
+      const qrExpiryTime = (global as any).lastQr?.get?.(qrExpiryKey);
+      const remainingTime = qrExpiryTime ? Math.max(0, Math.floor((parseInt(qrExpiryTime) - Date.now()) / 1000)) : 60;
+      
+      // Add headers to indicate QR is ready and expiration info
       res.header('X-QR-Status', 'ready');
+      res.header('X-QR-Expires-In', remainingTime.toString()); // Seconds until expiration
+      res.header('X-QR-Refresh-After', '60'); // Suggest checking again after 60 seconds
       res.json({ dataUrl }); // 前端期望的格式
     } else {
       console.log(`⏳ WhatsApp QR码未就绪: ${id}`);
