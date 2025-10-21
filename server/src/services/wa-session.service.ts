@@ -141,7 +141,6 @@ export class WaSession {
         useChrome: true,
         // 让Puppeteer自动管理浏览器，避免路径问题
         autoRefresh: true,
-        chromiumArgs: ["--no-sandbox", "--disable-setuid-sandbox"],
         qrRefreshS: 60, // 60秒刷新QR
       });
 
