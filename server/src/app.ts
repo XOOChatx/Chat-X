@@ -189,26 +189,11 @@ const server = createServer(app);
 // 允许的前端域名
 const io = new Server(server, {
   cors: {
-    origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
-      if (!origin) return callback(null, true);
-      console.log('🔌 WebSocket CORS检查来源:', origin);
-      const isAllowed = ALLOWED_ORIGINS.includes(origin);
-      console.log('🔌 WebSocket CORS允许状态:', isAllowed);
-      callback(null, isAllowed);
-    },
+    origin: ALLOWED_ORIGINS,
+    methods: ['GET', 'POST'],
     credentials: true,
-    methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: [
-      'Content-Type', 
-      'Authorization', 
-      'X-Requested-With',
-      'Accept',
-      'Origin'
-    ]
-  },
-  path: '/socket.io',
-  transports: ['websocket', 'polling'],
-  allowEIO3: true
+    allowedHeaders: ['Authorization', 'Content-Type']
+  }
 });
 
 io.on("connection", (socket) => {
