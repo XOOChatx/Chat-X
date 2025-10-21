@@ -6,6 +6,20 @@ import { getWaQr, getWaStatus, getConnectedWaSessions, createNewSessionId } from
 
 const r = Router();
 
+const ALLOWED_ORIGINS = ['https://www.evolution-x.io','https://evolution-x.io','https://frontend-production-56b7.up.railway.app'];
+
+r.use((req: any, res: any, next: any) => {
+  const origin = req.headers.origin;
+  if (origin && ALLOWED_ORIGINS.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin');
+  }
+  if (req.method === 'OPTIONS') return res.sendStatus(200); // preflight handled here
+  next();
+});
+
 // @ts-ignore
 r.get("/login/qr", requireAdmin, async (req: any, res: any) => {
   try {
