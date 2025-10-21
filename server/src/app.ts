@@ -96,21 +96,44 @@ const ALLOWED_ORIGINS = [
 const app = express();
 
 // ===== CORS CONFIG (MUST BE FIRST) =====
-// Railway-friendly CORS configuration
+// Aggressive Railway CORS fix - multiple layers of protection
+
+// Layer 1: Manual CORS headers for ALL requests (Railway-proof)
+app.use((req: any, res: any, next: any) => {
+  const origin = req.headers.origin;
+  
+  // Always set CORS headers for allowed origins
+  if (origin && ALLOWED_ORIGINS.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin, Access-Control-Request-Method, Access-Control-Request-Headers');
+    res.header('Access-Control-Max-Age', '86400');
+    
+    console.log('🚀 AGGRESSIVE CORS: Headers set for origin:', origin);
+  }
+  
+  // Handle preflight requests immediately
+  if (req.method === 'OPTIONS') {
+    console.log('🚀 AGGRESSIVE CORS: OPTIONS request handled for:', origin);
+    return res.status(200).end();
+  }
+  
+  next();
+});
+
+// Layer 2: CORS middleware (backup)
 const corsOptions = {
   origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
-    // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
     
     console.log('🌐 CORS检查来源:', origin);
     
-    // Check if origin is in allowed list
     if (ALLOWED_ORIGINS.indexOf(origin) !== -1) {
       console.log('✅ CORS: Origin allowed:', origin);
       callback(null, true);
     } else {
       console.log('❌ CORS: Origin not allowed:', origin);
-      console.log('❌ Allowed origins:', ALLOWED_ORIGINS);
       callback(new Error('Not allowed by CORS'), false);
     }
   },
@@ -130,29 +153,20 @@ const corsOptions = {
   preflightContinue: false
 };
 
-// Apply CORS middleware
 app.use(cors(corsOptions));
-
-// Handle preflight requests explicitly
 app.options('*', cors(corsOptions));
 
-// Railway fallback CORS handler (in case CORS middleware fails)
+// Layer 3: Final fallback for Railway
 app.use((req: any, res: any, next: any) => {
   const origin = req.headers.origin;
   
+  // Double-check CORS headers are set
   if (origin && ALLOWED_ORIGINS.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
-    res.header('Access-Control-Allow-Credentials', 'true');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin, Access-Control-Request-Method, Access-Control-Request-Headers');
-    res.header('Access-Control-Max-Age', '86400');
-    
-    console.log('🔄 Railway CORS fallback applied for origin:', origin);
-  }
-  
-  if (req.method === 'OPTIONS') {
-    console.log('🔄 Railway OPTIONS request handled');
-    return res.status(200).end();
+    if (!res.get('Access-Control-Allow-Origin')) {
+      res.header('Access-Control-Allow-Origin', origin);
+      res.header('Access-Control-Allow-Credentials', 'true');
+      console.log('🔄 FINAL FALLBACK: CORS headers set for:', origin);
+    }
   }
   
   next();
