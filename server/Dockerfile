@@ -41,7 +41,6 @@ ENV CHROME_PATH=/usr/bin/chromium \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium \
     PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     WA_HEADLESS=true \
-    WA_CHROMIUM_NO_SANDBOX=true \
     PORT=3001
 
 WORKDIR /app
