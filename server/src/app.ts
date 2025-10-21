@@ -96,24 +96,23 @@ const ALLOWED_ORIGINS = [
 const app = express();
 
 // ===== CORS CONFIG (MUST BE FIRST) =====
+// Railway-friendly CORS configuration
 const corsOptions = {
-  origin: (origin: string | undefined, cb: (err: Error | null, allow?: boolean) => void) => {
-    if (!origin) {
-      console.log('🌐 CORS: No origin header (server-to-server request)');
-      return cb(null, true);
-    }
+  origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
     
     console.log('🌐 CORS检查来源:', origin);
-    const isAllowed = ALLOWED_ORIGINS.includes(origin);
-    console.log('🌐 CORS允许状态:', isAllowed, 'for origin:', origin);
     
-    if (isAllowed) {
-      console.log('✅ CORS: Origin allowed');
+    // Check if origin is in allowed list
+    if (ALLOWED_ORIGINS.indexOf(origin) !== -1) {
+      console.log('✅ CORS: Origin allowed:', origin);
+      callback(null, true);
     } else {
-      console.log('❌ CORS: Origin not allowed. Allowed origins:', ALLOWED_ORIGINS);
+      console.log('❌ CORS: Origin not allowed:', origin);
+      console.log('❌ Allowed origins:', ALLOWED_ORIGINS);
+      callback(new Error('Not allowed by CORS'), false);
     }
-    
-    cb(null, isAllowed);
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
@@ -127,11 +126,37 @@ const corsOptions = {
     'Access-Control-Request-Headers'
   ],
   exposedHeaders: ['X-Request-Id'],
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
+  preflightContinue: false
 };
 
+// Apply CORS middleware
 app.use(cors(corsOptions));
+
+// Handle preflight requests explicitly
 app.options('*', cors(corsOptions));
+
+// Railway fallback CORS handler (in case CORS middleware fails)
+app.use((req: any, res: any, next: any) => {
+  const origin = req.headers.origin;
+  
+  if (origin && ALLOWED_ORIGINS.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin, Access-Control-Request-Method, Access-Control-Request-Headers');
+    res.header('Access-Control-Max-Age', '86400');
+    
+    console.log('🔄 Railway CORS fallback applied for origin:', origin);
+  }
+  
+  if (req.method === 'OPTIONS') {
+    console.log('🔄 Railway OPTIONS request handled');
+    return res.status(200).end();
+  }
+  
+  next();
+});
 
 // ===== END CORS CONFIG =====
 
