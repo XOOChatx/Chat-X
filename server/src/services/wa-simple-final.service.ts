@@ -122,7 +122,7 @@ console.log(`🔧 使用MVP模式的 ev.on('qr.**') 事件监听`);
 // 添加QR事件监听（仿照您的MVP）
 
 if (ev) {
-  ev.on('qr.**', (qrcode, sessionId) => {
+  ev.on('qr.**', (qrcode: string, sessionId: string) => {
     console.log(`📱 QR事件触发, sessionId: ${sessionId}`);
     console.log(`📊 QR码长度: ${qrcode ? qrcode.length : 'null'}`);
     
@@ -420,15 +420,19 @@ async function generateQRForSession(sessionId: string): Promise<string> {
 }
 
 async function ensureClient(sessionId: string): Promise<Client> {
-  if (clients.has(sessionId)) {
-    return clients.get(sessionId)!;
+  // Prefer the actual storage key with _IGNORE_ prefix if present
+  const actualKey = clients.has(sessionId)
+    ? sessionId
+    : (clients.has(`_IGNORE_${sessionId}`) ? `_IGNORE_${sessionId}` : sessionId);
+  if (clients.has(actualKey)) {
+    return clients.get(actualKey)!;
   }
 
   // 检查是否该Session已经被迁移到新ID
   const migratedSessionId = findMigratedSessionId(sessionId);
-  if (migratedSessionId && clients.has(migratedSessionId)) {
+  if (migratedSessionId && (clients.has(migratedSessionId) || clients.has(`_IGNORE_${migratedSessionId}`))) {
     console.log(`🔄 Session已迁移: ${sessionId} -> ${migratedSessionId}`);
-    return clients.get(migratedSessionId)!;
+    return clients.get(clients.has(migratedSessionId) ? migratedSessionId : `_IGNORE_${migratedSessionId}`)!;
   }
 
   // 🎯 Step 3: 设置LOADING状态（伺服器收到请求，开始加载）
@@ -439,7 +443,8 @@ async function ensureClient(sessionId: string): Promise<Client> {
   let initPromise = initPromises.get(sessionId);
   if (initPromise) {
     await initPromise;
-    return clients.get(sessionId)!;
+    const readyKey = clients.has(sessionId) ? sessionId : `_IGNORE_${sessionId}`;
+    return clients.get(readyKey)!;
   }
 
   // 创建初始化Promise
@@ -574,7 +579,7 @@ async function ensureClient(sessionId: string): Promise<Client> {
 
     // 完整的状态监听
     // 🔥 强化状态监听 - 多种方式确保捕获连接事件
-    client.onStateChanged((s) => {
+    client.onStateChanged((s: any) => {
       console.log(`🔄 WhatsApp状态变化: ${sessionId} -> ${s}`);
       
       if (s === "CONNECTED" || s === "OPENING") {
@@ -795,7 +800,7 @@ async function ensureClient(sessionId: string): Promise<Client> {
     // actualSessionId already declared above at line 458
     
     // 额外的消息监听来检测登录状态
-    client.onMessage((message) => {
+    client.onMessage((message: any) => {
       // 收到消息意味着肯定已经连接成功
       if (status.get(sessionId) !== "READY") {
         console.log(`📨 收到消息，确认连接成功: ${sessionId}`);
@@ -845,7 +850,6 @@ async function ensureClient(sessionId: string): Promise<Client> {
     }, 60000);
 
     // 🔑 使用_IGNORE_前缀存储客户端，与实际目录一致
-    // actualSessionId already declared above at line 700
     clients.set(actualSessionId, client);
     registerClientVariants(actualSessionId, client);
     console.log(`✅ WhatsApp客户端初始化完成: ${sessionId} -> 存储为 ${actualSessionId}`);
@@ -936,7 +940,8 @@ async function ensureClient(sessionId: string): Promise<Client> {
   });
 
   await initPromise;
-  return clients.get(sessionId)!;
+  const finalKey = clients.has(sessionId) ? sessionId : `_IGNORE_${sessionId}`;
+  return clients.get(finalKey)!;
 }
 
 export async function getWaQr(sessionId: string): Promise<string> {
@@ -971,15 +976,16 @@ export async function getWaQr(sessionId: string): Promise<string> {
     return ""; // 返回空字符串，前端检测到空值应停止轮询
   }
   
-  // 检查是否已经有open-wa原生QR码
-  const qrData = lastQr.get(sessionId);
+  // 检查是否已经有open-wa原生QR码（考虑_IGNORE_存储键）
+  const qrData = lastQr.get(sessionId) || lastQr.get(`_IGNORE_${sessionId}`);
   if (qrData && qrData.length > 0) {
     console.log(`✅ 返回open-wa原生QR码: ${sessionId}, 长度: ${qrData.length}`);
     return qrData;
   }
 
   // 非阻塞启动：检查是否需要启动客户端
-  if (!clients.has(sessionId) && !initPromises.has(sessionId)) {
+  const hasClient = clients.has(sessionId) || clients.has(`_IGNORE_${sessionId}`);
+  if (!hasClient && !initPromises.has(sessionId)) {
     console.log(`🚀 异步启动open-wa客户端: ${sessionId}`);
     
     // 异步启动，立即返回，让前端继续轮询
