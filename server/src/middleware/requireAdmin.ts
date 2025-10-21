@@ -9,10 +9,17 @@ export interface AuthenticatedRequest extends Request {
 /**
  * 管理员身份验证中间件
  * 检查请求头中的 Authorization: Bearer <ADMIN_TOKEN>
+ * 🚀 自动跳过 CORS 预检请求 (OPTIONS)
  */
 export function requireAdmin(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  // ✅ Step 1: Skip preflight (CORS) requests — they don't need auth
+  if (req.method === 'OPTIONS') {
+    console.log(`🟡 Skipping admin auth for preflight request: ${req.path}`);
+    return next();
+  }
+
+  // ✅ Step 2: Check Authorization header
   const authHeader = req.headers.authorization;
-  
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     const errorResponse: ErrorResponse = {
       ok: false,
@@ -22,8 +29,8 @@ export function requireAdmin(req: AuthenticatedRequest, res: Response, next: Nex
     return res.status(401).json(errorResponse);
   }
 
-  const token = authHeader.slice(7); // 移除 'Bearer ' 前缀
-  
+  // ✅ Step 3: Validate token
+  const token = authHeader.slice(7); // remove "Bearer "
   if (token !== config.ADMIN_TOKEN) {
     const errorResponse: ErrorResponse = {
       ok: false,
@@ -33,6 +40,7 @@ export function requireAdmin(req: AuthenticatedRequest, res: Response, next: Nex
     return res.status(403).json(errorResponse);
   }
 
+  // ✅ Step 4: Authorized
   req.isAdmin = true;
   next();
 }
