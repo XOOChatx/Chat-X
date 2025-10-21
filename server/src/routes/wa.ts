@@ -23,6 +23,12 @@ r.get("/login/qr", requireAdmin, async (req: any, res: any) => {
   try {
     const id = String(req.query.sessionId);
     if (!id || id === 'undefined') {
+      // Set CORS headers even for error responses
+      const origin = req.headers.origin;
+      if (origin && ['https://www.evolution-x.io', 'https://frontend-production-56b7.up.railway.app'].includes(origin)) {
+        res.header('Access-Control-Allow-Origin', origin);
+        res.header('Access-Control-Allow-Credentials', 'true');
+      }
       return res.status(400).json({ 
         ok: false, 
         code: "MISSING_SESSION_ID", 
@@ -30,6 +36,16 @@ r.get("/login/qr", requireAdmin, async (req: any, res: any) => {
       });
     }
     console.log(`📱 请求WhatsApp QR码: ${id}`);
+    
+    // 🔒 BULLETPROOF CORS: Set headers directly in response
+    const origin = req.headers.origin;
+    if (origin && ['https://www.evolution-x.io', 'https://frontend-production-56b7.up.railway.app'].includes(origin)) {
+      res.header('Access-Control-Allow-Origin', origin);
+      res.header('Access-Control-Allow-Credentials', 'true');
+      res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+      res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin');
+      console.log('🔒 BULLETPROOF CORS: Direct headers set for QR endpoint:', origin);
+    }
     
     const dataUrl = await getWaQr(id);
     
@@ -44,6 +60,12 @@ r.get("/login/qr", requireAdmin, async (req: any, res: any) => {
     }
   } catch (error: any) {
     console.error("❌ WhatsApp QR生成失败:", error);
+    // Set CORS headers even for error responses
+    const origin = req.headers.origin;
+    if (origin && ['https://www.evolution-x.io', 'https://frontend-production-56b7.up.railway.app'].includes(origin)) {
+      res.header('Access-Control-Allow-Origin', origin);
+      res.header('Access-Control-Allow-Credentials', 'true');
+    }
     res.status(500).json({ 
       ok: false, 
       code: "INTERNAL_ERROR", 
