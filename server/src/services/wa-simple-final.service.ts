@@ -539,7 +539,7 @@ async function ensureClient(sessionId: string): Promise<Client> {
         // Railway-optimized browser configuration
         useChrome: true,
         autoRefresh: true,
-        qrRefreshS: 15,
+        qrRefreshS: 60, // Increase QR refresh time to 60 seconds for better stability
         // 🔧 Railway-specific browser configuration
         browserRevision: undefined, // 使用默认浏览器版本
         popup: false,
@@ -562,18 +562,40 @@ async function ensureClient(sessionId: string): Promise<Client> {
       },
       qrCallback: (qr: string) => {
         console.log(`📱 Step 6: QR码生成完成: ${sessionId}, 长度: ${qr?.length || 0}`);
+        console.log(`🔍 QR数据预览: ${qr?.substring(0, 100)}...`);
         
         // Check if QR already has data URL prefix
         let qrDataUrl: string;
         if (qr.startsWith('data:image/png;base64,')) {
           qrDataUrl = qr; // Already has prefix
+          console.log(`📋 QR已有前缀，直接使用`);
         } else {
           qrDataUrl = `data:image/png;base64,${qr}`; // Add prefix
+          console.log(`📋 QR添加前缀: data:image/png;base64,`);
         }
         
         lastQr.set(sessionId, qrDataUrl);
         status.set(sessionId, "QR_READY");
         console.log(`✅ Step 7: 状态变更为QR_READY，等待扫描: ${sessionId}`);
+        console.log(`🔍 最终QR数据长度: ${qrDataUrl.length}`);
+        
+        // Save QR to file for debugging
+        try {
+          const debugDir = path.join(process.cwd(), 'debug-qr');
+          if (!fs.existsSync(debugDir)) {
+            fs.mkdirSync(debugDir, { recursive: true });
+          }
+          const filename = `qr-${sessionId}-${Date.now()}.png`;
+          const filepath = path.join(debugDir, filename);
+          
+          // Convert data URL to buffer and save
+          const base64Data = qrDataUrl.replace(/^data:image\/png;base64,/, '');
+          const buffer = Buffer.from(base64Data, 'base64');
+          fs.writeFileSync(filepath, buffer);
+          console.log(`💾 QR码已保存到文件: ${filepath}`);
+        } catch (error) {
+          console.error(`❌ 保存QR码失败: ${sessionId}`, error);
+        }
       }
     });
 
