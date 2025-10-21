@@ -19,9 +19,9 @@ r.use('/login/qr', (req: any, res: any, next: any) => {
 });
 
 // @ts-ignore
-r.post("/login/qr", requireAdmin, async (req: any, res: any) => {
+r.get("/login/qr", requireAdmin, async (req: any, res: any) => {
   try {
-    const id = String(req.body.sessionId || req.query.sessionId);
+    const id = String(req.query.sessionId);
     if (!id || id === 'undefined') {
       return res.status(400).json({ 
         ok: false, 
