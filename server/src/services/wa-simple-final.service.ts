@@ -574,10 +574,25 @@ async function ensureClient(sessionId: string): Promise<Client> {
           console.log(`📋 QR添加前缀: data:image/png;base64,`);
         }
         
+        // Store QR with expiration time (like real WhatsApp)
+        const qrExpiryTime = Date.now() + (60 * 1000); // 60 seconds from now
         lastQr.set(sessionId, qrDataUrl);
+        lastQr.set(`${sessionId}_expires`, qrExpiryTime.toString());
         status.set(sessionId, "QR_READY");
+        
         console.log(`✅ Step 7: 状态变更为QR_READY，等待扫描: ${sessionId}`);
         console.log(`🔍 最终QR数据长度: ${qrDataUrl.length}`);
+        console.log(`⏰ QR码将在 ${new Date(qrExpiryTime).toLocaleTimeString()} 过期`);
+        
+        // Auto-expire QR after 60 seconds
+        setTimeout(() => {
+          if (status.get(sessionId) === "QR_READY") {
+            console.log(`⏰ QR码已过期，清除: ${sessionId}`);
+            lastQr.delete(sessionId);
+            lastQr.delete(`${sessionId}_expires`);
+            status.set(sessionId, "QR_EXPIRED");
+          }
+        }, 60 * 1000);
         
         // Save QR to file for debugging
         try {
@@ -1003,10 +1018,35 @@ export async function getWaQr(sessionId: string): Promise<string> {
   
   // 检查是否已经有open-wa原生QR码（考虑_IGNORE_存储键）
   const qrData = lastQr.get(sessionId) || lastQr.get(`_IGNORE_${sessionId}`);
+  const qrExpiryKey = `${sessionId}_expires`;
+  const qrExpiryTime = lastQr.get(qrExpiryKey);
+  
   if (qrData && qrData.length > 0) {
-    console.log(`✅ 返回open-wa原生QR码: ${sessionId}, 长度: ${qrData.length}`);
-    console.log(`⚠️ 前端应停止轮询，QR码已生成`);
-    return qrData;
+    // Check if QR has expired
+    if (qrExpiryTime && Date.now() > parseInt(qrExpiryTime)) {
+      console.log(`⏰ QR码已过期，清除: ${sessionId}`);
+      lastQr.delete(sessionId);
+      lastQr.delete(qrExpiryKey);
+      status.set(sessionId, "QR_EXPIRED");
+      // Don't return expired QR
+    } else {
+      console.log(`✅ 返回有效的QR码: ${sessionId}, 长度: ${qrData.length}`);
+      
+      // Calculate remaining time
+      const remainingTime = qrExpiryTime ? Math.max(0, Math.floor((parseInt(qrExpiryTime) - Date.now()) / 1000)) : 60;
+      console.log(`⏰ QR码剩余有效时间: ${remainingTime} 秒`);
+      
+      // Track QR requests
+      const requestKey = `qr_requests_${sessionId}`;
+      const requestCount = (global as any)[requestKey] || 0;
+      (global as any)[requestKey] = requestCount + 1;
+      
+      if (requestCount > 5) {
+        console.log(`🚨 警告: 前端过度轮询QR码 (${requestCount}次请求)，QR码有效期内无需重复请求`);
+      }
+      
+      return qrData;
+    }
   }
 
   // 非阻塞启动：检查是否需要启动客户端
