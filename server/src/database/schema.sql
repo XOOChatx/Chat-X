@@ -1,20 +1,8 @@
--- Step 1: Create database if it does not exist
-DO $$
-BEGIN
-    IF NOT EXISTS (
-        SELECT FROM pg_database WHERE datname = 'chatx'
-    ) THEN
-        PERFORM dblink_exec('CREATE DATABASE chatx');
-    END IF;
-END
-$$ LANGUAGE plpgsql;
-
-
--- Step 2: Create schema inside chatx
--- (⚠️ This must be run while already connected to chatx)
+-- Step 1: Create schema if it does not exist
+-- (⚠️ This must be run while already connected to the target database)
 CREATE SCHEMA IF NOT EXISTS chatx;
 
--- CREATE SCHEMA IF NOT EXISTS chatx;
+-- Step 2: Set search path to chatx schema
 SET search_path TO chatx;
 
 -- DROP TABLE IF EXISTS role_permissions CASCADE;
