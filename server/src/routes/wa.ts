@@ -1,10 +1,14 @@
 import { Router } from "express";
+import cors from "cors";
 import { requireAdmin } from "../middleware/requireAdmin";
-// 使用最终简化版本，解决时序冲突
 import { getWaQr, getWaStatus, getConnectedWaSessions, createNewSessionId } from "../services/wa-simple-final.service";
-// import { getWaQr, getWaStatus } from "../services/wa.service";
+import { corsOptions } from "../config/cors.config";
 
 const r = Router();
+
+// ✅ Apply CORS to all /wa routes (especially QR)
+r.use(cors(corsOptions));
+r.options('*', cors(corsOptions));
 
 // @ts-ignore
 r.get("/login/qr", requireAdmin, async (req: any, res: any) => {
@@ -25,7 +29,10 @@ r.get("/login/qr", requireAdmin, async (req: any, res: any) => {
     
     if (dataUrl && dataUrl.length > 0) {
       console.log(`✅ 返回WhatsApp QR码: ${id}`);
-      res.json({ dataUrl }); // 前端期望的格式
+      // ✅ Make sure CORS headers are set explicitly
+      res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
+      res.header("Access-Control-Allow-Credentials", "true");
+      res.json({ dataUrl }); // front-end expects JSON
     } else {
       console.log(`⏳ WhatsApp QR码未就绪: ${id}`);
       res.status(202).json({ pending: true });
@@ -52,6 +59,8 @@ r.get("/login/status", requireAdmin, async (req: any, res: any) => {
       });
     }
     const status = await getWaStatus(id);
+    res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
+    res.header("Access-Control-Allow-Credentials", "true");
     res.json({ ok: true, status });
   } catch (error: any) {
     console.error("❌ WhatsApp状态查询失败:", error);
@@ -68,6 +77,8 @@ r.get("/login/status", requireAdmin, async (req: any, res: any) => {
 r.get("/sessions/connected", requireAdmin, async (req: any, res: any) => {
   try {
     const connectedSessions = getConnectedWaSessions();
+    res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
+    res.header("Access-Control-Allow-Credentials", "true");
     res.json({ sessions: connectedSessions });
   } catch (error: any) {
     console.error("❌ 获取已连接会话失败:", error);
@@ -85,6 +96,8 @@ r.post("/sessions/create", requireAdmin, async (req: any, res: any) => {
   try {
     const newSessionId = createNewSessionId();
     console.log(`🆕 创建新Session ID: ${newSessionId}`);
+    res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
+    res.header("Access-Control-Allow-Credentials", "true");
     res.json({ sessionId: newSessionId });
   } catch (error: any) {
     console.error("❌ 创建Session ID失败:", error);
