@@ -102,17 +102,17 @@ const app = express();
 // Layer 1: Manual CORS headers for ALL requests (Railway-proof)
 app.use((req: any, res: any, next: any) => {
   const origin = req.headers.origin;
-  
-  // Always set CORS headers for allowed origins
-  if (origin && ALLOWED_ORIGINS.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
-    res.header('Access-Control-Allow-Credentials', 'true');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin, Access-Control-Request-Method, Access-Control-Request-Headers');
-    res.header('Access-Control-Max-Age', '86400');
+  const allowOrigin = origin && ALLOWED_ORIGINS.includes(origin)
+    ? origin
+    : '*';
+
+  res.header('Access-Control-Allow-Origin', allowOrigin);
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin, Access-Control-Request-Method, Access-Control-Request-Headers');
+  res.header('Access-Control-Max-Age', '86400');
     
-    console.log('🚀 AGGRESSIVE CORS: Headers set for origin:', origin, 'method:', req.method);
-  }
+  console.log('🚀 AGGRESSIVE CORS: Headers set for origin:', origin, 'method:', req.method);
   
   // Handle preflight requests immediately - CRITICAL for GET requests
   if (req.method === 'OPTIONS') {
