@@ -255,53 +255,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const fetchMe = async () => {
       try {
-        // Check if this is a forced logout
-        const forceLogout = sessionStorage.getItem("force_logout");
-        if (forceLogout === "true") {
-          console.log("🔍 AUTH: Force logout detected, skipping auth check");
-          sessionStorage.removeItem("force_logout");
-          setUser(null);
-          setIsLoading(false);
-          return;
-        }
-        
-        // Check if we have any cookies first
-        const hasCookies = document.cookie.includes("access_token") || document.cookie.includes("refresh_token");
-        if (!hasCookies) {
-          console.log("🔍 AUTH: No auth cookies found, setting user to null");
-          setUser(null);
-          setIsLoading(false);
-          return;
-        }
-        
-        console.log("🔍 AUTH: Checking user authentication...");
         const res = await fetchWithAuth(`${API_URL}/auth/me`, { method: "GET" });
-        
-        if (!res) {
-          console.log("🔍 AUTH: No response from /auth/me, setting user to null");
-          setUser(null);
-          setIsLoading(false);
-          return;
-        }
-        
-        if (res.status === 401) {
-          console.log("🔍 AUTH: Unauthorized response from /auth/me, clearing user");
-          setUser(null);
-          setIsLoading(false);
-          return;
-        }
-        
+        if (!res) return;
         const data = await res.json();
-        if (data.user) {
-          console.log("🔍 AUTH: User authenticated:", data.user.email);
-          setUser(data.user);
-        } else {
-          console.log("🔍 AUTH: No user data in response, setting user to null");
-          setUser(null);
-        }
+        setUser(data.user);
       } catch (err: any) {
-        console.log("🔍 AUTH: Error fetching user:", err);
-        setUser(null); // Always set to null on any error
+        if (err.message === "UNAUTHORIZED") {
+          setUser(null);
+        } else {
+          console.error("Failed to fetch user:", err);
+        }
       } finally {
         setIsLoading(false);
       }
@@ -359,33 +322,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         credentials: "include", // ✅ send cookies automatically
       });
 
-      if (!res) {
-        console.log("No response from fetchCurrentUser, setting user to null");
-        setUser(null);
-        return;
-      }
-
-      if (res.status === 401) {
-        console.log("Unauthorized in fetchCurrentUser, clearing user");
-        setUser(null);
-        return;
-      }
-
       if (res?.ok) {
         const data = await res.json();
         if (data?.user) {
-          console.log("fetchCurrentUser: User authenticated:", data.user.email);
           setUser(data.user);
         } else {
-          console.log("fetchCurrentUser: No user data, setting to null");
           setUser(null);
         }
-      } else {
-        console.log("fetchCurrentUser: Response not ok, setting user to null");
-        setUser(null);
       }
     } catch(err:any){
-      console.log("fetchCurrentUser error:", err);
       if (err.message === "UNAUTHORIZED") {
         handleSessionExpired();
       }
@@ -615,75 +560,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };  
 
   const logout = async () => {
-    console.log("🚪 LOGOUT: Starting AGGRESSIVE logout process");
-    
-    // Immediately clear user state
-    setUser(null);
-    setRoles([]);
-    setUsers([]);
-    setPlans([]);
-    setManager([]);
-    setPermission([]);
-    setBrands([]);
-    setWorkspaces([]);
-    setSubordinates([]);
-    setErrors(null);
-    
-    // Clear all storage
     try {
-      localStorage.clear();
-      sessionStorage.clear();
-      console.log("🚪 LOGOUT: All storage cleared");
-    } catch (e) {
-      console.log("🚪 LOGOUT: Storage clear error:", e);
-    }
-    
-    // Stop auto-refresh
-    try {
-      stopTokenAutoRefresh();
-    } catch (e) {
-      console.log("🚪 LOGOUT: Stop refresh error:", e);
-    }
-    
-    // Manually clear all cookies
-    try {
-      document.cookie.split(";").forEach(function(c) { 
-        document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
-      });
-      console.log("🚪 LOGOUT: All cookies cleared manually");
-    } catch (e) {
-      console.log("🚪 LOGOUT: Manual cookie clear error:", e);
-    }
-    
-    // Call backend logout endpoint
-    try {
-      console.log("🚪 LOGOUT: Calling backend logout...");
-      
-      const response = await fetch(`${API_URL}/auth/logout`, {
+      // Tell backend to clear cookies
+      await fetchWithAuth(`${API_URL}/auth/logout`, {
         method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      
-      console.log("🚪 LOGOUT: Backend response:", response.status);
-    } catch (error) {
-      console.log("🚪 LOGOUT: Backend call failed:", error);
+        credentials: "include", // 👈 important to include cookies
+      })
+  
+      // Clear client-side states (if any)
+      localStorage.removeItem("token")
+      localStorage.removeItem("refreshToken")
+      stopTokenAutoRefresh();
+      resetAuthState();
+      setUser(null)
+  
+      // Redirect to login
+      router.push("/")
+    } catch(err:any){
+      if (err.message === "UNAUTHORIZED") {
+        handleSessionExpired();
+      }
+      console.error("Logout failed:", err)
     }
-    
-    // Set logout flag and redirect
-    sessionStorage.setItem("force_logout", "true");
-    console.log("🚪 LOGOUT: Redirecting to login page...");
-    
-    // Use multiple redirect methods to ensure it works
-    setTimeout(() => {
-      window.location.href = "/";
-    }, 50);
-    
-    setTimeout(() => {
-      window.location.replace("/");
-    }, 100);
   }
 
   const hasPermission = (permission: string): boolean => {
