@@ -543,6 +543,11 @@ async function ensureClient(sessionId: string): Promise<Client> {
         killClientOnLogout: true, 
         throwErrorOnTosBlock: false,
         bypassCSP: true,
+        // 仅在Railway等受限环境下启用最小无沙箱参数
+        chromiumArgs: process.env.WA_CHROMIUM_NO_SANDBOX === 'true' ? [
+          '--no-sandbox',
+          '--disable-setuid-sandbox'
+        ] : undefined,
       onLoadingScreen: () => {
         console.log(`📱 Step 8: 检测到QR码扫描: ${sessionId}`);
         status.set(sessionId, "QR_SCANNED");
