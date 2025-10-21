@@ -110,12 +110,12 @@ app.use((req: any, res: any, next: any) => {
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin, Access-Control-Request-Method, Access-Control-Request-Headers');
     res.header('Access-Control-Max-Age', '86400');
     
-    console.log('🚀 AGGRESSIVE CORS: Headers set for origin:', origin);
+    console.log('🚀 AGGRESSIVE CORS: Headers set for origin:', origin, 'method:', req.method);
   }
   
-  // Handle preflight requests immediately
+  // Handle preflight requests immediately - CRITICAL for GET requests
   if (req.method === 'OPTIONS') {
-    console.log('🚀 AGGRESSIVE CORS: OPTIONS request handled for:', origin);
+    console.log('🚀 AGGRESSIVE CORS: OPTIONS request handled for:', origin, 'path:', req.path);
     return res.status(200).end();
   }
   
