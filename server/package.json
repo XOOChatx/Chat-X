@@ -7,7 +7,8 @@
     "dev": "ts-node-dev --respawn --transpile-only -r tsconfig-paths/register src/app.ts",
     "build": "tsc && tsc-alias",
     "start": "node dist/app.js",
-    "lint": "eslint src/**/*.ts"
+    "lint": "eslint src/**/*.ts",
+    "postinstall": "puppeteer browsers install chrome"
   },
   "dependencies": {
     "@open-wa/wa-automate": "^4.76.0",
