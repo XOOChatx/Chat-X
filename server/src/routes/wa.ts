@@ -1,9 +1,10 @@
-import { Router } from "express";from "../middleware/requireAdmin";
-import { getWaQr, getWaStus, getConnectedWaSessions, createNewSessionId } from "../services/wa-simple-final.service";
+import { Router } from "express";
+import { requireAdmin } from "../middleware/requireAdmin";
+// 使用最终简化版本，解决时序冲突
+import { getWaQr, getWaStatus, getConnectedWaSessions, createNewSessionId } from "../services/wa-simple-final.service";
+// import { getWaQr, getWaStatus } from "../services/wa.service";
 
 const r = Router();
-
-// Note: CORS is handled globally in app.ts, no need to duplicate here
 
 // @ts-ignore
 r.get("/login/qr", requireAdmin, async (req: any, res: any) => {
@@ -24,7 +25,7 @@ r.get("/login/qr", requireAdmin, async (req: any, res: any) => {
     
     if (dataUrl && dataUrl.length > 0) {
       console.log(`✅ 返回WhatsApp QR码: ${id}`);
-      res.json({ dataUrl }); // front-end expects JSON
+      res.json({ dataUrl }); // 前端期望的格式
     } else {
       console.log(`⏳ WhatsApp QR码未就绪: ${id}`);
       res.status(202).json({ pending: true });
