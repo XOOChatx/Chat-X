@@ -32,6 +32,16 @@ import uploadRoutes from './routes/upload';
 
 
 const app = express();
+
+// CORS配置 - 必须在所有中间件和路由之前
+app.use(cors({
+  origin: config.CORS_ORIGIN,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  optionsSuccessStatus: 200
+}));
+
 app.use(cookieParser());
 
 const server = createServer(app);
@@ -104,13 +114,7 @@ app.use((req, res, next) => {
   }
 })();
 
-// CORS配置
-app.use(cors({
-  origin: config.CORS_ORIGIN,
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+// CORS配置已移到最前面
 // JSON解析中间件
 // Only parse JSON/x-www-form-urlencoded; skip multipart (handled by multer per-route)
 app.use(express.json({ limit: '10mb', type: (req) => (req.headers['content-type'] || '').toLowerCase().startsWith('application/json') }));

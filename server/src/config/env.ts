@@ -38,11 +38,21 @@ function loadEnv() {
     console.log('🔧 设置默认环境变量');
   }
 
+  // 设置Chrome路径环境变量（Railway环境）
+  if (!process.env.CHROME_PATH) {
+    process.env.CHROME_PATH = '/usr/bin/google-chrome-stable';
+    process.env.PUPPETEER_EXECUTABLE_PATH = '/usr/bin/google-chrome-stable';
+    process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = 'true';
+    console.log('🔧 设置Chrome路径环境变量');
+  }
+
   // 调试环境变量读取
   console.log('🔧 环境变量调试:');
   console.log('   TG_API_ID:', process.env.TG_API_ID || '未设置');
   console.log('   TG_API_HASH:', process.env.TG_API_HASH ? process.env.TG_API_HASH.substring(0, 8) + '...' : '未设置');
   console.log('   WA_USE_CHROME:', process.env.WA_USE_CHROME || '未设置');
+  console.log('   CHROME_PATH:', process.env.CHROME_PATH || '未设置');
+  console.log('   PUPPETEER_EXECUTABLE_PATH:', process.env.PUPPETEER_EXECUTABLE_PATH || '未设置');
   console.log('   ADMIN_TOKEN:', process.env.ADMIN_TOKEN || '未设置');
 
   const env = {
