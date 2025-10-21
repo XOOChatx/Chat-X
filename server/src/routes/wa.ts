@@ -11,17 +11,17 @@ r.use('/login/qr', (req: any, res: any, next: any) => {
   if (origin && ['https://www.evolution-x.io', 'https://frontend-production-56b7.up.railway.app'].includes(origin)) {
     res.header('Access-Control-Allow-Origin', origin);
     res.header('Access-Control-Allow-Credentials', 'true');
-    res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin');
-    console.log('🔒 QR ENDPOINT CORS: Headers set for:', origin);
+    console.log('🔒 QR ENDPOINT CORS: Headers set for:', origin, 'method:', req.method);
   }
   next();
 });
 
 // @ts-ignore
-r.get("/login/qr", requireAdmin, async (req: any, res: any) => {
+r.post("/login/qr", requireAdmin, async (req: any, res: any) => {
   try {
-    const id = String(req.query.sessionId);
+    const id = String(req.body.sessionId || req.query.sessionId);
     if (!id || id === 'undefined') {
       return res.status(400).json({ 
         ok: false, 
