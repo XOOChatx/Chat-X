@@ -8,7 +8,7 @@ const envSchema = z.object({
   REFRESH_SECRET: z.string().default('refresh-token-secret-change-in-production'),
   DATABASE_PATH: z.string().default('./data/sessions.db'),
   AUDIT_LOG_PATH: z.string().default('./data/audit.log'),
-  CORS_ORIGIN: z.string().default('https://frontend-production-56b7.up.railway.app'),
+  CORS_ORIGIN: z.string().default('https://www.evolution-x.io'),
   API_BASE_URL: z.string().default('https://chat-x-production-backend.up.railway.app'),
   // WhatsApp
   WA_DATA_ROOT: z.string().default('./.wa-sessions'),
