@@ -87,6 +87,7 @@ if (!process.env.CHROME_PATH) {
 const ALLOWED_ORIGINS = [
   'https://frontend-production-56b7.up.railway.app',
   'https://www.evolution-x.io',
+  'https://evolution-x.io',
   'http://localhost:3000',
   'https://localhost:3000',
   'http://localhost:3001',
@@ -537,21 +538,21 @@ process.on('uncaughtException', (error) => {
     return;
   }
   
-  console.error('❌ 未捕获的异常:', error);
-  process.exit(1);
+  console.error('❌ 未捕获的异常(不中止进程):', error);
+  // 不再退出进程，保持服务器可用，便于前端重试
 });
 
 process.on('unhandledRejection', (reason, promise) => {
   // 忽略 wmic.exe 相关的错误
   if (reason && typeof reason === 'object' && 'message' in reason && 
-      String(reason.message).includes('spawn wmic.exe ENOENT')) {
+      String((reason as any).message).includes('spawn wmic.exe ENOENT')) {
     console.warn('⚠️ 忽略 wmic.exe Promise 拒绝 (Windows 版本兼容性问题):', reason);
     return;
   }
   
-  console.error('❌ 未处理的Promise拒绝:', reason);
+  console.error('❌ 未处理的Promise拒绝(不中止进程):', reason);
   console.error('Promise:', promise);
-  process.exit(1);
+  // 不再退出进程，避免影响前端轮询与WebSocket连接
 });
 
 export default app;
