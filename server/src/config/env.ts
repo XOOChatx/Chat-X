@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { executablePath as getChromeExec } from 'puppeteer';
 
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
@@ -38,36 +39,53 @@ function loadEnv() {
     console.log('🔧 设置默认环境变量');
   }
 
-  // 设置Chrome路径环境变量（Railway环境）
-  // 强制设置Chrome路径，覆盖任何现有值
-  process.env.CHROME_PATH = '/usr/bin/google-chrome-stable';
-  process.env.PUPPETEER_EXECUTABLE_PATH = '/usr/bin/google-chrome-stable';
-  process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = 'true';
-  console.log('🔧 强制设置Chrome路径环境变量');
-  
-  // 检查Chrome是否存在
+  // 智能设置 Chrome 路径（优先使用已安装或 Puppeteer 提供的路径）
   const fs = require('fs');
-  const chromePaths = [
-    '/usr/bin/google-chrome-stable',
-    '/usr/bin/google-chrome',
-    '/usr/bin/chromium-browser',
-    '/usr/bin/chromium',
-    '/opt/google/chrome/chrome'
-  ];
-  
-  let foundChrome = false;
-  for (const chromePath of chromePaths) {
-    if (fs.existsSync(chromePath)) {
-      process.env.CHROME_PATH = chromePath;
-      process.env.PUPPETEER_EXECUTABLE_PATH = chromePath;
-      console.log(`✅ 找到Chrome: ${chromePath}`);
-      foundChrome = true;
-      break;
+  try {
+    const possiblePaths = [
+      process.env.CHROME_PATH,
+      process.env.PUPPETEER_EXECUTABLE_PATH,
+      '/usr/bin/google-chrome-stable',
+      '/usr/bin/google-chrome',
+      '/usr/bin/chromium-browser',
+      '/usr/bin/chromium',
+      '/opt/google/chrome/chrome'
+    ].filter(Boolean) as string[];
+
+    let chosenPath: string | undefined;
+
+    for (const p of possiblePaths) {
+      if (p && fs.existsSync(p)) {
+        chosenPath = p;
+        break;
+      }
     }
-  }
-  
-  if (!foundChrome) {
-    console.log('⚠️ 未找到Chrome，使用默认路径');
+
+    if (!chosenPath) {
+      // 尝试使用 Puppeteer 下载/缓存的 Chrome 路径
+      const puppeteerPath = getChromeExec();
+      if (puppeteerPath && fs.existsSync(puppeteerPath)) {
+        chosenPath = puppeteerPath;
+      }
+    }
+
+    if (chosenPath) {
+      process.env.CHROME_PATH = chosenPath;
+      process.env.PUPPETEER_EXECUTABLE_PATH = chosenPath;
+      process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD || 'true';
+      console.log('✅ Chrome路径已设置:', chosenPath);
+    } else {
+      // 未能找到可用的 Chrome，允许 Puppeteer 下载
+      delete process.env.CHROME_PATH;
+      delete process.env.PUPPETEER_EXECUTABLE_PATH;
+      process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = 'false';
+      console.log('⚠️ 未找到可用的Chrome，允许Puppeteer下载浏览器');
+    }
+  } catch (e) {
+    console.log('⚠️ Chrome路径检测失败，将允许Puppeteer下载:', (e as any)?.message || e);
+    delete process.env.CHROME_PATH;
+    delete process.env.PUPPETEER_EXECUTABLE_PATH;
+    process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = 'false';
   }
 
   // 调试环境变量读取
@@ -77,6 +95,7 @@ function loadEnv() {
   console.log('   WA_USE_CHROME:', process.env.WA_USE_CHROME || '未设置');
   console.log('   CHROME_PATH:', process.env.CHROME_PATH || '未设置');
   console.log('   PUPPETEER_EXECUTABLE_PATH:', process.env.PUPPETEER_EXECUTABLE_PATH || '未设置');
+  console.log('   PUPPETEER_SKIP_CHROMIUM_DOWNLOAD:', process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD || '未设置');
   console.log('   ADMIN_TOKEN:', process.env.ADMIN_TOKEN || '未设置');
 
   const env = {
