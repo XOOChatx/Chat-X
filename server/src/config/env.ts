@@ -35,6 +35,7 @@ function loadEnv() {
     process.env.TG_API_HASH = 'b5888e16f0142310e30ed8523bee765a';
     process.env.WA_USE_CHROME = 'true';
     process.env.WA_HEADLESS = 'true';
+    // Do not force no-sandbox for multi-device; open-wa warns against it
     process.env.ADMIN_TOKEN = 'tsxGHrwJilVt+VRbyMuxGB0r5/BrX+C8nmrGCxzpoUw=';
     console.log('🔧 设置默认环境变量');
   }
@@ -88,11 +89,14 @@ function loadEnv() {
     process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = 'false';
   }
 
+  // Do not auto-enable no-sandbox for multi-device
+
   // 调试环境变量读取
   console.log('🔧 环境变量调试:');
   console.log('   TG_API_ID:', process.env.TG_API_ID || '未设置');
   console.log('   TG_API_HASH:', process.env.TG_API_HASH ? process.env.TG_API_HASH.substring(0, 8) + '...' : '未设置');
   console.log('   WA_USE_CHROME:', process.env.WA_USE_CHROME || '未设置');
+  // no WA_CHROMIUM_NO_SANDBOX log
   console.log('   CHROME_PATH:', process.env.CHROME_PATH || '未设置');
   console.log('   PUPPETEER_EXECUTABLE_PATH:', process.env.PUPPETEER_EXECUTABLE_PATH || '未设置');
   console.log('   PUPPETEER_SKIP_CHROMIUM_DOWNLOAD:', process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD || '未设置');
