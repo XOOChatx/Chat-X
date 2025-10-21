@@ -538,41 +538,11 @@ async function ensureClient(sessionId: string): Promise<Client> {
         qrRefreshS: 15,
         // 🔧 Railway-specific browser configuration
         browserRevision: undefined, // 使用默认浏览器版本
-        // Railway fallback: let Puppeteer handle browser installation
-        puppeteerOptions: {
-          args: [
-            '--no-sandbox',
-            '--disable-setuid-sandbox',
-            '--disable-dev-shm-usage',
-            '--disable-web-security',
-            '--disable-features=VizDisplayCompositor',
-            '--disable-background-timer-throttling',
-            '--disable-backgrounding-occluded-windows',
-            '--disable-renderer-backgrounding',
-            '--no-first-run',
-            '--no-default-browser-check',
-            '--disable-default-apps'
-          ]
-        },
         popup: false,
         restartOnCrash: false,
         killClientOnLogout: true, 
         throwErrorOnTosBlock: false,
         bypassCSP: true,
-        // 🌐 网络重试配置
-        chromiumArgs: [
-          '--no-sandbox',
-          '--disable-setuid-sandbox',
-          '--disable-dev-shm-usage',
-          '--disable-web-security',
-          '--disable-features=VizDisplayCompositor',
-          '--disable-background-timer-throttling',
-          '--disable-backgrounding-occluded-windows',
-          '--disable-renderer-backgrounding',
-          '--no-first-run',
-          '--no-default-browser-check',
-          '--disable-default-apps'
-        ],
       onLoadingScreen: () => {
         console.log(`📱 Step 8: 检测到QR码扫描: ${sessionId}`);
         status.set(sessionId, "QR_SCANNED");
