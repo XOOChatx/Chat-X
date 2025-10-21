@@ -29,18 +29,111 @@ import { websocketService } from './services/websocket.service';
 import { initializeNodePersistStorage } from './utils/node-persist-init';
 import { Server } from "socket.io";
 import uploadRoutes from './routes/upload';
+import path from 'path';
+import { executablePath as getChromeExec } from 'puppeteer';
+import { existsSync } from 'fs';
 
+// 提前设置 CHROME_PATH，供 open-wa / chrome-launcher 使用
+if (!process.env.CHROME_PATH) {
+  try {
+    // 优先使用 Railway 环境变量
+    if (process.env.PUPPETEER_EXECUTABLE_PATH && existsSync(process.env.PUPPETEER_EXECUTABLE_PATH)) {
+      process.env.CHROME_PATH = process.env.PUPPETEER_EXECUTABLE_PATH;
+      console.log('✅ 使用Railway环境Chrome路径:', process.env.CHROME_PATH);
+    } else {
+      // 尝试 Puppeteer 默认路径
+      const chromePath = getChromeExec();
+      console.log('🔧 Puppeteer Chrome路径:', chromePath);
+      
+      // 检查路径是否存在
+      if (existsSync(chromePath)) {
+        process.env.CHROME_PATH = chromePath;
+        console.log('✅ CHROME_PATH设置成功:', process.env.CHROME_PATH);
+      } else {
+        console.log('⚠️ Puppeteer Chrome路径不存在，尝试其他路径...');
+        
+        // 尝试常见的Chrome路径
+        const possiblePaths = [
+          '/usr/bin/google-chrome-stable',
+          '/usr/bin/google-chrome',
+          '/usr/bin/chromium-browser',
+          '/usr/bin/chromium',
+          '/opt/google/chrome/chrome',
+          '/usr/local/bin/chrome',
+          '/usr/local/bin/chromium'
+        ];
+        
+        for (const path of possiblePaths) {
+          if (existsSync(path)) {
+            process.env.CHROME_PATH = path;
+            console.log('✅ 找到Chrome路径:', path);
+            break;
+          }
+        }
+        
+        if (!process.env.CHROME_PATH) {
+          console.log('❌ 未找到Chrome可执行文件，将使用Puppeteer默认配置');
+          // 不设置CHROME_PATH，让Puppeteer自己处理
+        }
+      }
+    }
+  } catch (error) {
+    console.log('⚠️ 获取Puppeteer Chrome路径失败:', error);
+    console.log('🔧 将使用Puppeteer默认配置');
+  }
+}
+
+// 允许的前端域名（全局常量，供 CORS 与 Socket.IO 共用）
+const ALLOWED_ORIGINS = [
+  'https://frontend-production-56b7.up.railway.app',
+  'http://localhost:3000',
+  'https://localhost:3000',
+  'http://localhost:3001',
+  'https://localhost:3001'
+];
 
 const app = express();
 
-// CORS配置 - 必须在所有中间件和路由之前
-app.use(cors({
-  origin: config.CORS_ORIGIN,
+// ===== CORS CONFIG (MUST BE FIRST) =====
+const corsOptions = {
+  origin: (origin: string | undefined, cb: (err: Error | null, allow?: boolean) => void) => {
+    if (!origin) return cb(null, true);          // 服务器到服务器或 curl
+    console.log('🌐 CORS检查来源:', origin);
+    const isAllowed = ALLOWED_ORIGINS.includes(origin);
+    console.log('🌐 CORS允许状态:', isAllowed);
+    cb(null, isAllowed);
+  },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: [
+    'Content-Type', 
+    'Authorization', 
+    'X-Requested-With',
+    'Accept',
+    'Origin',
+    'Access-Control-Request-Method',
+    'Access-Control-Request-Headers'
+  ],
+  exposedHeaders: ['X-Request-Id'],
   optionsSuccessStatus: 200
-}));
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
+
+// 额外的预检请求处理
+app.use((req, res, next) => {
+  if (req.method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin, Access-Control-Request-Method, Access-Control-Request-Headers');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.header('Access-Control-Max-Age', '86400');
+    return res.status(200).end();
+  }
+  next();
+});
+// ===== END CORS CONFIG =====
 
 app.use(cookieParser());
 
@@ -54,10 +147,39 @@ const server = createServer(app);
 //   }
 // });
 
+// 允许的前端域名
 const io = new Server(server, {
-  cors: { origin: "*" }, // or specify your frontend URL
-  path: "/socket.io"
+  cors: {
+    origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+      if (!origin) return callback(null, true);
+      console.log('🔌 WebSocket CORS检查来源:', origin);
+      const isAllowed = ALLOWED_ORIGINS.includes(origin);
+      console.log('🔌 WebSocket CORS允许状态:', isAllowed);
+      callback(null, isAllowed);
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: [
+      'Content-Type', 
+      'Authorization', 
+      'X-Requested-With',
+      'Accept',
+      'Origin'
+    ]
+  },
+  path: '/socket.io',
+  transports: ['websocket', 'polling'],
+  allowEIO3: true
 });
+
+io.on("connection", (socket) => {
+  console.log(`⚡ New client connected: ${socket.id}`);
+
+  socket.on("disconnect", () => {
+    console.log(`❌ Client disconnected: ${socket.id}`);
+  });
+});
+
 app.set('io', io)
 websocketService.setSocketIO(io)
 
@@ -82,12 +204,12 @@ io.on('connection', (socket) => {
     console.error('❌ WebSocket connection handler error:', (e as any)?.message || e);
   }
 });
-const mediaDir = require('path').join(process.cwd(), 'public', 'media');
-app.use('/media', cors({ origin: config.CORS_ORIGIN, credentials: true }), express.static(mediaDir));
+const mediaDir = path.join(process.cwd(), 'public', 'media');
+app.use('/media', cors(corsOptions), express.static(mediaDir));
 // 优先挂载动态媒体路由（带 CORS），支持多扩展名与账号ID前缀兼容
 // mediaRoutes 已删除，使用静态文件服务
 // 静态服务作为兜底，命中现有文件直接返回
-app.use('/api/media', cors({ origin: config.CORS_ORIGIN, credentials: true }), express.static(mediaDir));
+app.use('/api/media', cors(corsOptions), express.static(mediaDir));
 
 app.use((req, res, next) => {
   req.requestId = uuidv4();

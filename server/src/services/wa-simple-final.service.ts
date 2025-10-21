@@ -6,6 +6,7 @@ import { WhatsAppSessionsStore } from "../stores/whatsapp-sessions.store";
 import { reconnectWhatsAppAccountsOptimized, registerReconnectedWaClient, getAllReconnectedWaClients } from "./startup-reconnect.service";
 import { config } from "../config/env";
 import { STATE } from '@open-wa/wa-automate';
+import { ev } from "@open-wa/wa-automate";
 
 import QRCode from "qrcode";
 // Removed node-persist-redirect import as it's no longer needed
@@ -119,7 +120,6 @@ const originalConsoleLog = console.log;
 console.log(`🔧 使用MVP模式的 ev.on('qr.**') 事件监听`);
 
 // 添加QR事件监听（仿照您的MVP）
-import { ev } from "@open-wa/wa-automate";
 
 if (ev) {
   ev.on('qr.**', (qrcode, sessionId) => {
@@ -132,12 +132,12 @@ if (ev) {
         const base64QR = qrcode.replace('data:image/png;base64,', '');
         const fullDataUrl = `data:image/png;base64,${base64QR}`;
         lastQr.set(sessionId, fullDataUrl);
-        status.set(sessionId, "QR_WAITING");
+        status.set(sessionId, "QR_READY");
         console.log(`✅ QR码已通过ev事件更新: ${sessionId}, base64长度: ${base64QR.length}`);
       } else {
         const fullDataUrl = `data:image/png;base64,${qrcode}`;
         lastQr.set(sessionId, fullDataUrl);
-        status.set(sessionId, "QR_WAITING");
+        status.set(sessionId, "QR_READY");
         console.log(`✅ QR码已通过ev事件更新: ${sessionId}, 长度: ${qrcode.length}`);
       }
     }
@@ -480,6 +480,40 @@ async function ensureClient(sessionId: string): Promise<Client> {
         qrLogSkip: false,
         disableSpins: true,
         killProcessOnBrowserClose: false,
+        // 🔧 智能Chrome路径检测
+        executablePath: (() => {
+          // 优先使用环境变量
+          if (process.env.CHROME_PATH && fs.existsSync(process.env.CHROME_PATH)) {
+            console.log(`✅ 使用环境变量Chrome路径: ${process.env.CHROME_PATH}`);
+            return process.env.CHROME_PATH;
+          }
+          
+          if (process.env.PUPPETEER_EXECUTABLE_PATH && fs.existsSync(process.env.PUPPETEER_EXECUTABLE_PATH)) {
+            console.log(`✅ 使用Puppeteer环境变量路径: ${process.env.PUPPETEER_EXECUTABLE_PATH}`);
+            return process.env.PUPPETEER_EXECUTABLE_PATH;
+          }
+          
+          // 尝试常见路径
+          const possiblePaths = [
+            '/usr/bin/google-chrome-stable',
+            '/usr/bin/google-chrome',
+            '/usr/bin/chromium-browser',
+            '/usr/bin/chromium',
+            '/opt/google/chrome/chrome',
+            '/usr/local/bin/chrome',
+            '/usr/local/bin/chromium'
+          ];
+          
+          for (const chromePath of possiblePaths) {
+            if (fs.existsSync(chromePath)) {
+              console.log(`✅ 找到Chrome路径: ${chromePath}`);
+              return chromePath;
+            }
+          }
+          
+          console.log(`⚠️ 未找到Chrome路径，使用Puppeteer默认配置`);
+          return undefined; // 让Puppeteer自动处理
+        })(),
         // 使用Puppeteer自动寻找Chrome路径，更可靠
         useChrome: true,
         // 让Puppeteer自动管理浏览器，避免路径问题
