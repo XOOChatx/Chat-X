@@ -480,9 +480,33 @@ async function ensureClient(sessionId: string): Promise<Client> {
         qrLogSkip: false,
         disableSpins: true,
         killProcessOnBrowserClose: false,
-        // 🔧 智能Chrome路径检测
+        // 🔧 Railway-optimized Chrome路径检测
         executablePath: (() => {
-          // 优先使用环境变量
+          console.log('🔍 开始检测Chrome路径...');
+          
+          // Railway-specific paths first (from railpack.toml)
+          const railwayPaths = [
+            '/usr/bin/google-chrome-stable',  // Railway installs this
+            '/usr/bin/google-chrome',
+            '/usr/bin/chromium-browser',
+            '/usr/bin/chromium',
+            '/opt/google/chrome/chrome',
+            '/usr/local/bin/chrome',
+            '/usr/local/bin/chromium'
+          ];
+          
+          // Check Railway paths first
+          for (const chromePath of railwayPaths) {
+            console.log(`🔍 检查Chrome路径: ${chromePath}`);
+            if (fs.existsSync(chromePath)) {
+              console.log(`✅ Railway Chrome路径找到: ${chromePath}`);
+              return chromePath;
+            } else {
+              console.log(`❌ Chrome路径不存在: ${chromePath}`);
+            }
+          }
+          
+          // Check environment variables
           if (process.env.CHROME_PATH && fs.existsSync(process.env.CHROME_PATH)) {
             console.log(`✅ 使用环境变量Chrome路径: ${process.env.CHROME_PATH}`);
             return process.env.CHROME_PATH;
@@ -493,34 +517,43 @@ async function ensureClient(sessionId: string): Promise<Client> {
             return process.env.PUPPETEER_EXECUTABLE_PATH;
           }
           
-          // 尝试常见路径
-          const possiblePaths = [
-            '/usr/bin/google-chrome-stable',
-            '/usr/bin/google-chrome',
-            '/usr/bin/chromium-browser',
-            '/usr/bin/chromium',
-            '/opt/google/chrome/chrome',
-            '/usr/local/bin/chrome',
-            '/usr/local/bin/chromium'
-          ];
-          
-          for (const chromePath of possiblePaths) {
-            if (fs.existsSync(chromePath)) {
-              console.log(`✅ 找到Chrome路径: ${chromePath}`);
+          // Try to find Chrome using which command (Railway fallback)
+          try {
+            const { execSync } = require('child_process');
+            const chromePath = execSync('which google-chrome || which chromium-browser || which chromium', { encoding: 'utf8' }).trim();
+            if (chromePath && fs.existsSync(chromePath)) {
+              console.log(`✅ 通过which命令找到Chrome: ${chromePath}`);
               return chromePath;
             }
+          } catch (e) {
+            console.log('⚠️ which命令未找到Chrome');
           }
           
-          console.log(`⚠️ 未找到Chrome路径，使用Puppeteer默认配置`);
+          console.log(`⚠️ 未找到Chrome路径，让Puppeteer自动处理`);
           return undefined; // 让Puppeteer自动处理
         })(),
-        // 使用Puppeteer自动寻找Chrome路径，更可靠
+        // Railway-optimized browser configuration
         useChrome: true,
-        // 让Puppeteer自动管理浏览器，避免路径问题
         autoRefresh: true,
         qrRefreshS: 15,
-        // 🔧 添加网络配置和错误恢复
+        // 🔧 Railway-specific browser configuration
         browserRevision: undefined, // 使用默认浏览器版本
+        // Railway fallback: let Puppeteer handle browser installation
+        puppeteerOptions: {
+          args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-web-security',
+            '--disable-features=VizDisplayCompositor',
+            '--disable-background-timer-throttling',
+            '--disable-backgrounding-occluded-windows',
+            '--disable-renderer-backgrounding',
+            '--no-first-run',
+            '--no-default-browser-check',
+            '--disable-default-apps'
+          ]
+        },
         popup: false,
         restartOnCrash: false,
         killClientOnLogout: true, 
