@@ -13,7 +13,7 @@ import QRCode from "qrcode";
 import { waMessageMultiplexer } from "./wa-message-multiplexer.service";
 import { waConnectivityTracker } from "./wa-connectivity-monitor.service";
 
-type WaState = "INIT" | "LOADING" | "QR_READY" | "QR_SCANNED" | "CONNECTING" | "READY" | "QR_WAITING";
+type WaState = "INIT" | "LOADING" | "QR_READY" | "QR_SCANNED" | "CONNECTING" | "READY" | "QR_WAITING" | "QR_EXPIRED";
 const root = path.join(process.cwd(), "sessions"); // 统一存储在 server/sessions 目录
 const clients = new Map<string, Client>();
 const lastQr = new Map<string, string>();
