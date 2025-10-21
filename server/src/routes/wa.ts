@@ -35,7 +35,7 @@ r.get("/login/qr", requireAdmin, async (req: any, res: any) => {
     
     // 🔒 BULLETPROOF CORS: Set headers directly in response (Railway-proof)
     const origin = req.headers.origin;
-    if (origin && ['https://www.evolution-x.io', 'https://frontend-production-56b7.up.railway.app'].includes(origin)) {
+    if (origin && ['https://www.evolution-x.io', 'https://evolution-x.io', 'https://frontend-production-56b7.up.railway.app'].includes(origin)) {
       res.header('Access-Control-Allow-Origin', origin);
       res.header('Access-Control-Allow-Credentials', 'true');
       res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -58,7 +58,7 @@ r.get("/login/qr", requireAdmin, async (req: any, res: any) => {
     console.error("❌ WhatsApp QR生成失败:", error);
     // Set CORS headers even for error responses
     const origin = req.headers.origin;
-    if (origin && ['https://www.evolution-x.io', 'https://frontend-production-56b7.up.railway.app'].includes(origin)) {
+    if (origin && ['https://www.evolution-x.io', 'https://evolution-x.io', 'https://frontend-production-56b7.up.railway.app'].includes(origin)) {
       res.header('Access-Control-Allow-Origin', origin);
       res.header('Access-Control-Allow-Credentials', 'true');
     }
