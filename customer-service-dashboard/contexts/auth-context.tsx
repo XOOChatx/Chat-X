@@ -255,35 +255,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const fetchMe = async () => {
       try {
+        console.log("🔍 AUTH: Checking user authentication...");
         const res = await fetchWithAuth(`${API_URL}/auth/me`, { method: "GET" });
+        
         if (!res) {
-          console.log("No response from /auth/me, setting user to null");
+          console.log("🔍 AUTH: No response from /auth/me, setting user to null");
           setUser(null);
+          setIsLoading(false);
           return;
         }
         
         if (res.status === 401) {
-          console.log("Unauthorized response from /auth/me, clearing user");
+          console.log("🔍 AUTH: Unauthorized response from /auth/me, clearing user");
           setUser(null);
+          setIsLoading(false);
           return;
         }
         
         const data = await res.json();
         if (data.user) {
-          console.log("User authenticated:", data.user.email);
+          console.log("🔍 AUTH: User authenticated:", data.user.email);
           setUser(data.user);
         } else {
-          console.log("No user data in response, setting user to null");
+          console.log("🔍 AUTH: No user data in response, setting user to null");
           setUser(null);
         }
       } catch (err: any) {
-        console.log("Error fetching user:", err);
-        if (err.message === "UNAUTHORIZED") {
-          setUser(null);
-        } else {
-          console.error("Failed to fetch user:", err);
-          setUser(null); // Set to null on any error
-        }
+        console.log("🔍 AUTH: Error fetching user:", err);
+        setUser(null); // Always set to null on any error
       } finally {
         setIsLoading(false);
       }
@@ -602,39 +601,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Immediately clear user state to prevent UI issues
     setUser(null);
     
-    try {
-      console.log("🚪 LOGOUT: Calling backend logout...");
-      
-      // Call backend logout endpoint
-      const response = await fetch(`${API_URL}/auth/logout`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      
-      console.log("🚪 LOGOUT: Backend response:", response.status);
-    } catch (error) {
-      console.log("🚪 LOGOUT: Backend call failed:", error);
-    }
-    
-    // Clear everything regardless of backend response
-    console.log("🚪 LOGOUT: Clearing all local data...");
-    
-    // Clear storage
+    // Clear storage FIRST
     try {
       localStorage.clear();
       sessionStorage.clear();
+      console.log("🚪 LOGOUT: Storage cleared");
     } catch (e) {
       console.log("🚪 LOGOUT: Storage clear error:", e);
-    }
-    
-    // Stop auto-refresh
-    try {
-      stopTokenAutoRefresh();
-    } catch (e) {
-      console.log("🚪 LOGOUT: Stop refresh error:", e);
     }
     
     // Clear all state
@@ -649,12 +622,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setSubordinates([]);
     setErrors(null);
     
-    console.log("🚪 LOGOUT: Redirecting to login page...");
+    // Stop auto-refresh
+    try {
+      stopTokenAutoRefresh();
+    } catch (e) {
+      console.log("🚪 LOGOUT: Stop refresh error:", e);
+    }
     
-    // Force redirect to login page
-    setTimeout(() => {
-      window.location.href = "/";
-    }, 100);
+    // Call backend logout endpoint
+    try {
+      console.log("🚪 LOGOUT: Calling backend logout...");
+      
+      const response = await fetch(`${API_URL}/auth/logout`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      
+      console.log("🚪 LOGOUT: Backend response:", response.status);
+    } catch (error) {
+      console.log("🚪 LOGOUT: Backend call failed:", error);
+    }
+    
+    // Force redirect to login page immediately
+    console.log("🚪 LOGOUT: Redirecting to login page...");
+    window.location.replace("/");
   }
 
   const hasPermission = (permission: string): boolean => {
