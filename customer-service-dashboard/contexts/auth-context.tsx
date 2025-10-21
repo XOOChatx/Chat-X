@@ -256,14 +256,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const fetchMe = async () => {
       try {
         const res = await fetchWithAuth(`${API_URL}/auth/me`, { method: "GET" });
-        if (!res) return;
+        if (!res) {
+          console.log("No response from /auth/me, setting user to null");
+          setUser(null);
+          return;
+        }
+        
+        if (res.status === 401) {
+          console.log("Unauthorized response from /auth/me, clearing user");
+          setUser(null);
+          return;
+        }
+        
         const data = await res.json();
-        setUser(data.user);
+        if (data.user) {
+          console.log("User authenticated:", data.user.email);
+          setUser(data.user);
+        } else {
+          console.log("No user data in response, setting user to null");
+          setUser(null);
+        }
       } catch (err: any) {
+        console.log("Error fetching user:", err);
         if (err.message === "UNAUTHORIZED") {
           setUser(null);
         } else {
           console.error("Failed to fetch user:", err);
+          setUser(null); // Set to null on any error
         }
       } finally {
         setIsLoading(false);
@@ -322,15 +341,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         credentials: "include", // ✅ send cookies automatically
       });
 
+      if (!res) {
+        console.log("No response from fetchCurrentUser, setting user to null");
+        setUser(null);
+        return;
+      }
+
+      if (res.status === 401) {
+        console.log("Unauthorized in fetchCurrentUser, clearing user");
+        setUser(null);
+        return;
+      }
+
       if (res?.ok) {
         const data = await res.json();
         if (data?.user) {
+          console.log("fetchCurrentUser: User authenticated:", data.user.email);
           setUser(data.user);
         } else {
+          console.log("fetchCurrentUser: No user data, setting to null");
           setUser(null);
         }
+      } else {
+        console.log("fetchCurrentUser: Response not ok, setting user to null");
+        setUser(null);
       }
     } catch(err:any){
+      console.log("fetchCurrentUser error:", err);
       if (err.message === "UNAUTHORIZED") {
         handleSessionExpired();
       }
@@ -567,20 +604,40 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         credentials: "include", // 👈 important to include cookies
       })
   
-      // Clear client-side states (if any)
+      // Clear ALL client-side states
       localStorage.removeItem("token")
       localStorage.removeItem("refreshToken")
+      localStorage.clear() // Clear all localStorage
+      sessionStorage.clear() // Clear all sessionStorage
+      
       stopTokenAutoRefresh();
       resetAuthState();
+      
+      // Clear all state variables
       setUser(null)
-  
-      // Redirect to login
-      router.push("/")
+      setRoles([])
+      setUsers([])
+      setPlans([])
+      setManager([])
+      setPermission([])
+      setBrands([])
+      setWorkspaces([])
+      setSubordinates([])
+      setErrors(null)
+      
+      // Force reload to clear any cached state
+      window.location.href = "/"
     } catch(err:any){
       if (err.message === "UNAUTHORIZED") {
         handleSessionExpired();
       }
       console.error("Logout failed:", err)
+      
+      // Even if logout fails, clear local state and redirect
+      localStorage.clear()
+      sessionStorage.clear()
+      setUser(null)
+      window.location.href = "/"
     }
   }
 
