@@ -127,19 +127,18 @@ if (ev) {
     console.log(`📊 QR码长度: ${qrcode ? qrcode.length : 'null'}`);
     
     if (qrcode) {
-      // 按照您的MVP逻辑处理QR码数据
+      // Handle QR data properly - avoid double prefixing
+      let qrDataUrl: string;
       if (qrcode.startsWith('data:image/png;base64,')) {
-        const base64QR = qrcode.replace('data:image/png;base64,', '');
-        const fullDataUrl = `data:image/png;base64,${base64QR}`;
-        lastQr.set(sessionId, fullDataUrl);
-        status.set(sessionId, "QR_READY");
-        console.log(`✅ QR码已通过ev事件更新: ${sessionId}, base64长度: ${base64QR.length}`);
+        qrDataUrl = qrcode; // Already has prefix, use as-is
+        console.log(`✅ QR码已通过ev事件更新: ${sessionId}, 已有前缀, 长度: ${qrcode.length}`);
       } else {
-        const fullDataUrl = `data:image/png;base64,${qrcode}`;
-        lastQr.set(sessionId, fullDataUrl);
-        status.set(sessionId, "QR_READY");
-        console.log(`✅ QR码已通过ev事件更新: ${sessionId}, 长度: ${qrcode.length}`);
+        qrDataUrl = `data:image/png;base64,${qrcode}`; // Add prefix
+        console.log(`✅ QR码已通过ev事件更新: ${sessionId}, 添加前缀, 长度: ${qrcode.length}`);
       }
+      
+      lastQr.set(sessionId, qrDataUrl);
+      status.set(sessionId, "QR_READY");
     }
   });
 }
@@ -563,7 +562,16 @@ async function ensureClient(sessionId: string): Promise<Client> {
       },
       qrCallback: (qr: string) => {
         console.log(`📱 Step 6: QR码生成完成: ${sessionId}, 长度: ${qr?.length || 0}`);
-        lastQr.set(sessionId, `data:image/png;base64,${qr}`);
+        
+        // Check if QR already has data URL prefix
+        let qrDataUrl: string;
+        if (qr.startsWith('data:image/png;base64,')) {
+          qrDataUrl = qr; // Already has prefix
+        } else {
+          qrDataUrl = `data:image/png;base64,${qr}`; // Add prefix
+        }
+        
+        lastQr.set(sessionId, qrDataUrl);
         status.set(sessionId, "QR_READY");
         console.log(`✅ Step 7: 状态变更为QR_READY，等待扫描: ${sessionId}`);
       }
