@@ -39,11 +39,35 @@ function loadEnv() {
   }
 
   // 设置Chrome路径环境变量（Railway环境）
-  if (!process.env.CHROME_PATH) {
-    process.env.CHROME_PATH = '/usr/bin/google-chrome-stable';
-    process.env.PUPPETEER_EXECUTABLE_PATH = '/usr/bin/google-chrome-stable';
-    process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = 'true';
-    console.log('🔧 设置Chrome路径环境变量');
+  // 强制设置Chrome路径，覆盖任何现有值
+  process.env.CHROME_PATH = '/usr/bin/google-chrome-stable';
+  process.env.PUPPETEER_EXECUTABLE_PATH = '/usr/bin/google-chrome-stable';
+  process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = 'true';
+  console.log('🔧 强制设置Chrome路径环境变量');
+  
+  // 检查Chrome是否存在
+  const fs = require('fs');
+  const chromePaths = [
+    '/usr/bin/google-chrome-stable',
+    '/usr/bin/google-chrome',
+    '/usr/bin/chromium-browser',
+    '/usr/bin/chromium',
+    '/opt/google/chrome/chrome'
+  ];
+  
+  let foundChrome = false;
+  for (const chromePath of chromePaths) {
+    if (fs.existsSync(chromePath)) {
+      process.env.CHROME_PATH = chromePath;
+      process.env.PUPPETEER_EXECUTABLE_PATH = chromePath;
+      console.log(`✅ 找到Chrome: ${chromePath}`);
+      foundChrome = true;
+      break;
+    }
+  }
+  
+  if (!foundChrome) {
+    console.log('⚠️ 未找到Chrome，使用默认路径');
   }
 
   // 调试环境变量读取
