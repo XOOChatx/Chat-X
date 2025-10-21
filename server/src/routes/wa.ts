@@ -4,7 +4,19 @@ import { getWaQr, getWaStatus, getConnectedWaSessions, createNewSessionId } from
 
 const r = Router();
 
-// Note: CORS is handled globally in app.ts, no need to duplicate here
+// Note: CORS is handled globally in app.ts, but adding extra protection for QR endpoint
+// Additional CORS protection specifically for WhatsApp QR endpoint
+r.use('/login/qr', (req: any, res: any, next: any) => {
+  const origin = req.headers.origin;
+  if (origin && ['https://www.evolution-x.io', 'https://frontend-production-56b7.up.railway.app'].includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin');
+    console.log('🔒 QR ENDPOINT CORS: Headers set for:', origin);
+  }
+  next();
+});
 
 // @ts-ignore
 r.get("/login/qr", requireAdmin, async (req: any, res: any) => {
