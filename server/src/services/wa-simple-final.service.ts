@@ -480,32 +480,20 @@ async function ensureClient(sessionId: string): Promise<Client> {
         qrLogSkip: false,
         disableSpins: true,
         killProcessOnBrowserClose: false,
-        // 🔧 智能Chrome路径检测 - 增强版
+        // 🔧 智能Chrome路径检测
         executablePath: (() => {
-          console.log('🔍 开始Chrome路径检测...');
-          
-          // 1. 优先使用环境变量
-          if (process.env.CHROME_PATH) {
-            console.log(`🔍 检查环境变量CHROME_PATH: ${process.env.CHROME_PATH}`);
-            if (fs.existsSync(process.env.CHROME_PATH)) {
-              console.log(`✅ 使用环境变量Chrome路径: ${process.env.CHROME_PATH}`);
-              return process.env.CHROME_PATH;
-            } else {
-              console.log(`❌ 环境变量Chrome路径不存在: ${process.env.CHROME_PATH}`);
-            }
+          // 优先使用环境变量
+          if (process.env.CHROME_PATH && fs.existsSync(process.env.CHROME_PATH)) {
+            console.log(`✅ 使用环境变量Chrome路径: ${process.env.CHROME_PATH}`);
+            return process.env.CHROME_PATH;
           }
           
-          if (process.env.PUPPETEER_EXECUTABLE_PATH) {
-            console.log(`🔍 检查PUPPETEER_EXECUTABLE_PATH: ${process.env.PUPPETEER_EXECUTABLE_PATH}`);
-            if (fs.existsSync(process.env.PUPPETEER_EXECUTABLE_PATH)) {
-              console.log(`✅ 使用Puppeteer环境变量路径: ${process.env.PUPPETEER_EXECUTABLE_PATH}`);
-              return process.env.PUPPETEER_EXECUTABLE_PATH;
-            } else {
-              console.log(`❌ Puppeteer环境变量路径不存在: ${process.env.PUPPETEER_EXECUTABLE_PATH}`);
-            }
+          if (process.env.PUPPETEER_EXECUTABLE_PATH && fs.existsSync(process.env.PUPPETEER_EXECUTABLE_PATH)) {
+            console.log(`✅ 使用Puppeteer环境变量路径: ${process.env.PUPPETEER_EXECUTABLE_PATH}`);
+            return process.env.PUPPETEER_EXECUTABLE_PATH;
           }
           
-          // 2. 尝试常见路径
+          // 尝试常见路径
           const possiblePaths = [
             '/usr/bin/google-chrome-stable',
             '/usr/bin/google-chrome',
@@ -513,40 +501,18 @@ async function ensureClient(sessionId: string): Promise<Client> {
             '/usr/bin/chromium',
             '/opt/google/chrome/chrome',
             '/usr/local/bin/chrome',
-            '/usr/local/bin/chromium',
-            '/snap/bin/chromium'
+            '/usr/local/bin/chromium'
           ];
           
-          console.log('🔍 扫描常见Chrome路径...');
           for (const chromePath of possiblePaths) {
-            console.log(`🔍 检查路径: ${chromePath}`);
             if (fs.existsSync(chromePath)) {
               console.log(`✅ 找到Chrome路径: ${chromePath}`);
-              // 同时更新环境变量
-              process.env.CHROME_PATH = chromePath;
-              process.env.PUPPETEER_EXECUTABLE_PATH = chromePath;
               return chromePath;
             }
           }
           
-          // 3. 尝试使用Puppeteer的默认Chrome
-          try {
-            const { executablePath } = require('puppeteer');
-            const puppeteerPath = executablePath();
-            console.log(`🔍 检查Puppeteer默认路径: ${puppeteerPath}`);
-            if (puppeteerPath && fs.existsSync(puppeteerPath)) {
-              console.log(`✅ 使用Puppeteer默认Chrome: ${puppeteerPath}`);
-              return puppeteerPath;
-            }
-          } catch (error) {
-            console.log(`⚠️ 无法获取Puppeteer默认路径:`, error.message);
-          }
-          
-          console.log(`❌ 未找到任何可用的Chrome路径！`);
-          console.log(`🔧 这可能导致WhatsApp客户端启动失败`);
-          
-          // 返回undefined让open-wa尝试自动检测
-          return undefined;
+          console.log(`⚠️ 未找到Chrome路径，使用Puppeteer默认配置`);
+          return undefined; // 让Puppeteer自动处理
         })(),
         // 使用Puppeteer自动寻找Chrome路径，更可靠
         useChrome: true,
