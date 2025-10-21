@@ -172,25 +172,7 @@ class WaSessionOptimizer {
           throwErrorOnTosBlock: false,
           bypassCSP: true,
           
-          // Network optimizations
-          chromiumArgs: [
-            '--no-sandbox',
-            '--disable-setuid-sandbox',
-            '--disable-dev-shm-usage',
-            '--disable-web-security',
-            '--disable-features=VizDisplayCompositor',
-            '--disable-background-timer-throttling',
-            '--disable-backgrounding-occluded-windows',
-            '--disable-renderer-backgrounding',
-            '--no-first-run',
-            '--no-default-browser-check',
-            '--disable-default-apps',
-            '--disable-extensions',
-            '--disable-plugins',
-            '--disable-images', // Disable images for faster loading
-            '--disable-javascript', // Disable JS for faster loading
-            '--memory-pressure-off'
-          ]
+          // 使用默认Chromium启动参数以兼容multi-device模式
         });
         
         // Wait for connection with timeout
