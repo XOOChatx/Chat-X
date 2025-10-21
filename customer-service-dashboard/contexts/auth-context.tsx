@@ -255,6 +255,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const fetchMe = async () => {
       try {
+        // Check if this is a forced logout
+        const forceLogout = sessionStorage.getItem("force_logout");
+        if (forceLogout === "true") {
+          console.log("🔍 AUTH: Force logout detected, skipping auth check");
+          sessionStorage.removeItem("force_logout");
+          setUser(null);
+          setIsLoading(false);
+          return;
+        }
+        
         console.log("🔍 AUTH: Checking user authentication...");
         const res = await fetchWithAuth(`${API_URL}/auth/me`, { method: "GET" });
         
@@ -598,13 +608,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = async () => {
     console.log("🚪 LOGOUT: Starting logout process");
     
+    // Set a flag to prevent auto-login
+    sessionStorage.setItem("force_logout", "true");
+    
     // Immediately clear user state to prevent UI issues
     setUser(null);
     
     // Clear storage FIRST
     try {
       localStorage.clear();
-      sessionStorage.clear();
+      sessionStorage.setItem("force_logout", "true"); // Keep this flag
       console.log("🚪 LOGOUT: Storage cleared");
     } catch (e) {
       console.log("🚪 LOGOUT: Storage clear error:", e);
