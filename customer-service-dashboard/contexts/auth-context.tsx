@@ -597,22 +597,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };  
 
   const logout = async () => {
+    console.log("🚪 Logout button clicked - starting logout process");
+    
     try {
+      console.log("📡 Calling backend logout endpoint...");
+      
       // Tell backend to clear cookies
-      await fetchWithAuth(`${API_URL}/auth/logout`, {
+      const response = await fetchWithAuth(`${API_URL}/auth/logout`, {
         method: "POST",
         credentials: "include", // 👈 important to include cookies
       })
+      
+      console.log("✅ Backend logout response:", response?.status);
   
+      console.log("🧹 Clearing client-side storage...");
       // Clear ALL client-side states
       localStorage.removeItem("token")
       localStorage.removeItem("refreshToken")
       localStorage.clear() // Clear all localStorage
       sessionStorage.clear() // Clear all sessionStorage
       
+      console.log("⏹️ Stopping token auto-refresh...");
       stopTokenAutoRefresh();
       resetAuthState();
       
+      console.log("🔄 Clearing React state variables...");
       // Clear all state variables
       setUser(null)
       setRoles([])
@@ -625,19 +634,47 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setSubordinates([])
       setErrors(null)
       
-      // Force reload to clear any cached state
-      window.location.href = "/"
+      console.log("🔄 Force reloading page...");
+      
+      // Multiple approaches to ensure logout
+      // Clear any pending requests
+      if (typeof window !== 'undefined') {
+        // Clear browser cache
+        if ('caches' in window) {
+          caches.keys().then(names => {
+            names.forEach(name => {
+              caches.delete(name);
+            });
+          });
+        }
+        
+        // Force hard reload
+        window.location.replace("/");
+      }
     } catch(err:any){
+      console.error("❌ Logout failed:", err)
+      
       if (err.message === "UNAUTHORIZED") {
         handleSessionExpired();
       }
-      console.error("Logout failed:", err)
       
+      console.log("🧹 Fallback: Clearing local state anyway...");
       // Even if logout fails, clear local state and redirect
       localStorage.clear()
       sessionStorage.clear()
       setUser(null)
-      window.location.href = "/"
+      
+      // Clear browser cache and force reload
+      if (typeof window !== 'undefined') {
+        if ('caches' in window) {
+          caches.keys().then(names => {
+            names.forEach(name => {
+              caches.delete(name);
+            });
+          });
+        }
+        window.location.replace("/");
+      }
     }
   }
 
