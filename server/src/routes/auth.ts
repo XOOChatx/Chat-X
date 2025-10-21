@@ -14,22 +14,14 @@ router.get("/me", requireAuth, (req, res) => ctrl.me(req, res))
 router.post("/logout", (req, res) => {
     console.log("🚪 LOGOUT: Backend logout endpoint called");
     
-    // Clear cookies with exact same options as login
-    const isProd = process.env.NODE_ENV === "production";
+    // Import getCookieOptions to ensure consistent cookie clearing
+    const { getCookieOptions } = require("../utils/cookieOptions");
     
-    res.clearCookie("access_token", {
-      httpOnly: true,
-      secure: isProd,
-      sameSite: isProd ? "none" : "lax",
-      path: "/",
-    });
+    // Clear access_token with same options as login
+    res.clearCookie("access_token", getCookieOptions(0));
     
-    res.clearCookie("refresh_token", {
-      httpOnly: true,
-      secure: isProd,
-      sameSite: isProd ? "none" : "lax", 
-      path: "/",
-    });
+    // Clear refresh_token with same options as login (including correct path)
+    res.clearCookie("refresh_token", getCookieOptions(0, { crossDomain: true, isRefresh: true }));
     
     console.log("🚪 LOGOUT: Cookies cleared successfully");
     return res.status(200).json({ success: true, message: "Logged out successfully" });
