@@ -1,0 +1,84 @@
+{
+  "timestamp": "25-10-08 18:10:23",
+  "level": "WARN",
+  "service": "chatx-backend",
+  "module": "api-middleware",
+  "function": "validateRequest",
+  "message": "Invalid API request",
+  "requestId": "LOGIN_ERROR",
+  "details": {
+    "error": "Unexpected error during login",
+    "endpoint": "/auth/login",
+    "method": "POST",
+    "statusCode": 500,
+    "validationErrors": []
+  },
+  "context": {
+    "ip": "unknown",
+    "userAgent": "unknown",
+    "userId": "unknown"
+  },
+  "tags": [
+    "api",
+    "validation",
+    "bad-request"
+  ],
+  "severity": "medium",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 18:30:34",
+  "level": "WARN",
+  "service": "chatx-backend",
+  "module": "api-middleware",
+  "function": "validateRequest",
+  "message": "Invalid API request",
+  "requestId": "LOGIN_ERROR",
+  "details": {
+    "error": "Unexpected error during login",
+    "endpoint": "/auth/login",
+    "method": "POST",
+    "statusCode": 500,
+    "validationErrors": []
+  },
+  "context": {
+    "ip": "unknown",
+    "userAgent": "unknown",
+    "userId": "unknown"
+  },
+  "tags": [
+    "api",
+    "validation",
+    "bad-request"
+  ],
+  "severity": "medium",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 18:30:35",
+  "level": "WARN",
+  "service": "chatx-backend",
+  "module": "api-middleware",
+  "function": "validateRequest",
+  "message": "Invalid API request",
+  "requestId": "LOGIN_ERROR",
+  "details": {
+    "error": "Unexpected error during login",
+    "endpoint": "/auth/login",
+    "method": "POST",
+    "statusCode": 500,
+    "validationErrors": []
+  },
+  "context": {
+    "ip": "unknown",
+    "userAgent": "unknown",
+    "userId": "unknown"
+  },
+  "tags": [
+    "api",
+    "validation",
+    "bad-request"
+  ],
+  "severity": "medium",
+  "alertable": false
+}

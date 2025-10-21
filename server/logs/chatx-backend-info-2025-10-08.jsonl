@@ -1,0 +1,6325 @@
+{
+  "timestamp": "25-10-08 13:45:48",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "689f6b24-7a1e-4bf9-8599-453dfc94220c",
+  "details": {
+    "action": "login",
+    "previousStatus": "unauthenticated",
+    "newStatus": "authenticated",
+    "reason": "user-requested",
+    "provider": "authService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:45:49",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "564899b6-0480-4491-bffc-92132d4d9e55",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:45:49",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "9b517bfe-6080-4419-8962-5e140569a1b9",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:45:49",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "004081eb-1fb2-4599-9325-ee8a06cbbf44",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:45:49",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "6e7d74a9-d314-4557-a3fe-7bcc3d120fbb",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:45:49",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "267c1b7d-2814-4d1b-892f-a0ca572f8ae8",
+  "details": {
+    "action": "getAllRoles",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:45:49",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "86b62eec-781c-43ca-a4e0-2a207c3961fc",
+  "details": {
+    "action": "getAllRoles",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:45:49",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "2fd7e710-9e92-4425-82b5-655305accdb2",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:45:49",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "eaf99742-1c5c-4412-9e1a-672e57487632",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:12",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "d91f294a-3d7c-45b2-a796-675f1a0fe1da",
+  "details": {
+    "action": "getBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:12",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "443a23db-3f31-4e8d-9f73-059d9bdb21cf",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:12",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "327e8f08-3011-4142-a323-c1505105ebaf",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:12",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "9bd2d5d3-e0b1-4303-b55e-ca99d104a57a",
+  "details": {
+    "action": "getWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:12",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "8cd9b09d-1c6a-41a1-996a-f477a26ebdac",
+  "details": {
+    "action": "getBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:12",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "cac874b7-b464-446e-a006-8273feb3b49c",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:12",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "df05bc25-5101-4b57-b915-14ef91677b8d",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:12",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "8a5d9011-a057-4e07-b8e2-44fd2a26d586",
+  "details": {
+    "action": "getWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:13",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "d3d1de9f-7c2d-4e95-b3bd-caf9d6473c58",
+  "details": {
+    "action": "getAllPermission",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:13",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "93bbbd5d-3ec9-4440-8b8e-676243b01f04",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:13",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "2ba31203-bee3-483c-a614-d5197984312b",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:13",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "aac32b8e-d039-447e-a1ff-b8aab05c670c",
+  "details": {
+    "action": "getAllPermission",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:13",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "3141ddd3-62a2-43a7-bd51-924fba759c44",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:13",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "661819b1-308c-420a-8343-ce92c7367118",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:13",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "f9b796c7-0e32-4f05-9bad-c16ce451da9e",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:13",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "96fb3939-3207-49c1-846e-9cfa779ae9a9",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:14",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "eb644e90-6948-46bd-9032-65f61d8c164a",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:14",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "c28569cf-b6a2-4290-a6d4-9782f08ed6e7",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:14",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "b780b90e-985b-476a-80af-8d108d4175e7",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:14",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "273d5833-e36b-4d2d-9f4a-338499b44e68",
+  "details": {
+    "action": "getAllRoles",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:14",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "82ac68ba-4f7b-4402-a652-3f93b06264f9",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:14",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "b140866e-b4b2-44c2-b194-4147ce836fa1",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:14",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "58d0db76-1f78-44ca-98e7-f34dd8b2a945",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:14",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "a1c836d6-b7eb-4da5-b310-005537e0ce83",
+  "details": {
+    "action": "getAllRoles",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:14",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "448b9b3e-02e9-4e80-8db6-955fd9d74b47",
+  "details": {
+    "action": "getBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:14",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "35fb8143-7cd5-4ff2-9ba1-0d9c911a19af",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:14",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "f18f5752-c1c2-46f0-afb3-1af59824740f",
+  "details": {
+    "action": "getWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:14",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "c5a20462-9ddf-418a-b5f0-965791a1934f",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:14",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "5699a749-abcf-4da3-8586-36cb4f092989",
+  "details": {
+    "action": "getBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:14",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "e81b62f3-54b7-445b-9233-8aaed8898aea",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:14",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "fe4295f3-8701-4b7a-90c9-136b3a8a0774",
+  "details": {
+    "action": "getWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:14",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "ee7412ce-239e-4c37-83c6-59d4008cf424",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:15",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "4a25e48f-4589-4ced-99ea-017194ad983e",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:15",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "4e8069c2-2e57-47ad-90b8-51d0caacbb9e",
+  "details": {
+    "action": "getAllPermission",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:15",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "8e8d4300-1c7c-4a34-9372-a507a8d945f4",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:15",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "dfab11f8-484b-4cb0-a996-64ed7bfd071e",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:15",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "3e646f34-f3e8-43d1-8991-bc1b9e587afc",
+  "details": {
+    "action": "getAllPermission",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:15",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "4785e8fc-8498-4042-8367-489687de5c6a",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:15",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "6cb175b7-7158-457e-9453-9983aa93ca26",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:15",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "39f35d36-aaaa-49b9-9be2-78a6721eff51",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:20",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "ac73f5a1-6ae6-476c-8c09-bbe8d2ae24ff",
+  "details": {
+    "action": "getWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:20",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "18b35af7-7508-4db3-b4d7-73247a040546",
+  "details": {
+    "action": "getBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:20",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "79bf9ab2-d7a6-4289-87f8-0b78656e0e12",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:20",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "cc37b84a-4cfd-45e9-bb35-ba26a860ae7f",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:20",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "c0385233-96fe-4568-b650-ef9aae8bb1ff",
+  "details": {
+    "action": "getWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:20",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "9f62eba5-6a0b-4c69-a08a-6f020ba41360",
+  "details": {
+    "action": "getBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:20",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "955c18c6-4160-42a1-a5fc-fb88a475eab4",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:20",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "4d1e435c-c226-4a2c-8240-06780fde58f9",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:20",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "bd9061b3-3ba8-4d49-a82f-16082434b7b9",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:20",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "5cfadc74-0c6c-4324-b58d-cde59cffc754",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:20",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "53065f3a-2749-43e8-8085-1f0c6c5927b0",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:20",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "f939e81f-97d5-4ef3-8b5b-5596245d76e2",
+  "details": {
+    "action": "getAllRoles",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:20",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "882f5ca0-8f19-48c6-bd17-beee3299b975",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:20",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "9cb1c877-1bcc-428e-91f3-f0a233c700de",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:20",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "9bd7516b-26a5-4c38-904d-09052240d4fe",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:20",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "d8ce7bc2-a0e5-4d32-931f-d3edecc24610",
+  "details": {
+    "action": "getAllRoles",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:21",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "a1ddabd4-3e41-497c-af02-095e7ac71355",
+  "details": {
+    "action": "getBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:21",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "034b07b4-2167-449c-b450-c687cde860d2",
+  "details": {
+    "action": "getWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:21",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "8e112113-1323-4883-9454-be74e02394eb",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:21",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "9582c38f-1bb1-4438-9a89-862fdcea0b27",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:21",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "e3a093c9-f7f3-4041-8bc0-ee6a1c7fcc1c",
+  "details": {
+    "action": "getBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:21",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "24571010-b0b2-4713-aa22-60b4b1ec7283",
+  "details": {
+    "action": "getWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:21",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "83e28fcc-93fe-422b-b925-6fccf7718b20",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:21",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "6750d7c7-66e1-4f99-b91c-ab4c5233bc1c",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:23",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "4fb92908-cefd-447c-b448-b33c08f65d62",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:23",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "dc46f7a5-c4f7-4b74-82fb-d5f93a0d9c59",
+  "details": {
+    "action": "getAllPermission",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:23",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "9551b44a-1f95-4d1e-85db-68681abfedac",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:23",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "ec607690-d7ef-4758-8bde-745e07c272e5",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:23",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "7723d270-f499-4188-803e-722c8fc73ea6",
+  "details": {
+    "action": "getAllPermission",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:23",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "e58a8856-9733-4270-ae26-c258f9e52e64",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:23",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "1647546c-7366-4b6d-8c89-dbcafbba2bf4",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:23",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "6baa6cb7-12d5-4da2-856c-da23bb245150",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:32",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "821e020c-b8b8-4f88-b31d-b2aac2c86e89",
+  "details": {
+    "action": "getBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:32",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "7b5f8a7d-091a-433f-84a5-63b8e512fb54",
+  "details": {
+    "action": "getWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:32",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "5b5cc0a1-5f8a-4b65-b360-d4cbf0ed9a57",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:32",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "104e8e9a-fb77-458e-a531-c96c80298d3b",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:32",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "04371dc2-8f53-4c4b-959b-39d9a3687b33",
+  "details": {
+    "action": "getWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:32",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "8110636c-62cc-4780-abb4-8d147601d0e8",
+  "details": {
+    "action": "getBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:32",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "0506c40e-8bf8-4e7a-bb4d-08bb85b29260",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:32",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "72c248f0-f17a-4b23-858e-14105a5f8739",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:32",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "a799faef-c862-4be0-b90a-ddf5113cc6ce",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:32",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "769b7382-0380-47d7-b385-b43fcca6ad98",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:32",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "1794ef38-4d10-4826-8355-9e8e7c9a5592",
+  "details": {
+    "action": "getAllRoles",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:32",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "e02c8cda-03f1-4696-8c1c-9132134e9f14",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:32",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "95f05fee-29ff-4e82-bcd3-27ed33bb3c13",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:32",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "8df571ab-dbbe-4447-a74b-888ac8dde170",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:32",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "9cee0e54-b078-4824-8164-6c2be0a057a1",
+  "details": {
+    "action": "getAllRoles",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:32",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "4f377df0-b8ce-4647-a577-c8b74083ac7c",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:39",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "8b00f96c-28c7-48ec-9789-c17fd04fc17a",
+  "details": {
+    "action": "getBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:39",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "dd1f8333-8c6d-484d-a7ec-2d2c14b5f391",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:39",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "645a2438-9d5b-40bd-9c05-c20804acc37a",
+  "details": {
+    "action": "getWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:39",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "080824cf-5c8f-4c52-9186-fafec76d3726",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:39",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "0832e174-5804-452b-9c86-1cae79dd2dc7",
+  "details": {
+    "action": "getBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:39",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "f2815d5f-a2d4-4370-a49f-952ca471a8bf",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:39",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "eb5ffe7d-7efc-4fd8-a0a0-0243dfdea818",
+  "details": {
+    "action": "getWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:39",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "211c358c-339d-4a4e-9dec-c9d4987f2885",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:40",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "72e890f3-43e3-4b5c-972e-407518ea3c9c",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:40",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "aec37778-93bd-4262-81c5-579909bfbbe6",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:40",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "011ae4d6-4227-4a64-8326-35b4319f0fb4",
+  "details": {
+    "action": "getAllPermission",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:40",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "46933a2f-4951-4ec5-bca6-51ac9dc2ebf0",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:40",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "341eb1b7-8d7f-4ee8-8ecb-4e813efe268e",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:40",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "6ad5366e-6bab-43fe-bd9b-c8d8509d3a88",
+  "details": {
+    "action": "getAllPermission",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:40",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "94934cd2-26e3-488e-a1d1-9512b0b273e7",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:46:40",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "e840d723-0cb6-4a40-9c13-2016099d9989",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:00",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "e6558ff9-75ed-49ee-858f-adcd08412d4a",
+  "details": {
+    "action": "getBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:00",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "68cd7e70-ea2d-435a-b080-588e4e91ca81",
+  "details": {
+    "action": "getWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:00",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "a0aa0fc0-fff5-4a4e-b0e8-0186aa3a4ed1",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:00",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "429c8cbc-78e0-4702-95da-bfdd1ef30903",
+  "details": {
+    "action": "getBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:00",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "86ea93ec-843c-4ebd-a9ec-7bd38658d6b7",
+  "details": {
+    "action": "getWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:00",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "c8612cfe-cbc5-47e8-afd8-b653b6f2b982",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:00",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "4ffd4956-5c30-4fbf-86fb-cea3de5c0e9c",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:00",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "3020be58-6e5c-448c-9bd0-c734039d4d7e",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:01",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "5d36691c-6285-4acc-976d-5e4eca1d3e12",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:01",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "fd465c59-2d0f-4cfb-b831-fc6c0b1341c1",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:01",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "3a0f5904-6bf4-4520-bb82-2932dde02f72",
+  "details": {
+    "action": "getAllRoles",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:01",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "977a8c1c-5119-47ce-a196-893d1ebc2699",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:01",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "ec2dba89-d349-48c4-9291-6fcd349ac787",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:01",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "fb976c01-e716-4ca7-b585-e40b0d6fa0a8",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:01",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "868e42b7-dda9-4a6f-8c67-051f397c9c5d",
+  "details": {
+    "action": "getAllRoles",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:01",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "11a7c707-fd3c-4a39-8ef4-e06ec49d9d03",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:01",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "28d8a91c-f9d7-475b-90df-433ab2713952",
+  "details": {
+    "action": "getBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:01",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "1c21e8a2-1913-4620-88f5-52d86e0605b0",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:01",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "23f5c66f-ade0-4d23-ac3a-4797f94e8d4a",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:01",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "35ca11ef-9543-4ba0-9c3d-64429fb15ea6",
+  "details": {
+    "action": "getWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:01",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "a1f5c3c6-3f26-4333-9a67-c197741a6207",
+  "details": {
+    "action": "getBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:01",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "03a90217-57a4-4b02-b846-686ed7cceb71",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:01",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "4881cd06-41a0-4d6a-8d6f-1da819bb18aa",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:01",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "054833e8-6f68-4eda-aeef-6dba241699bc",
+  "details": {
+    "action": "getWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:02",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "985c0efb-c8c8-4be7-b17c-cb47a587cb46",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:02",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "ac78b2ca-fefb-4434-9bc1-e63df25f0592",
+  "details": {
+    "action": "getAllPermission",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:02",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "a1c5ec3d-8a78-4273-ab65-3f6682243522",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:02",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "80c77157-fc21-4dc7-911c-701767673618",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:02",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "0b4a1111-ae0f-42ac-b2c1-ff273ddb403d",
+  "details": {
+    "action": "getAllPermission",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:02",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "20abebc8-1037-478b-b831-e83fd354bec8",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:02",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "a2268f27-9e18-4032-89b3-bb7cea4695af",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:02",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "52c95d2e-17a6-41be-abc9-eac7b19c88db",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:05",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "8a85dc80-c68d-4716-bcb3-ba6b656e827a",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:05",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "3549c366-618a-4d13-af3c-0714864c7604",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:05",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "3ad7ee88-64e3-44a9-80f4-2ca7f36018a7",
+  "details": {
+    "action": "getAllRoles",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:05",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "12cf94ef-6213-4d63-b965-d9df6696108f",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:05",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "3bed8ee1-18b8-4777-b029-6cdec008d052",
+  "details": {
+    "action": "getAllPlans",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:05",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "032b4c7e-8684-488c-9f5d-66ff77e59d9e",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:05",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "354a0cf7-dcae-47e1-82c9-95baa7c5f489",
+  "details": {
+    "action": "getAllRoles",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:05",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "11d1f7c0-89e2-429a-8e34-2d82d0d75de4",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:35",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "ed55cb1a-9b1b-4493-bc2c-a7ba274cfb2d",
+  "details": {
+    "action": "createUser",
+    "previousStatus": "N/A",
+    "newStatus": "Created",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:35",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "ed55cb1a-9b1b-4493-bc2c-a7ba274cfb2d",
+  "details": {
+    "action": "getPermissionsByRoleID",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:35",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "0f968c71-80eb-4c74-8f57-b672bab790cc",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:35",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "a3869abc-dbdb-47c7-8957-fa762c3f2c20",
+  "details": {
+    "action": "getAllRoles",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:35",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "4252663b-9b12-479e-8b26-145a643275d6",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:49",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "71bb24da-3d48-4a79-8933-40968bbe247d",
+  "details": {
+    "action": "updateUser",
+    "previousStatus": "Created",
+    "newStatus": "Updated",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:51:49",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "239db7ea-9f36-4f82-85de-18783bbf8295",
+  "details": {
+    "action": "getAllUsersWithPermissions",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:52:05",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "2b482c60-3b9c-4b64-8532-dfdaada7bc13",
+  "details": {
+    "action": "login",
+    "previousStatus": "unauthenticated",
+    "newStatus": "authenticated",
+    "reason": "user-requested",
+    "provider": "authService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:52:05",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "57b924d9-3160-4a42-80ff-c1973d39d17a",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:52:05",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "ebbbd0e4-ee31-4de9-801c-1da6a87af5a3",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:52:18",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "63595d91-4417-433c-a1e9-d9d5c7b4bfa4",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:52:18",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "68a4906d-492a-4ebd-bb9e-3a28b2b97716",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:52:18",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "67de56aa-c24a-460e-a5b2-c3d6e42f2766",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:52:18",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "c4160de7-8f16-4f90-8f0c-9605381d47a8",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:52:18",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "5ca660f2-f54c-4ef1-862f-413aa7e3bbe9",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:52:18",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "dcba765e-cc59-4ab9-8c40-4269d462de6e",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:52:18",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "7ce6db58-2638-483b-b334-bb1fcba73235",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:52:18",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "1fc767a4-7633-4e3d-b07e-6dd998d41e06",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:52:25",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "40a447f6-1b2d-4768-b892-c852a0f59ca3",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:52:25",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "408fe04f-2cad-47ad-8d14-b1e0671851eb",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:52:26",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "fc7f5137-b1f3-44a4-acad-ca10205b25dd",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:52:26",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "522090d4-2fc3-4c1b-b6a6-da6b9e294b5a",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:52:26",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "ab3163b5-0030-44f9-be3e-be1ea42c63be",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:52:26",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "89c9cc2b-d9f8-4db7-9731-257a2714d659",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:52:26",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "bbb3d37d-f25f-4d33-a5a7-e542032951b5",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:52:26",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "533d8ea7-4fd5-42f7-9c42-54ee56216179",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:52:26",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "6b7ce431-600d-4793-824c-e09f15bb1c50",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:52:26",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "4db4867d-1876-4b20-8848-1231071074fd",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:56:41",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "1bc8970f-15e3-4d8b-b347-b6dfae7e1c7e",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:56:41",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "d27bdd67-4370-4745-a253-5e88143efade",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:56:41",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "371c097e-6a52-4b1c-bcc5-e216b9c1bd31",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:56:41",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "e587fd26-b869-496f-b526-72d543ee51ae",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:56:41",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "b5da1059-3e78-441e-b5d7-48458fb0298d",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:56:41",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "afa1184b-fa60-4e12-bd38-8ed7ef15253b",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:56:41",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "076a4a7d-167a-4948-b384-77cff8789062",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 13:56:41",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "c32b1e09-4997-4875-b6f3-54aec31f92d3",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:39:15",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "9723d220-3d73-44a8-85d4-5e155f4bca32",
+  "details": {
+    "action": "login",
+    "previousStatus": "unauthenticated",
+    "newStatus": "authenticated",
+    "reason": "user-requested",
+    "provider": "authService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:39:15",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "48988190-4680-4401-aa9e-727c0ce2c1fd",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:39:15",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "209ac082-094f-4ce4-8155-98d24f691885",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:39:56",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "608996a6-2bc7-4889-b06d-6481f0d8d0cc",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:39:56",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "924a27ae-0f2b-4bad-a1fa-d99094a8d429",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:39:56",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "4759ea5c-342a-4615-a4e0-dc2135ca77b2",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:39:56",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "42b8d9cd-fda5-48d3-b674-42459bbc92d9",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:39:56",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "fe161883-9e20-4f1c-ab43-25b26893574a",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:39:56",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "01815632-d21c-46f5-958d-90dcb01143bc",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:39:56",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "3c629b82-d1c9-4c36-89aa-942e42fe562d",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:39:56",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "d50339da-71bb-4386-8783-8c9540070ed6",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:40:03",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "a2b8cd88-01e9-42c9-825a-32948e096fc0",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:40:03",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "bab47ce7-099b-47fd-8dea-15921c13af3d",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:40:03",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "58933e2a-e366-497f-b828-dfb93fd17778",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:40:03",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "8a39e18f-c71b-495c-aef9-bb2fa79201ec",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:40:03",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "20b87a6f-aafd-4683-b50f-d4d9246e9d7a",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:40:03",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "108693d1-e76f-4264-81f0-9e094779b15c",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:40:03",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "52e74f9c-e3a5-4fe5-8056-b91628a581d2",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:40:03",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "4a20ee17-f069-48f0-97b8-50390405aa60",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:40:04",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "fa7f362b-2fc5-428a-a35d-db4e94adcdac",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:40:04",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "835ca3d0-ef45-4cea-a2ef-c0966f6465ed",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:40:05",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "026ceb8f-03b2-4650-8f6f-852700bd0a70",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:40:05",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "57eb560a-1a51-43ae-92b0-ceec3475e54d",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:40:05",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "c992ba63-5634-43e6-92ef-a0f3d9c8830a",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:40:05",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "667a67e8-b7d2-4dee-a8df-df069764ea4e",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:40:05",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "01adaa3c-8602-4fd8-a760-efa2c5d84488",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:40:05",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "ea00babe-a5f6-4df0-8683-25e09f3bbf33",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:40:05",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "33ce3c8e-c8f9-4ebf-b73a-d16c5f731b23",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:40:05",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "4d1ae868-af03-4969-a370-99f2da7e8f6b",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:40:18",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "53948aa8-76e7-42d1-8456-66492e03b19d",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:40:18",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "5f9de5f0-3c7f-481b-b9ce-42d74eaf1b7a",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:40:18",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "f702be34-863d-4fff-91ba-c39a57c9532d",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:40:18",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "aee555b3-a7aa-4191-b0d5-6ed613eafcb5",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:40:18",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "89090a98-4683-4eac-8077-7dc34c64ab83",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:40:18",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "bffcbaa8-fb2a-4cb9-8483-1ece405ac60c",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:40:18",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "f2110edd-5499-4a14-b4f8-b5cbe6d5e2e8",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:40:18",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "b913a6d0-dfb3-44ec-a04a-facbc7e71362",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:45:49",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "c1220217-0be6-45d2-8617-b94e573b4d82",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:45:49",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "16189e53-fdf0-41f4-ac11-0dd36ce6415f",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:45:49",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "30ebaf38-3948-4e75-b87b-6d69f853a4ca",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:45:49",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "890a9b52-3899-4070-9fc9-e7ea3f7e1564",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:45:49",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "42d09bff-755f-45c3-88b5-97b1f76e1e37",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:45:49",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "4443dbb9-e6e1-419f-916b-9c4dcd4f0a2c",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:45:49",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "6d072fbf-5280-4398-85bf-830831c4230d",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 15:45:49",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "64e87ed4-f82c-458e-8a18-0588784236e0",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:22:51",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "ec4a2345-3fa7-4e3a-8829-dc3961d06e6f",
+  "details": {
+    "action": "login",
+    "previousStatus": "unauthenticated",
+    "newStatus": "authenticated",
+    "reason": "user-requested",
+    "provider": "authService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:22:52",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "71d7e85e-8f7f-494e-a48e-4f36f55b9ec9",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:22:52",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "dbc65c01-944e-4c91-9c93-c7290599949a",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:26:10",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "dab446c4-c9b3-434f-a298-f8c99372c4d2",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:26:10",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "05d75a03-2a5b-449c-82a8-03858fb98ae0",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:26:11",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "3913f25f-27ef-4ec3-a8ff-c40237ceee60",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:26:11",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "b9fe61e3-c24a-40f2-86a9-baf336d07090",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:26:11",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "197c5a77-8130-4c1f-958e-0244300d4b40",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:26:11",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "617ae76c-fac6-4e31-a4d8-d01af034dd61",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:26:11",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "18e6c611-438d-460a-96b3-5dcb960c905e",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:26:11",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "28edd34a-8819-4260-a192-85dc96c102a5",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:26:11",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "f8177377-71c5-4641-99ad-74f2e2771490",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:26:11",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "8466cca8-4733-42fa-a6f0-24fa6189fd01",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:26:34",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "90d3df91-5f2d-47aa-9ef9-e7ef81770431",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:26:34",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "3e64b90d-02bf-48f8-af79-0901f89cb64f",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:28:42",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "404f931f-c5b7-4f38-8928-41d9cbbe51c1",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:28:42",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "d916303e-aef5-49e1-a634-b34150abd148",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:28:46",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "4815df0b-7aa8-47a7-962f-760e1d4bb094",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:28:46",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "142febbc-5ad3-4d2b-a8c2-b511625d1cab",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:28:46",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "9d410ac3-ceeb-4a66-88ac-78ae64bef284",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:28:46",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "0c2e207d-c525-4fff-b229-c1eee4de6b92",
+  "details": {
+    "action": "getAllBrands",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:28:46",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "4c7a0125-9732-4f81-adcf-4dbb4fbcaed9",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:28:46",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "dcd360de-1617-4fa4-a84d-4d14fc9d7715",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:28:46",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "c2bd13cd-58a7-46b2-ab4b-7dcaf1ac6cb1",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:28:46",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "1832aa8a-ec64-499f-9b96-e50fd7300403",
+  "details": {
+    "action": "getAllWorkspace",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:29:14",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "5d0f4ce9-89d6-4e39-87c9-63e197286ba5",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:29:14",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "5fd39273-4d9b-4c15-8c29-e9aab1bfd100",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:43:56",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "31ef99be-271c-422f-a642-392b2069e901",
+  "details": {
+    "action": "login",
+    "previousStatus": "unauthenticated",
+    "newStatus": "authenticated",
+    "reason": "user-requested",
+    "provider": "authService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:43:56",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "a7bf1673-e0f4-4152-9317-4c512c1f351c",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:43:56",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "6d5604a6-5077-44ec-8219-e4ade9caa9dc",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:46:03",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "7c7ca76d-533e-4933-8a78-a9b32369baca",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:46:03",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "605b308e-5b0e-4d67-a73d-1a28c6a689c4",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:53:15",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "84476970-e7a2-40a5-b14e-9b328245b24e",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:53:15",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "bf43fdce-5626-431f-bdc4-a8eb17a531d9",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:57:48",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "1529d6ed-8773-4bbc-ba27-8be9a8660d5f",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 16:57:48",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "bf39785b-360c-43f0-a735-543618fb8c73",
+  "details": {
+    "action": "getAllManagers",
+    "previousStatus": "N/A",
+    "newStatus": "Fetched",
+    "reason": "user-requested",
+    "provider": "databaseService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 17:03:17",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "ca8e5545-65b1-4be1-b715-6b8ec71c0183",
+  "details": {
+    "action": "login",
+    "previousStatus": "unauthenticated",
+    "newStatus": "authenticated",
+    "reason": "user-requested",
+    "provider": "authService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 17:18:51",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "891858fd-a86e-4262-a452-edf65cbbe07c",
+  "details": {
+    "action": "login",
+    "previousStatus": "unauthenticated",
+    "newStatus": "authenticated",
+    "reason": "user-requested",
+    "provider": "authService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 18:10:23",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "c86880a6-6be7-41b9-8f01-5b7427cfcdf5",
+  "details": {
+    "action": "login",
+    "previousStatus": "unauthenticated",
+    "newStatus": "failed",
+    "reason": "invalid credentials",
+    "provider": "authService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 18:30:34",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "a4fd85f7-22dd-45a4-9bd8-1077633a3cc1",
+  "details": {
+    "action": "login",
+    "previousStatus": "unauthenticated",
+    "newStatus": "failed",
+    "reason": "invalid credentials",
+    "provider": "authService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
+{
+  "timestamp": "25-10-08 18:30:35",
+  "level": "INFO",
+  "service": "chatx-backend",
+  "module": "account-management",
+  "function": "toggleAccount",
+  "message": "Account status changed",
+  "sessionId": "a5859114-d396-4db1-b733-e1688716d7b4",
+  "details": {
+    "action": "login",
+    "previousStatus": "unauthenticated",
+    "newStatus": "failed",
+    "reason": "invalid credentials",
+    "provider": "authService"
+  },
+  "tags": [
+    "account",
+    "status-change",
+    "user-action"
+  ],
+  "severity": "low",
+  "alertable": false
+}
