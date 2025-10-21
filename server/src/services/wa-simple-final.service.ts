@@ -1005,6 +1005,7 @@ export async function getWaQr(sessionId: string): Promise<string> {
   const qrData = lastQr.get(sessionId) || lastQr.get(`_IGNORE_${sessionId}`);
   if (qrData && qrData.length > 0) {
     console.log(`✅ 返回open-wa原生QR码: ${sessionId}, 长度: ${qrData.length}`);
+    console.log(`⚠️ 前端应停止轮询，QR码已生成`);
     return qrData;
   }
 
