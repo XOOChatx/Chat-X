@@ -38,36 +38,10 @@ function loadEnv() {
     console.log('🔧 设置默认环境变量');
   }
 
-  // 设置Chrome路径环境变量（Railway环境）
-  // 强制设置Chrome路径，覆盖任何现有值
-  process.env.CHROME_PATH = '/usr/bin/google-chrome-stable';
-  process.env.PUPPETEER_EXECUTABLE_PATH = '/usr/bin/google-chrome-stable';
-  process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = 'true';
-  console.log('🔧 强制设置Chrome路径环境变量');
-  
-  // 检查Chrome是否存在
-  const fs = require('fs');
-  const chromePaths = [
-    '/usr/bin/google-chrome-stable',
-    '/usr/bin/google-chrome',
-    '/usr/bin/chromium-browser',
-    '/usr/bin/chromium',
-    '/opt/google/chrome/chrome'
-  ];
-  
-  let foundChrome = false;
-  for (const chromePath of chromePaths) {
-    if (fs.existsSync(chromePath)) {
-      process.env.CHROME_PATH = chromePath;
-      process.env.PUPPETEER_EXECUTABLE_PATH = chromePath;
-      console.log(`✅ 找到Chrome: ${chromePath}`);
-      foundChrome = true;
-      break;
-    }
-  }
-  
-  if (!foundChrome) {
-    console.log('⚠️ 未找到Chrome，使用默认路径');
+  // 让 Puppeteer 自动下载和管理 Chromium（Railway 兼容）
+  if (!process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD) {
+    process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = 'false';
+    console.log('🔧 允许 Puppeteer 下载 Chromium');
   }
 
   // 调试环境变量读取
@@ -75,8 +49,7 @@ function loadEnv() {
   console.log('   TG_API_ID:', process.env.TG_API_ID || '未设置');
   console.log('   TG_API_HASH:', process.env.TG_API_HASH ? process.env.TG_API_HASH.substring(0, 8) + '...' : '未设置');
   console.log('   WA_USE_CHROME:', process.env.WA_USE_CHROME || '未设置');
-  console.log('   CHROME_PATH:', process.env.CHROME_PATH || '未设置');
-  console.log('   PUPPETEER_EXECUTABLE_PATH:', process.env.PUPPETEER_EXECUTABLE_PATH || '未设置');
+  console.log('   PUPPETEER_SKIP_CHROMIUM_DOWNLOAD:', process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD || '未设置');
   console.log('   ADMIN_TOKEN:', process.env.ADMIN_TOKEN || '未设置');
 
   const env = {

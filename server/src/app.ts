@@ -30,8 +30,7 @@ import { initializeNodePersistStorage } from './utils/node-persist-init';
 import { Server } from "socket.io";
 import uploadRoutes from './routes/upload';
 import path from 'path';
-import { executablePath as getChromeExec } from 'puppeteer';
-import { existsSync } from 'fs';
+// 移除了 Chrome 路径检测相关的导入
 
 // 允许的前端域名（全局常量，供 CORS 与 Socket.IO 共用）
 const ALLOWED_ORIGINS = [
@@ -77,55 +76,8 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
 
-// 提前设置 CHROME_PATH，供 open-wa / chrome-launcher 使用
-if (!process.env.CHROME_PATH) {
-  try {
-    // 优先使用 Railway 环境变量
-    if (process.env.PUPPETEER_EXECUTABLE_PATH && existsSync(process.env.PUPPETEER_EXECUTABLE_PATH)) {
-      process.env.CHROME_PATH = process.env.PUPPETEER_EXECUTABLE_PATH;
-      console.log('✅ 使用Railway环境Chrome路径:', process.env.CHROME_PATH);
-    } else {
-      // 尝试 Puppeteer 默认路径
-      const chromePath = getChromeExec();
-      console.log('🔧 Puppeteer Chrome路径:', chromePath);
-      
-      // 检查路径是否存在
-      if (existsSync(chromePath)) {
-        process.env.CHROME_PATH = chromePath;
-        console.log('✅ CHROME_PATH设置成功:', process.env.CHROME_PATH);
-      } else {
-        console.log('⚠️ Puppeteer Chrome路径不存在，尝试其他路径...');
-        
-        // 尝试常见的Chrome路径
-        const possiblePaths = [
-          '/usr/bin/google-chrome-stable',
-          '/usr/bin/google-chrome',
-          '/usr/bin/chromium-browser',
-          '/usr/bin/chromium',
-          '/opt/google/chrome/chrome',
-          '/usr/local/bin/chrome',
-          '/usr/local/bin/chromium'
-        ];
-        
-        for (const path of possiblePaths) {
-          if (existsSync(path)) {
-            process.env.CHROME_PATH = path;
-            console.log('✅ 找到Chrome路径:', path);
-            break;
-          }
-        }
-        
-        if (!process.env.CHROME_PATH) {
-          console.log('❌ 未找到Chrome可执行文件，将使用Puppeteer默认配置');
-          // 不设置CHROME_PATH，让Puppeteer自己处理
-        }
-      }
-    }
-  } catch (error) {
-    console.log('⚠️ 获取Puppeteer Chrome路径失败:', error);
-    console.log('🔧 将使用Puppeteer默认配置');
-  }
-}
+// 🔧 让 Puppeteer 自动管理 Chromium，不手动设置 Chrome 路径
+console.log('🔧 使用 Puppeteer 自带的 Chromium，无需手动设置 Chrome 路径');
 
 // 额外的预检请求处理
 app.use((req, res, next) => {
