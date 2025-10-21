@@ -127,44 +127,6 @@ if (!process.env.CHROME_PATH) {
   }
 }
 
-// 允许的前端域名（全局常量，供 CORS 与 Socket.IO 共用）
-const ALLOWED_ORIGINS = [
-  'https://www.evolution-x.io',
-  'http://localhost:3000',
-  'https://localhost:3000',
-  'http://localhost:3001',
-  'https://localhost:3001'
-];
-
-const app = express();
-
-// ===== CORS CONFIG (MUST BE FIRST) =====
-const corsOptions = {
-  origin: (origin: string | undefined, cb: (err: Error | null, allow?: boolean) => void) => {
-    if (!origin) return cb(null, true);          // 服务器到服务器或 curl
-    console.log('🌐 CORS检查来源:', origin);
-    const isAllowed = ALLOWED_ORIGINS.includes(origin);
-    console.log('🌐 CORS允许状态:', isAllowed);
-    cb(null, isAllowed);
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: [
-    'Content-Type', 
-    'Authorization', 
-    'X-Requested-With',
-    'Accept',
-    'Origin',
-    'Access-Control-Request-Method',
-    'Access-Control-Request-Headers'
-  ],
-  exposedHeaders: ['X-Request-Id'],
-  optionsSuccessStatus: 200
-};
-
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
-
 // 额外的预检请求处理
 app.use((req, res, next) => {
   if (req.method === 'OPTIONS') {
