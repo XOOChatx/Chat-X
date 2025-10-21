@@ -1,0 +1,29 @@
+# Railpack 配置 - 支持 WhatsApp 自动化
+# 安装必要的系统包以支持 Chrome/Chromium
+
+[build]
+# 安装 Chrome/Chromium 和相关依赖
+apt_packages = [
+  "google-chrome-stable",
+  "chromium-browser",
+  "xvfb",
+  "libnss3-dev",
+  "libatk-bridge2.0-dev", 
+  "libdrm2",
+  "libxkbcommon0",
+  "libxcomposite1",
+  "libxdamage1",
+  "libxrandr2",
+  "libgbm1",
+  "libxss1",
+  "libasound2"
+]
+
+# 设置环境变量
+[env]
+NODE_ENV = "production"
+# 禁用 Puppeteer 的自动下载，使用系统安装的 Chrome
+PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = "true"
+PUPPETEER_EXECUTABLE_PATH = "/usr/bin/google-chrome-stable"
+# 设置Chrome路径环境变量
+CHROME_PATH = "/usr/bin/google-chrome-stable"

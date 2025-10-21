@@ -11,8 +11,8 @@ const nextConfig = {
     unoptimized: true,
   },
   env: {
-    NEXT_PUBLIC_API_BASE: 'http://localhost:3001',
-    NEXT_PUBLIC_ADMIN_TOKEN: 'dev-admin-token',
+    NEXT_PUBLIC_API_BASE: process.env.NEXT_PUBLIC_API_BASE,
+    NEXT_PUBLIC_ADMIN_TOKEN: process.env.NEXT_PUBLIC_ADMIN_TOKEN,
   },
 }
 

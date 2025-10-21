@@ -3,16 +3,28 @@ import bcrypt from "bcryptjs";
 import { config } from "../config/env";
 import { UserMigrateError } from "telegram/errors";
 
-export const pool = new Pool({
-  user: config.PG_USER,
-  host: config.PG_HOST,
-  database: config.PG_DB,
-  password: config.PG_PASSWORD,
-  port: Number(config.PG_PORT),
-  options: `-c search_path=${config.PG_SCHEMA}`,
-  max: 20,
-  idleTimeoutMillis: 30000, 
-});
+export const pool = new Pool(
+  config.PG_URL 
+    ? { 
+        connectionString: config.PG_URL,
+        ssl: {
+            rejectUnauthorized: false
+        },
+        options: `-c search_path=${config.PG_SCHEMA}`,
+        max: 20,
+        idleTimeoutMillis: 30000,
+      }
+    : {
+        user: config.PG_USER,
+        host: config.PG_HOST,
+        database: config.PG_DB,
+        password: config.PG_PASSWORD,
+        port: Number(config.PG_PORT),
+        options: `-c search_path=${config.PG_SCHEMA}`,
+        max: 20,
+        idleTimeoutMillis: 30000, 
+      }
+);
 
 // ===== Interfaces =====
 export interface Role {
