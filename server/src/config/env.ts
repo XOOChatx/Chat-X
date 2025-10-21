@@ -3,7 +3,7 @@ import { z } from 'zod';
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
   PORT: z.string().transform(Number).default('3001'),
-  ADMIN_TOKEN: z.string().default('dev-admin-token'),
+  ADMIN_TOKEN: z.string().default('tsxGHrwJilVt+VRbyMuxGB0r5/BrX+C8nmrGCxzpoUw='),
   SESS_SECRET: z.string().default('session-encryption-key-change-in-production'),
   REFRESH_SECRET: z.string().default('refresh-token-secret-change-in-production'),
   DATABASE_PATH: z.string().default('./data/sessions.db'),
@@ -34,7 +34,7 @@ function loadEnv() {
     process.env.TG_API_HASH = 'b5888e16f0142310e30ed8523bee765a';
     process.env.WA_USE_CHROME = 'true';
     process.env.WA_HEADLESS = 'true';
-    process.env.ADMIN_TOKEN = 'dev-admin-token';
+    process.env.ADMIN_TOKEN = 'tsxGHrwJilVt+VRbyMuxGB0r5/BrX+C8nmrGCxzpoUw=';
     console.log('🔧 设置默认环境变量');
   }
 
