@@ -172,25 +172,11 @@ class WaSessionOptimizer {
           throwErrorOnTosBlock: false,
           bypassCSP: true,
           
-          // Network optimizations
-          chromiumArgs: [
+          // 使用默认Chromium启动参数；在受限环境时允许最小无沙箱
+          chromiumArgs: process.env.WA_CHROMIUM_NO_SANDBOX === 'true' ? [
             '--no-sandbox',
-            '--disable-setuid-sandbox',
-            '--disable-dev-shm-usage',
-            '--disable-web-security',
-            '--disable-features=VizDisplayCompositor',
-            '--disable-background-timer-throttling',
-            '--disable-backgrounding-occluded-windows',
-            '--disable-renderer-backgrounding',
-            '--no-first-run',
-            '--no-default-browser-check',
-            '--disable-default-apps',
-            '--disable-extensions',
-            '--disable-plugins',
-            '--disable-images', // Disable images for faster loading
-            '--disable-javascript', // Disable JS for faster loading
-            '--memory-pressure-off'
-          ]
+            '--disable-setuid-sandbox'
+          ] : undefined,
         });
         
         // Wait for connection with timeout

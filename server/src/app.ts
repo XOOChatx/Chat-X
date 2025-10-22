@@ -30,13 +30,64 @@ import { initializeNodePersistStorage } from './utils/node-persist-init';
 import { Server } from "socket.io";
 import uploadRoutes from './routes/upload';
 import path from 'path';
-// 移除了 Chrome 路径检测相关的导入
+import { executablePath as getChromeExec } from 'puppeteer';
+import { existsSync } from 'fs';
+
+// 提前设置 CHROME_PATH，供 open-wa / chrome-launcher 使用
+if (!process.env.CHROME_PATH) {
+  try {
+    // 优先使用 Railway 环境变量
+    if (process.env.PUPPETEER_EXECUTABLE_PATH && existsSync(process.env.PUPPETEER_EXECUTABLE_PATH)) {
+      process.env.CHROME_PATH = process.env.PUPPETEER_EXECUTABLE_PATH;
+      console.log('✅ 使用Railway环境Chrome路径:', process.env.CHROME_PATH);
+    } else {
+      // 尝试 Puppeteer 默认路径
+      const chromePath = getChromeExec();
+      console.log('🔧 Puppeteer Chrome路径:', chromePath);
+      
+      // 检查路径是否存在
+      if (existsSync(chromePath)) {
+        process.env.CHROME_PATH = chromePath;
+        console.log('✅ CHROME_PATH设置成功:', process.env.CHROME_PATH);
+      } else {
+        console.log('⚠️ Puppeteer Chrome路径不存在，尝试其他路径...');
+        
+        // 尝试常见的Chrome路径
+        const possiblePaths = [
+          '/usr/bin/google-chrome-stable',
+          '/usr/bin/google-chrome',
+          '/usr/bin/chromium-browser',
+          '/usr/bin/chromium',
+          '/opt/google/chrome/chrome',
+          '/usr/local/bin/chrome',
+          '/usr/local/bin/chromium'
+        ];
+        
+        for (const path of possiblePaths) {
+          if (existsSync(path)) {
+            process.env.CHROME_PATH = path;
+            console.log('✅ 找到Chrome路径:', path);
+            break;
+          }
+        }
+        
+        if (!process.env.CHROME_PATH) {
+          console.log('❌ 未找到Chrome可执行文件，将使用Puppeteer默认配置');
+          // 不设置CHROME_PATH，让Puppeteer自己处理
+        }
+      }
+    }
+  } catch (error) {
+    console.log('⚠️ 获取Puppeteer Chrome路径失败:', error);
+    console.log('🔧 将使用Puppeteer默认配置');
+  }
+}
 
 // 允许的前端域名（全局常量，供 CORS 与 Socket.IO 共用）
 const ALLOWED_ORIGINS = [
   'https://frontend-production-56b7.up.railway.app',
-  'https://evolution-x.io',
   'https://www.evolution-x.io',
+  'https://evolution-x.io',
   'http://localhost:3000',
   'https://localhost:3000',
   'http://localhost:3001',
@@ -46,17 +97,46 @@ const ALLOWED_ORIGINS = [
 const app = express();
 
 // ===== CORS CONFIG (MUST BE FIRST) =====
+// Aggressive Railway CORS fix - multiple layers of protection
+
+// Layer 1: Manual CORS headers for ALL requests (Railway-proof)
+app.use((req: any, res: any, next: any) => {
+  const origin = req.headers.origin;
+  const allowOrigin = origin && ALLOWED_ORIGINS.includes(origin)
+    ? origin
+    : '*';
+
+  res.header('Access-Control-Allow-Origin', allowOrigin);
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin, Access-Control-Request-Method, Access-Control-Request-Headers');
+  res.header('Access-Control-Max-Age', '86400');
+    
+  console.log('🚀 AGGRESSIVE CORS: Headers set for origin:', origin, 'method:', req.method);
+  
+  // Handle preflight requests immediately - CRITICAL for GET requests
+  if (req.method === 'OPTIONS') {
+    console.log('🚀 AGGRESSIVE CORS: OPTIONS request handled for:', origin, 'path:', req.path);
+    return res.status(200).end();
+  }
+  
+  next();
+});
+
+// Layer 2: CORS middleware (backup)
 const corsOptions = {
-  origin: (origin: string | undefined, cb: (err: Error | null, allow?: boolean) => void) => {
-    if (!origin) return cb(null, true);          // 服务器到服务器或 curl
+  origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
+    if (!origin) return callback(null, true);
+    
     console.log('🌐 CORS检查来源:', origin);
-    console.log('🌐 允许的域名列表:', ALLOWED_ORIGINS);
-    const isAllowed = ALLOWED_ORIGINS.includes(origin);
-    console.log('🌐 CORS允许状态:', isAllowed);
-    if (!isAllowed) {
-      console.log('❌ CORS被拒绝的域名:', origin);
+    
+    if (ALLOWED_ORIGINS.indexOf(origin) !== -1) {
+      console.log('✅ CORS: Origin allowed:', origin);
+      callback(null, true);
+    } else {
+      console.log('❌ CORS: Origin not allowed:', origin);
+      callback(new Error('Not allowed by CORS'), false);
     }
-    cb(null, isAllowed);
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
@@ -70,66 +150,59 @@ const corsOptions = {
     'Access-Control-Request-Headers'
   ],
   exposedHeaders: ['X-Request-Id'],
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
+  preflightContinue: false
 };
 
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
 
-// 🔧 让 Puppeteer 自动管理 Chromium，不手动设置 Chrome 路径
-console.log('🔧 使用 Puppeteer 自带的 Chromium，无需手动设置 Chrome 路径');
-
-// 额外的预检请求处理
-app.use((req, res, next) => {
-  if (req.method === 'OPTIONS') {
-    const origin = req.headers.origin;
-    if (origin && ALLOWED_ORIGINS.includes(origin)) {
+// Layer 3: Final fallback for Railway
+app.use((req: any, res: any, next: any) => {
+  const origin = req.headers.origin;
+  
+  // Double-check CORS headers are set
+  if (origin && ALLOWED_ORIGINS.includes(origin)) {
+    if (!res.get('Access-Control-Allow-Origin')) {
       res.header('Access-Control-Allow-Origin', origin);
+      res.header('Access-Control-Allow-Credentials', 'true');
+      console.log('🔄 FINAL FALLBACK: CORS headers set for:', origin);
     }
-    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS,PATCH');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin, Access-Control-Request-Method, Access-Control-Request-Headers');
-    res.header('Access-Control-Allow-Credentials', 'true');
-    res.header('Access-Control-Max-Age', '86400');
-    return res.status(200).end();
   }
+  
   next();
 });
+
 // ===== END CORS CONFIG =====
 
 app.use(cookieParser());
 
 const server = createServer(app);
 
+// const io = new SocketIOServer(server, {
+//   cors: {
+//     origin: config.CORS_ORIGIN,
+//     methods: ['GET', 'POST'],
+//     credentials: true
+//   }
+// });
+
 // 允许的前端域名
 const io = new Server(server, {
   cors: {
-    origin: (origin: string | undefined, cb: (err: Error | null, allow?: boolean) => void) => {
-      if (!origin) return cb(null, true);
-      console.log('🔌 WebSocket CORS检查来源:', origin);
-      const isAllowed = ALLOWED_ORIGINS.includes(origin);
-      console.log('🔌 WebSocket CORS允许状态:', isAllowed);
-      cb(null, isAllowed);
-    },
+    origin: ALLOWED_ORIGINS,
+    methods: ['GET', 'POST'],
     credentials: true,
-    methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: [
-      'Content-Type', 
-      'Authorization', 
-      'X-Requested-With',
-      'Accept',
-      'Origin',
-      'Access-Control-Request-Method',
-      'Access-Control-Request-Headers'
-    ]
-  },
-  path: '/socket.io',
-  transports: ['websocket', 'polling'],
-  allowEIO3: true
+    allowedHeaders: ['Authorization', 'Content-Type']
+  }
 });
 
 io.on("connection", (socket) => {
-  console.log(`⚡ WebSocket connected: ${socket.id}`);
-  socket.on('disconnect', () => console.log(`❌ WebSocket disconnected: ${socket.id}`));
+  console.log(`⚡ New client connected: ${socket.id}`);
+
+  socket.on("disconnect", () => {
+    console.log(`❌ Client disconnected: ${socket.id}`);
+  });
 });
 
 app.set('io', io)
@@ -165,7 +238,7 @@ app.use('/api/media', cors(corsOptions), express.static(mediaDir));
 
 app.use((req, res, next) => {
   req.requestId = uuidv4();
-  res.setHeader("X-Request-Id", req.requestId);
+  res.setHeader("X-Request-Id", req.requestId); // optional: send back to client
   next();
 });
 
@@ -252,22 +325,22 @@ app.get("/health", (req, res) => {
 });
 
 // API路由
-app.use('/workspace', cors(corsOptions), workspaceRoutes);
-app.use('/user', cors(corsOptions), userRoutes);
-app.use('/plan', cors(corsOptions), planRoutes);
-app.use('/auth', cors(corsOptions), authRoutes);
-app.use('/wa', cors(corsOptions), waRoutes);
-app.use('/wa', cors(corsOptions), waSessionRoutes);
-app.use('/tg', cors(corsOptions), tgRoutes);
-app.use('/sessions', cors(corsOptions), sessionsRoutes);
-app.use('/account-management', cors(corsOptions), accountManagementRoutes);
-app.use('/chats', cors(corsOptions), chatsRoutes);
-app.use('/upload', cors(corsOptions), uploadRoutes);
-app.use('/wa/message-monitor', cors(corsOptions), waMessageMonitorRoutes);
-app.use('/wa/message-optimizer', cors(corsOptions), waMessageOptimizerRoutes);
-app.use('/wa/session-monitor', cors(corsOptions), waSessionMonitorRoutes);
-app.use('/debug/clients', cors(corsOptions), debugClientsRoutes);
-app.use('/debug/websocket', cors(corsOptions), websocketDebugRoutes);
+app.use('/workspace', workspaceRoutes);
+app.use('/user', userRoutes);
+app.use('/plan', planRoutes);
+app.use('/auth', authRoutes);
+app.use('/wa', waRoutes);
+app.use('/wa', waSessionRoutes);  // 新的状态机驱动的会话管理
+app.use('/tg', tgRoutes);
+app.use('/sessions', sessionsRoutes);
+app.use('/account-management', accountManagementRoutes);
+app.use('/chats', chatsRoutes);  // 聊天相关API
+app.use('/upload', uploadRoutes); // 上传语音（wa/tg 分开目录）
+app.use('/wa/message-monitor', waMessageMonitorRoutes);  // 消息监听状态监控
+app.use('/wa/message-optimizer', waMessageOptimizerRoutes);  // 消息处理优化
+app.use('/wa/session-monitor', waSessionMonitorRoutes);  // 会话管理优化监控
+app.use('/debug/clients', debugClientsRoutes);  // 客户端状态调试
+app.use('/debug/websocket', websocketDebugRoutes);
 
 // 404处理
 app.use(notFoundHandler);
@@ -465,21 +538,21 @@ process.on('uncaughtException', (error) => {
     return;
   }
   
-  console.error('❌ 未捕获的异常:', error);
-  process.exit(1);
+  console.error('❌ 未捕获的异常(不中止进程):', error);
+  // 不再退出进程，保持服务器可用，便于前端重试
 });
 
 process.on('unhandledRejection', (reason, promise) => {
   // 忽略 wmic.exe 相关的错误
   if (reason && typeof reason === 'object' && 'message' in reason && 
-      String(reason.message).includes('spawn wmic.exe ENOENT')) {
+      String((reason as any).message).includes('spawn wmic.exe ENOENT')) {
     console.warn('⚠️ 忽略 wmic.exe Promise 拒绝 (Windows 版本兼容性问题):', reason);
     return;
   }
   
-  console.error('❌ 未处理的Promise拒绝:', reason);
+  console.error('❌ 未处理的Promise拒绝(不中止进程):', reason);
   console.error('Promise:', promise);
-  process.exit(1);
+  // 不再退出进程，避免影响前端轮询与WebSocket连接
 });
 
 export default app;
