@@ -7,6 +7,7 @@ import { CorsOptions } from 'cors';
 export const ALLOWED_ORIGINS = [
   'https://frontend-production-56b7.up.railway.app',
   'https://www.evolution-x.io',
+  'https://evolution-x.io', // 支持不带www的域名
   'http://localhost:3000',
   'https://localhost:3000',
   'http://localhost:3001',

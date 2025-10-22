@@ -17,11 +17,13 @@ export function getCookieOptions(
     };
   }
 
+  // 🔧 生产环境：跨域部署时必须使用这些设置
   return {
     httpOnly: true,
-    secure: true,
-    sameSite: crossDomain ? "none" : "strict",
+    secure: true, // 必须为true（HTTPS）
+    sameSite: "none", // 跨域必须为"none"
     maxAge: maxAgeMs,
     path: isRefresh ? "/auth/refresh" : "/",
+    // domain不设置，让浏览器自动处理（更安全）
   };
 }
