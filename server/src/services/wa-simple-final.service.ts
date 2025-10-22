@@ -14,7 +14,7 @@ import QRCode from "qrcode";
 import { waMessageMultiplexer } from "./wa-message-multiplexer.service";
 import { waConnectivityTracker } from "./wa-connectivity-monitor.service";
 
-type WaState = "INIT" | "LOADING" | "QR_READY" | "QR_SCANNED" | "CONNECTING" | "READY" | "QR_WAITING" | "QR_EXPIRED";
+type WaState = "INIT" | "LOADING" | "QR_READY" | "QR_SCANNED" | "CONNECTING" | "READY" | "QR_WAITING";
 const root = path.join(process.cwd(), "sessions"); // 统一存储在 server/sessions 目录
 const clients = new Map<string, Client>();
 const lastQr = new Map<string, string>();
@@ -123,23 +123,24 @@ console.log(`🔧 使用MVP模式的 ev.on('qr.**') 事件监听`);
 // 添加QR事件监听（仿照您的MVP）
 
 if (ev) {
-  ev.on('qr.**', (qrcode: string, sessionId: string) => {
+  ev.on('qr.**', (qrcode, sessionId) => {
     console.log(`📱 QR事件触发, sessionId: ${sessionId}`);
     console.log(`📊 QR码长度: ${qrcode ? qrcode.length : 'null'}`);
     
     if (qrcode) {
-      // Handle QR data properly - avoid double prefixing
-      let qrDataUrl: string;
+      // 按照您的MVP逻辑处理QR码数据
       if (qrcode.startsWith('data:image/png;base64,')) {
-        qrDataUrl = qrcode; // Already has prefix, use as-is
-        console.log(`✅ QR码已通过ev事件更新: ${sessionId}, 已有前缀, 长度: ${qrcode.length}`);
+        const base64QR = qrcode.replace('data:image/png;base64,', '');
+        const fullDataUrl = `data:image/png;base64,${base64QR}`;
+        lastQr.set(sessionId, fullDataUrl);
+        status.set(sessionId, "QR_WAITING");
+        console.log(`✅ QR码已通过ev事件更新: ${sessionId}, base64长度: ${base64QR.length}`);
       } else {
-        qrDataUrl = `data:image/png;base64,${qrcode}`; // Add prefix
-        console.log(`✅ QR码已通过ev事件更新: ${sessionId}, 添加前缀, 长度: ${qrcode.length}`);
+        const fullDataUrl = `data:image/png;base64,${qrcode}`;
+        lastQr.set(sessionId, fullDataUrl);
+        status.set(sessionId, "QR_WAITING");
+        console.log(`✅ QR码已通过ev事件更新: ${sessionId}, 长度: ${qrcode.length}`);
       }
-      
-      lastQr.set(sessionId, qrDataUrl);
-      status.set(sessionId, "QR_READY");
     }
   });
 }
@@ -420,19 +421,15 @@ async function generateQRForSession(sessionId: string): Promise<string> {
 }
 
 async function ensureClient(sessionId: string): Promise<Client> {
-  // Prefer the actual storage key with _IGNORE_ prefix if present
-  const actualKey = clients.has(sessionId)
-    ? sessionId
-    : (clients.has(`_IGNORE_${sessionId}`) ? `_IGNORE_${sessionId}` : sessionId);
-  if (clients.has(actualKey)) {
-    return clients.get(actualKey)!;
+  if (clients.has(sessionId)) {
+    return clients.get(sessionId)!;
   }
 
   // 检查是否该Session已经被迁移到新ID
   const migratedSessionId = findMigratedSessionId(sessionId);
-  if (migratedSessionId && (clients.has(migratedSessionId) || clients.has(`_IGNORE_${migratedSessionId}`))) {
+  if (migratedSessionId && clients.has(migratedSessionId)) {
     console.log(`🔄 Session已迁移: ${sessionId} -> ${migratedSessionId}`);
-    return clients.get(clients.has(migratedSessionId) ? migratedSessionId : `_IGNORE_${migratedSessionId}`)!;
+    return clients.get(migratedSessionId)!;
   }
 
   // 🎯 Step 3: 设置LOADING状态（伺服器收到请求，开始加载）
@@ -443,8 +440,7 @@ async function ensureClient(sessionId: string): Promise<Client> {
   let initPromise = initPromises.get(sessionId);
   if (initPromise) {
     await initPromise;
-    const readyKey = clients.has(sessionId) ? sessionId : `_IGNORE_${sessionId}`;
-    return clients.get(readyKey)!;
+    return clients.get(sessionId)!;
   }
 
   // 创建初始化Promise
@@ -539,15 +535,30 @@ async function ensureClient(sessionId: string): Promise<Client> {
         })(),
         // Railway-optimized browser configuration
         useChrome: true,
+        // 让Puppeteer自动管理浏览器，避免路径问题
         autoRefresh: true,
-        qrRefreshS: 60, // Increase QR refresh time to 60 seconds for better stability
-        // 🔧 Railway-specific browser configuration
+        qrRefreshS: 15,
+        // 🔧 添加网络配置和错误恢复
         browserRevision: undefined, // 使用默认浏览器版本
         popup: false,
         restartOnCrash: false,
         killClientOnLogout: true, 
         throwErrorOnTosBlock: false,
         bypassCSP: true,
+        // 🌐 网络重试配置
+        chromiumArgs: [
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-dev-shm-usage',
+          '--disable-web-security',
+          '--disable-features=VizDisplayCompositor',
+          '--disable-background-timer-throttling',
+          '--disable-backgrounding-occluded-windows',
+          '--disable-renderer-backgrounding',
+          '--no-first-run',
+          '--no-default-browser-check',
+          '--disable-default-apps'
+        ],
       onLoadingScreen: () => {
         console.log(`📱 Step 8: 检测到QR码扫描: ${sessionId}`);
         status.set(sessionId, "QR_SCANNED");
@@ -563,55 +574,9 @@ async function ensureClient(sessionId: string): Promise<Client> {
       },
       qrCallback: (qr: string) => {
         console.log(`📱 Step 6: QR码生成完成: ${sessionId}, 长度: ${qr?.length || 0}`);
-        console.log(`🔍 QR数据预览: ${qr?.substring(0, 100)}...`);
-        
-        // Check if QR already has data URL prefix
-        let qrDataUrl: string;
-        if (qr.startsWith('data:image/png;base64,')) {
-          qrDataUrl = qr; // Already has prefix
-          console.log(`📋 QR已有前缀，直接使用`);
-        } else {
-          qrDataUrl = `data:image/png;base64,${qr}`; // Add prefix
-          console.log(`📋 QR添加前缀: data:image/png;base64,`);
-        }
-        
-        // Store QR with expiration time (like real WhatsApp)
-        const qrExpiryTime = Date.now() + (60 * 1000); // 60 seconds from now
-        lastQr.set(sessionId, qrDataUrl);
-        lastQr.set(`${sessionId}_expires`, qrExpiryTime.toString());
+        lastQr.set(sessionId, `data:image/png;base64,${qr}`);
         status.set(sessionId, "QR_READY");
-        
         console.log(`✅ Step 7: 状态变更为QR_READY，等待扫描: ${sessionId}`);
-        console.log(`🔍 最终QR数据长度: ${qrDataUrl.length}`);
-        console.log(`⏰ QR码将在 ${new Date(qrExpiryTime).toLocaleTimeString()} 过期`);
-        
-        // Auto-expire QR after 60 seconds
-        setTimeout(() => {
-          if (status.get(sessionId) === "QR_READY") {
-            console.log(`⏰ QR码已过期，清除: ${sessionId}`);
-            lastQr.delete(sessionId);
-            lastQr.delete(`${sessionId}_expires`);
-            status.set(sessionId, "QR_EXPIRED");
-          }
-        }, 60 * 1000);
-        
-        // Save QR to file for debugging
-        try {
-          const debugDir = path.join(process.cwd(), 'debug-qr');
-          if (!fs.existsSync(debugDir)) {
-            fs.mkdirSync(debugDir, { recursive: true });
-          }
-          const filename = `qr-${sessionId}-${Date.now()}.png`;
-          const filepath = path.join(debugDir, filename);
-          
-          // Convert data URL to buffer and save
-          const base64Data = qrDataUrl.replace(/^data:image\/png;base64,/, '');
-          const buffer = Buffer.from(base64Data, 'base64');
-          fs.writeFileSync(filepath, buffer);
-          console.log(`💾 QR码已保存到文件: ${filepath}`);
-        } catch (error) {
-          console.error(`❌ 保存QR码失败: ${sessionId}`, error);
-        }
       }
     });
 
@@ -732,7 +697,8 @@ async function ensureClient(sessionId: string): Promise<Client> {
                       sessionId: actualPhoneSessionId,
                       dataDir: root, // sessions根目录
                       phoneNumber: phoneNumber,
-                      pushname: pushname || undefined
+                      pushname: pushname || undefined,
+                      isActive: true // 添加激活状态
                     }, 
                     createdAt: Date.now() 
                   });
@@ -775,7 +741,8 @@ async function ensureClient(sessionId: string): Promise<Client> {
                       sessionId: actualSessionId,
                       dataDir: root, // sessions根目录
                       phoneNumber: phoneNumber,
-                      pushname: pushname || undefined
+                      pushname: pushname || undefined,
+                      isActive: true // 添加激活状态
                     }, 
                     createdAt: Date.now() 
                   });
@@ -800,7 +767,8 @@ async function ensureClient(sessionId: string): Promise<Client> {
                   label: `WhatsApp ${sessionId}`,
                   data: { 
                     sessionId: actualSessionId,
-                    dataDir: root // sessions根目录
+                    dataDir: root, // sessions根目录
+                    isActive: true // 添加激活状态
                   }, 
                   createdAt: Date.now() 
                 });
@@ -891,6 +859,7 @@ async function ensureClient(sessionId: string): Promise<Client> {
     }, 60000);
 
     // 🔑 使用_IGNORE_前缀存储客户端，与实际目录一致
+    // actualSessionId already declared above at line 700
     clients.set(actualSessionId, client);
     registerClientVariants(actualSessionId, client);
     console.log(`✅ WhatsApp客户端初始化完成: ${sessionId} -> 存储为 ${actualSessionId}`);
@@ -981,8 +950,7 @@ async function ensureClient(sessionId: string): Promise<Client> {
   });
 
   await initPromise;
-  const finalKey = clients.has(sessionId) ? sessionId : `_IGNORE_${sessionId}`;
-  return clients.get(finalKey)!;
+  return clients.get(sessionId)!;
 }
 
 export async function getWaQr(sessionId: string): Promise<string> {
@@ -1017,42 +985,15 @@ export async function getWaQr(sessionId: string): Promise<string> {
     return ""; // 返回空字符串，前端检测到空值应停止轮询
   }
   
-  // 检查是否已经有open-wa原生QR码（考虑_IGNORE_存储键）
-  const qrData = lastQr.get(sessionId) || lastQr.get(`_IGNORE_${sessionId}`);
-  const qrExpiryKey = `${sessionId}_expires`;
-  const qrExpiryTime = lastQr.get(qrExpiryKey);
-  
+  // 检查是否已经有open-wa原生QR码
+  const qrData = lastQr.get(sessionId);
   if (qrData && qrData.length > 0) {
-    // Check if QR has expired
-    if (qrExpiryTime && Date.now() > parseInt(qrExpiryTime)) {
-      console.log(`⏰ QR码已过期，清除: ${sessionId}`);
-      lastQr.delete(sessionId);
-      lastQr.delete(qrExpiryKey);
-      status.set(sessionId, "QR_EXPIRED");
-      // Don't return expired QR
-    } else {
-      console.log(`✅ 返回有效的QR码: ${sessionId}, 长度: ${qrData.length}`);
-      
-      // Calculate remaining time
-      const remainingTime = qrExpiryTime ? Math.max(0, Math.floor((parseInt(qrExpiryTime) - Date.now()) / 1000)) : 60;
-      console.log(`⏰ QR码剩余有效时间: ${remainingTime} 秒`);
-      
-      // Track QR requests
-      const requestKey = `qr_requests_${sessionId}`;
-      const requestCount = (global as any)[requestKey] || 0;
-      (global as any)[requestKey] = requestCount + 1;
-      
-      if (requestCount > 5) {
-        console.log(`🚨 警告: 前端过度轮询QR码 (${requestCount}次请求)，QR码有效期内无需重复请求`);
-      }
-      
-      return qrData;
-    }
+    console.log(`✅ 返回open-wa原生QR码: ${sessionId}, 长度: ${qrData.length}`);
+    return qrData;
   }
 
   // 非阻塞启动：检查是否需要启动客户端
-  const hasClient = clients.has(sessionId) || clients.has(`_IGNORE_${sessionId}`);
-  if (!hasClient && !initPromises.has(sessionId)) {
+  if (!clients.has(sessionId) && !initPromises.has(sessionId)) {
     console.log(`🚀 异步启动open-wa客户端: ${sessionId}`);
     
     // 异步启动，立即返回，让前端继续轮询

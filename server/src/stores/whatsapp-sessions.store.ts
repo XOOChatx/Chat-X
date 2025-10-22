@@ -66,6 +66,15 @@ export const WhatsAppSessionsStore = {
     }
     write(rows); 
     console.log(`✅ WhatsApp会话已保存: ${row.id}`);
+    
+    // 重新加载sessionStateService数据
+    try {
+      const { sessionStateService } = require('../services/session-state.service');
+      sessionStateService.reloadSessions();
+      console.log('🔄 [WhatsAppSessionsStore] 已重新加载sessionStateService数据');
+    } catch (error) {
+      console.error('❌ [WhatsAppSessionsStore] 重新加载sessionStateService数据失败:', error);
+    }
   },
   
   remove(id: string) { 

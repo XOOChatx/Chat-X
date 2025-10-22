@@ -185,6 +185,26 @@ export class UserController {
           );
           return res.status(400).json({ error: "Manager is required for this role" });
         }
+
+        if (assigned_to) {
+          // Fetch the manager (assigned_to) details
+          console.log("Checking current availability")
+
+          const manager = await databaseService.getManagerWithPlan(assigned_to);
+    
+          // Only check if the assigner is actually a Manager
+          if (manager && manager.role_id === 2) {
+            const currentAccountCount = await databaseService.countAccountsByManager(assigned_to);
+            console.log("Current Acc Count:",currentAccountCount)
+    
+            // Enforce plan capacity if not unlimited
+            if (manager.max_account !== 0 && currentAccountCount >= manager.max_account) {
+              return res
+                .status(400)
+                .json({ error: "Account limit reached for this manager’s plan" });
+            }
+          }
+        }
     
         // ✅ 4️⃣ Adjust nullability based on role
         const finalPlanId = roleWithPlan.includes(Number(role_id)) ? plan_id : null;
@@ -242,7 +262,7 @@ export class UserController {
           const { id } = req.params
           const { name, email, department, role_id, plan_id, assigned_to, password } = req.body
     
-          if (!id || !name || !email || !role_id) {
+          if (!id || !name || !email || !department || !role_id) {
             logApiRequestError(
               req.user.sessionId as string || "unknown-session",
               "Missing required fields",

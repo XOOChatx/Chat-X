@@ -38,13 +38,13 @@ export class SessionStateService {
     this.sessionsFilePath = path.join(process.cwd(), 'sessions', 'sessions.json');
     this.dataSessionsFilePath = path.join(process.cwd(), 'data', 'sessions.json');
     
-    // console.log(`🔍 [SessionState] 路径设置:`, {
-    //   cwd: process.cwd(),
-    //   sessionsFilePath: this.sessionsFilePath,
-    //   dataSessionsFilePath: this.dataSessionsFilePath,
-    //   sessionsExists: fs.existsSync(this.sessionsFilePath),
-    //   dataSessionsExists: fs.existsSync(this.dataSessionsFilePath)
-    // });
+    console.log(`🔍 [SessionState] 路径设置:`, {
+      cwd: process.cwd(),
+      sessionsFilePath: this.sessionsFilePath,
+      dataSessionsFilePath: this.dataSessionsFilePath,
+      sessionsExists: fs.existsSync(this.sessionsFilePath),
+      dataSessionsExists: fs.existsSync(this.dataSessionsFilePath)
+    });
     
     this.loadSessions();
   }
@@ -61,13 +61,13 @@ export class SessionStateService {
         const data = fs.readFileSync(this.sessionsFilePath, 'utf8');
         const sessionsData = JSON.parse(data);
         this.sessionsData.push(...sessionsData);
-        // console.log(` 从 sessions/sessions.json 加载了 ${sessionsData.length} 个会话`);
-        // console.log(`📁 [SessionState] WhatsApp会话详情:`, sessionsData.map((s: any) => ({
-        //   id: s.id,
-        //   provider: s.provider,
-        //   isActive: s.data?.isActive,
-        //   label: s.label
-        // })));
+        console.log(`📁 [SessionState] 从 sessions/sessions.json 加载了 ${sessionsData.length} 个会话`);
+        console.log(`📁 [SessionState] WhatsApp会话详情:`, sessionsData.map((s: any) => ({
+          id: s.id,
+          provider: s.provider,
+          isActive: s.data?.isActive,
+          label: s.label
+        })));
       } else {
         console.log(`⚠️ [SessionState] WhatsApp会话文件不存在: ${this.sessionsFilePath}`);
       }
@@ -77,13 +77,13 @@ export class SessionStateService {
         const data = fs.readFileSync(this.dataSessionsFilePath, 'utf8');
         const dataSessions = JSON.parse(data);
         this.sessionsData.push(...dataSessions);
-        // console.log(`📁 [SessionState] 从 data/sessions.json 加载了 ${dataSessions.length} 个会话`);
-        // console.log(`📁 [SessionState] Telegram会话详情:`, dataSessions.map((s: any) => ({
-        //   id: s.id,
-        //   provider: s.provider,
-        //   isActive: s.data?.isActive,
-        //   label: s.label
-        // })));
+        console.log(`📁 [SessionState] 从 data/sessions.json 加载了 ${dataSessions.length} 个会话`);
+        console.log(`📁 [SessionState] Telegram会话详情:`, dataSessions.map((s: any) => ({
+          id: s.id,
+          provider: s.provider,
+          isActive: s.data?.isActive,
+          label: s.label
+        })));
       } else {
         console.log(`⚠️ [SessionState] Telegram会话文件不存在: ${this.dataSessionsFilePath}`);
       }
@@ -181,11 +181,37 @@ export class SessionStateService {
    * 获取指定提供商的活跃会话
    */
   getActiveSessionsByProvider(provider: 'whatsapp' | 'telegram'): SessionData[] {
-    return this.sessionsData.filter(session => {
+    console.log(`🔍 [SessionState] getActiveSessionsByProvider 被调用:`, {
+      provider,
+      totalSessions: this.sessionsData.length,
+      allSessions: this.sessionsData.map(s => ({
+        id: s.id,
+        provider: s.provider,
+        isActive: s.data?.isActive
+      }))
+    });
+    
+    const result = this.sessionsData.filter(session => {
       // 如果isActive未定义，默认为true
       const isActive = session.data.isActive !== undefined ? session.data.isActive : true;
-      return session.provider === provider && isActive;
+      const matches = session.provider === provider && isActive;
+      console.log(`🔍 [SessionState] 过滤会话:`, {
+        id: session.id,
+        provider: session.provider,
+        isActive: session.data?.isActive,
+        computedIsActive: isActive,
+        matches
+      });
+      return matches;
     });
+    
+    console.log(`🔍 [SessionState] getActiveSessionsByProvider 结果:`, {
+      provider,
+      resultCount: result.length,
+      resultIds: result.map(s => s.id)
+    });
+    
+    return result;
   }
 
   /**
@@ -285,8 +311,21 @@ export class SessionStateService {
    * 重新加载会话数据
    */
   reloadSessions(): void {
+    console.log(`🔄 [SessionState] 开始重新加载会话数据...`);
+    const oldCount = this.sessionsData.length;
     this.loadSessions();
+    const newCount = this.sessionsData.length;
+    console.log(`🔄 [SessionState] 会话数据已重新加载: ${oldCount} -> ${newCount} 个会话`);
+    
     console.log(`🔄 [SessionState] 会话数据已重新加载`);
+    this.sessionsData.forEach(session => {
+      console.log(`🔍 [SessionState] 会话详情:`, {
+        id: session.id,
+        provider: session.provider,
+        isActive: session.data?.isActive,
+        hasData: !!session.data
+      });
+    });
   }
 
   /**

@@ -477,6 +477,7 @@ r.post("/accounts/whatsapp", requireAuth, async (req, res) => {
         pushname: finalDisplayName !== `WhatsApp ${sessionId.slice(-8)}` ? finalDisplayName : undefined,
         workspaceId:Number(workspaceId),
         brandId:Number(brandId),
+        isActive: true // 添加激活状态
       },
       createdAt: Date.now(),
       createdBy: req.user.userId
@@ -496,6 +497,19 @@ r.post("/accounts/whatsapp", requireAuth, async (req, res) => {
         req.user.userId
       );
       console.log(`✅ 已保存到accounts表:`, account);
+      
+      // 启动WhatsApp Provider监听
+      try {
+        const { ProviderRegistry } = require('../provider/provider-registry');
+        const waProvider = ProviderRegistry.get('wa');
+        if (waProvider && waProvider.startAccountListening) {
+          console.log(`🚀 [AccountManagement] 启动新注册账户的监听: ${sessionId}`);
+          await waProvider.startAccountListening(sessionId);
+          console.log(`✅ [AccountManagement] 新注册账户监听已启动: ${sessionId}`);
+        }
+      } catch (providerErr: any) {
+        console.warn(`⚠️ 启动新注册账户监听失败:`, providerErr?.message);
+      }
     } catch (dbErr: any) {
       console.warn("⚠️ 保存到accounts表失败（继续返回成功）:", dbErr?.message);
     }

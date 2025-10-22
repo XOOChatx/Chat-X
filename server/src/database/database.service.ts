@@ -15,14 +15,14 @@ export const pool = new Pool(
         idleTimeoutMillis: 30000,
       }
     : {
-        user: config.PG_USER,
-        host: config.PG_HOST,
-        database: config.PG_DB,
-        password: config.PG_PASSWORD,
-        port: Number(config.PG_PORT),
-        options: `-c search_path=${config.PG_SCHEMA}`,
-        max: 20,
-        idleTimeoutMillis: 30000, 
+  user: config.PG_USER,
+  host: config.PG_HOST,
+  database: config.PG_DB,
+  password: config.PG_PASSWORD,
+  port: Number(config.PG_PORT),
+  options: `-c search_path=${config.PG_SCHEMA}`,
+  max: 20,
+  idleTimeoutMillis: 30000, 
       }
 );
 
@@ -149,7 +149,19 @@ export class DatabaseService {
          RETURNING id, platform, account_id, name, description, workspace_id, brand_id, status, is_active, created_at, last_connected, created_by`,
         [platform, account_id, name, description, workspace_id, brand_id, status, is_active, created_by]
       );
-      return result.rows[0];
+      
+      const account = result.rows[0];
+      
+      // 🔌 触发WebSocket事件
+      try {
+        const { websocketService } = await import('../services/websocket.service');
+        websocketService.broadcastAccountStatus(account.account_id, 'connected');
+        console.log(`📡 [Database] 已触发账户状态广播: ${account.account_id} -> connected`);
+      } catch (wsError) {
+        console.warn('⚠️ [Database] WebSocket事件触发失败:', wsError);
+      }
+      
+      return account;
     } finally {
       client.release();
     }
@@ -995,7 +1007,7 @@ async createRole({
     const client = await pool.connect();
     try{
       const result = await client.query(
-        `SELECT u.id, u.role_id, u.plan_id, p.max_workspace
+        `SELECT u.id, u.role_id, u.plan_id, p.max_workspace,p.max_account
         FROM users u
         JOIN plans p ON u.plan_id = p.id
         WHERE u.id = $1`,
@@ -1012,6 +1024,19 @@ async createRole({
     try{
       const result = await client.query(
         `SELECT COUNT(*) FROM workspaces WHERE manager_id = $1`,
+        [managerId]
+      );
+      return parseInt(result.rows[0].count, 10);
+    }finally{
+      client.release()
+    }
+  }
+
+  async countAccountsByManager(managerId: number) {
+    const client = await pool.connect();
+    try{
+      const result = await client.query(
+        `SELECT COUNT(*) FROM chatx.users WHERE assigned_to = $1`,
         [managerId]
       );
       return parseInt(result.rows[0].count, 10);
@@ -1398,7 +1423,7 @@ async createRole({
         `UPDATE accounts 
          SET is_active = $1
          WHERE account_id = $2
-         RETURNING id, account_id, is_active`,
+         RETURNING id, account_id, is_active, platform`,
         [isActive, cleanSessionId]
       );
   
@@ -1408,9 +1433,73 @@ async createRole({
       }
   
       console.log(`💾 Database updated successfully:`, result.rows[0]);
+      
+      // 重新加载sessionStateService数据，确保获取最新的账户信息
+      try {
+        const { sessionStateService } = require('../services/session-state.service');
+        sessionStateService.reloadSessions();
+        console.log('🔄 [Database] 已重新加载sessions数据');
+        
+        // 等待一小段时间确保数据完全加载
+        await new Promise(resolve => setTimeout(resolve, 100));
+      } catch (error) {
+        console.error('❌ [Database] 重新加载sessions数据失败:', error);
+      }
+      
+      // 数据库更新成功后，立即管理Provider监听
+      const accountData = result.rows[0];
+      await this.manageProviderListening(cleanSessionId, isActive, accountData.platform);
+      
       return result.rows[0];
     } finally {
       client.release();
+    }
+  }
+
+  /**
+   * 管理Provider监听状态
+   */
+  private static async manageProviderListening(accountId: string, isActive: boolean, platform: string) {
+    // 转换数据库平台名称为Provider Registry期望的格式
+    let providerPlatform = platform;
+    if (platform === 'telegram') {
+      providerPlatform = 'tg';
+    } else if (platform === 'whatsapp') {
+      providerPlatform = 'wa';
+    }
+    
+    console.log(`🔍 [Database] 开始管理Provider监听: ${accountId}, isActive: ${isActive}, platform: ${platform} -> ${providerPlatform}`);
+    
+    try {
+      const { ProviderRegistry } = await import('../provider/provider-registry');
+      console.log(`🔍 [Database] ProviderRegistry导入成功`);
+      const provider = ProviderRegistry.get(providerPlatform);
+      console.log(`🔍 [Database] 获取Provider: ${providerPlatform}, 存在: ${!!provider}`);
+      
+      if (provider) {
+        if (!isActive) {
+          // 如果账户被禁用，主动停止Provider监听
+          console.log(`🔍 [Database] 检查stopAccountListening方法: ${'stopAccountListening' in provider}`);
+          if ('stopAccountListening' in provider) {
+            console.log(`🛑 [Database] 停止 ${providerPlatform} Provider 监听: ${accountId}`);
+            await (provider as any).stopAccountListening(accountId);
+            console.log(`✅ [Database] ${providerPlatform} Provider 监听已停止: ${accountId}`);
+          }
+        } else {
+          // 如果账户被启用，主动启动Provider监听
+          console.log(`🔍 [Database] 检查startAccountListening方法: ${'startAccountListening' in provider}`);
+          if ('startAccountListening' in provider) {
+            console.log(`🚀 [Database] 启动 ${providerPlatform} Provider 监听: ${accountId}`);
+            await (provider as any).startAccountListening(accountId);
+            console.log(`✅ [Database] ${providerPlatform} Provider 监听已启动: ${accountId}`);
+          }
+        }
+      } else {
+        console.log(`⚠️ [Database] 未找到Provider: ${providerPlatform}`);
+      }
+    } catch (error: any) {
+      console.error(`❌ [Database] 管理Provider监听失败:`, error.message);
+      console.error(`❌ [Database] 错误堆栈:`, error.stack);
     }
   }
   

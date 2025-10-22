@@ -350,6 +350,40 @@ export function AddWaAccountDialog({ open, onOpenChange, onAccountAdded }: AddWa
       }
   
       console.log("✅ WhatsApp账号已保存到数据库:", sessionId);
+      
+        // 🔄 通过WebSocket发送账户添加事件到后端
+        console.log('🔄 通过WebSocket发送WhatsApp账户添加事件:', { platform: "whatsapp", sessionId });
+        
+        // 检查WebSocket连接状态
+        const wsClient = (window as any).websocketClient;
+        if (wsClient && wsClient.getConnectionStatus) {
+          const status = wsClient.getConnectionStatus();
+          console.log('🔍 WebSocket连接状态:', status);
+          
+          if (status.isConnected) {
+            // 通过WebSocket发送事件到后端
+            wsClient.socket?.emit('accountAdded', {
+              platform: "whatsapp",
+              sessionId: sessionId,
+              accountName: displayName.trim() || `WhatsApp ${sessionId}`,
+              workspaceId: Number(workspaceId),
+              brandId: Number(brandId)
+            });
+            console.log('✅ WhatsApp账户添加事件已发送到后端');
+          } else {
+            console.warn('⚠️ WebSocket未连接，无法发送账户事件');
+          }
+        } else {
+          console.warn('⚠️ WebSocket客户端不可用');
+        }
+        
+        // 🔄 触发前端本地事件（用于UI更新）
+        window.dispatchEvent(new CustomEvent('refreshAccounts'));
+
+        // 🔄 延迟刷新，确保后端数据已保存
+        setTimeout(() => {
+          window.dispatchEvent(new CustomEvent('accountDataChanged'));
+        }, 500);
   
       // 关闭对话框并刷新
       onOpenChange(false);

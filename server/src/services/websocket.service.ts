@@ -49,8 +49,17 @@ export interface MediaDownloadNotification {
   accountId: string;
 }
 
+interface AccountConnectionEvent {
+  platform: 'whatsapp' | 'telegram';
+  sessionId: string;
+  accountName?: string;
+  workspaceId?: number;
+  brandId?: number;
+}
+
 class WebSocketService {
   private io: SocketIOServer | null = null;
+  private isAccountListenerInitialized = false;
 
   emit(event: string, data: any) {
     if (!this.io) {
@@ -74,6 +83,128 @@ class WebSocketService {
   setSocketIO(io: SocketIOServer) {
     this.io = io;
     console.log('✅ WebSocket服务已初始化');
+    
+    // 初始化账户事件监听
+    this.initializeAccountListener();
+  }
+
+  /**
+   * 初始化账户事件监听
+   */
+  private initializeAccountListener(): void {
+    if (this.isAccountListenerInitialized) {
+      console.log('🔌 账户事件监听器已经初始化');
+      return;
+    }
+
+    console.log('🔌 初始化账户事件监听器');
+    
+    // 监听账户添加事件
+    process.on('accountAdded', this.handleAccountAdded.bind(this));
+    
+    // 监听账户状态变化事件
+    process.on('accountStatusChanged', this.handleAccountStatusChanged.bind(this));
+    
+    // 监听账户数据变化事件
+    process.on('accountDataChanged', this.handleAccountDataChanged.bind(this));
+
+    this.isAccountListenerInitialized = true;
+    console.log('✅ 账户事件监听器初始化完成');
+  }
+
+  /**
+   * 处理账户添加事件
+   */
+  private handleAccountAdded(event: AccountConnectionEvent): void {
+    console.log('🔄 [WebSocketService] 收到账户添加事件:', event);
+
+    // 重新加载sessions数据，确保获取最新的账户信息
+    try {
+      const { sessionStateService } = require('./session-state.service');
+      sessionStateService.reloadSessions();
+      console.log('🔄 [WebSocketService] 已重新加载sessions数据');
+    } catch (error) {
+      console.error('❌ [WebSocketService] 重新加载sessions数据失败:', error);
+    }
+
+    // 广播账户状态变化
+    this.broadcastAccountStatusChange(event.sessionId, 'connected');
+
+    // 启动账户的WebSocket监听
+    this.startAccountWebSocketListening(event);
+  }
+
+  /**
+   * 启动账户的WebSocket监听
+   */
+  private async startAccountWebSocketListening(event: AccountConnectionEvent): Promise<void> {
+    try {
+      console.log(`🔌 [WebSocketService] 启动账户 ${event.sessionId} 的WebSocket监听`);
+      
+      // 检查sessionId是否有效
+      if (!event.sessionId) {
+        console.warn(`⚠️ [WebSocketService] sessionId 为空，跳过启动监听`);
+        return;
+      }
+      
+      // 根据平台启动相应的监听
+      switch (event.platform) {
+        case 'telegram': {
+          const { ProviderRegistry } = await import('../provider/provider-registry');
+          const tgProvider = ProviderRegistry.get('tg');
+          
+          if (tgProvider && 'startAccountListening' in tgProvider) {
+            await (tgProvider as any).startAccountListening(event.sessionId);
+            console.log(`✅ [WebSocketService] Telegram账户 ${event.sessionId} 监听已启动`);
+          } else {
+            console.warn(`⚠️ [WebSocketService] Telegram Provider 未找到或没有 startAccountListening 方法`);
+          }
+          break;
+        }
+        
+        case 'whatsapp': {
+          const { ProviderRegistry } = await import('../provider/provider-registry');
+          const waProvider = ProviderRegistry.get('wa');
+          
+          if (waProvider && 'startAccountListening' in waProvider) {
+            await (waProvider as any).startAccountListening(event.sessionId);
+            console.log(`✅ [WebSocketService] WhatsApp账户 ${event.sessionId} 监听已启动`);
+          } else {
+            console.warn(`⚠️ [WebSocketService] WhatsApp Provider 未找到或没有 startAccountListening 方法`);
+          }
+          break;
+        }
+        
+        default:
+          console.warn(`⚠️ [WebSocketService] 不支持的平台: ${event.platform}`);
+          break;
+      }
+    } catch (error) {
+      console.error(`❌ [WebSocketService] 启动账户监听失败:`, error);
+    }
+  }
+
+  /**
+   * 处理账户状态变化事件
+   */
+  private handleAccountStatusChanged(event: { accountId: string; status: string }): void {
+    console.log('🔄 [WebSocketService] 收到账户状态变化事件:', event);
+    
+    // 广播账户状态变化
+    this.broadcastAccountStatusChange(event.accountId, event.status);
+    
+  }
+
+  /**
+   * 处理账户数据变化事件
+   */
+  private handleAccountDataChanged(): void {
+    console.log('🔄 [WebSocketService] 收到账户数据变化事件');
+    
+    // 可以在这里添加更多逻辑，比如：
+    // - 刷新账户列表
+    // - 更新统计信息
+    // - 重新验证连接状态
   }
 
   emitToChat(chatId: string, event: string, data: any) {
@@ -179,6 +310,14 @@ class WebSocketService {
     } catch (error) {
       console.error('❌ [WebSocket] 广播账号状态变化失败:', error);
     }
+  }
+
+  /**
+   * 手动触发账户状态广播
+   */
+  public broadcastAccountStatus(accountId: string, status: string): void {
+    console.log(`📡 [WebSocketService] 手动广播账户状态: ${accountId} -> ${status}`);
+    this.broadcastAccountStatusChange(accountId, status);
   }
 
   /**

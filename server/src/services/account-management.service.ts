@@ -333,12 +333,28 @@ export async function toggleAccountActive(accountId: string, isActive: boolean):
       // 更新会话状态服务中的活跃状态
       console.log(`🔍 [AccountManagement] 准备更新会话状态: ${accountId} -> ${isActive}`);
       try {
+        // 先检查当前状态
+        const currentSession = sessionStateService.getSessionById(accountId);
+        console.log(`🔍 [AccountManagement] 当前会话状态:`, currentSession ? {
+          id: currentSession.id,
+          isActive: currentSession.data.isActive,
+          provider: currentSession.provider
+        } : 'null');
+        
         const success = sessionStateService.updateSessionActiveStatus(accountId, isActive);
         console.log(`🔍 [AccountManagement] updateSessionActiveStatus 返回: ${success}`);
         
         if (success) {
           console.log(`✅ 账号状态切换成功: ${accountId}`);
           console.log(`✅ ${account.platform === 'whatsapp' ? 'WhatsApp' : 'Telegram'}会话已更新: ${accountId}`);
+          
+          // 再次检查更新后的状态
+          const updatedSession = sessionStateService.getSessionById(accountId);
+          console.log(`🔍 [AccountManagement] 更新后会话状态:`, updatedSession ? {
+            id: updatedSession.id,
+            isActive: updatedSession.data.isActive,
+            provider: updatedSession.provider
+          } : 'null');
         } else {
           console.log(`⚠️ 会话状态更新失败: ${accountId}`);
         }
@@ -347,13 +363,23 @@ export async function toggleAccountActive(accountId: string, isActive: boolean):
         console.error(`❌ [AccountManagement] 错误堆栈:`, error.stack);
       }
 
-      // ✅ 更新数据库 accounts 表
+      // ✅ 更新数据库 accounts 表并管理Provider监听
       try {
-        // DatabaseService.setAccountActiveStatus(accountId, isActive) 是你要在 DatabaseService 中实现的
         await DatabaseService.setAccountActiveStatus(accountId, isActive);
         console.log(`💾 数据库账号状态已更新: ${accountId} -> ${isActive ? "启用" : "禁用"}`);
       } catch (dbErr: any) {
         console.warn(`⚠️ 更新数据库账号状态失败: ${dbErr.message}`);
+      }
+
+      // 触发WebSocket事件通知状态变化
+      try {
+        (process as any).emit('accountStatusChanged', {
+          accountId: accountId,
+          status: isActive ? 'connected' : 'disconnected'
+        });
+        console.log(`📡 [AccountManagement] 已触发WebSocket状态变化事件: ${accountId} -> ${isActive ? 'connected' : 'disconnected'}`);
+      } catch (wsErr: any) {
+        console.warn(`⚠️ WebSocket事件触发失败: ${wsErr.message}`);
       }
 
       const updatedAccountFromDb = await DatabaseService.getAccountById(accountId);

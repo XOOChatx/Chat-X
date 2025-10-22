@@ -21,7 +21,7 @@ import { websocketClient, WebSocketMessage } from "@/lib/websocket-client"
 import { eventManager, ACCOUNT_EVENTS, CHAT_EVENTS } from "@/lib/event-manager"
 import { PlatformIcon, StatusIndicator } from "@/components/shared"
 import WebSocketIndicator from "./websocket-indicator"
-import { maskChatName } from "@/lib/utils"
+import { maskChatName, maskContentText } from "@/lib/utils"
 import { fetchWithAuth } from "@/lib/fetchWithAuth"
 
 // 顶层媒体URL解析：补全域名并修正 undefined/api/... 情况
@@ -1295,7 +1295,25 @@ export function AllChatsView() {
     } finally {
       setIsLoading(false)
     }
-  }, [])
+
+    // 如果有聊天且没有选中的聊天，选中第一个
+    const currentChats = (chats.length > 0 ? chats : [])
+    if (currentChats.length > 0 && !selectedChat) {
+      const firstChat = currentChats[0]
+      setSelectedChat(firstChat)
+      // 如果是群组且有多个账号，默认选择第一个账号
+      if (firstChat.type === 'group' && firstChat.groupId) {
+        const groupChats = currentChats.filter(c => c.groupId === firstChat.groupId)
+        if (groupChats.length > 1) {
+          setSelectedGroupAccount(prev => ({
+            ...prev,
+            [firstChat.groupId!]: groupChats[0].accountId
+          }))
+        }
+      }
+      loadChatMessages(firstChat.id)
+    }
+  }, [selectedChat])
 
   //（简化）暂不处理 mediaDownloaded 合并，避免前端重复更新
 
@@ -1453,7 +1471,7 @@ React.useEffect(() => {
       
       // 更新聊天列表中的最后消息
       setChats(prevChats => prevChats.map(c =>
-        c.id === selectedChat.id ? { ...c, lastMessage: messageContent, lastMessageTime: Date.now() } : c
+        c.id === selectedChat.id ? { ...c, lastMessage: maskContentText(String(messageContent || ''), { platform: selectedChat.platform as any }), lastMessageTime: Date.now() } : c
       ));
     } catch (error) {
       console.error(`❌ [API] 发送消息异常:`, error);
@@ -1472,7 +1490,7 @@ React.useEffect(() => {
       setMessages(prev => [...prev, newMessage]);
       // Optionally update last message of the chat in the list
       setChats(prevChats => prevChats.map(c =>
-        c.id === selectedChat.id ? { ...c, lastMessage: messageContent, lastMessageTime: Date.now() } : c
+        c.id === selectedChat.id ? { ...c, lastMessage: maskContentText(String(messageContent || ''), { platform: selectedChat.platform as any }), lastMessageTime: Date.now() } : c
       ));
     }
   };
@@ -2000,6 +2018,7 @@ React.useEffect(() => {
     }
   }, [chats, selectedChat, loadChatMessages])
 
+
   // WebSocket 监听器
   React.useEffect(() => {
     const handleNewMessage = (data: WebSocketMessage) => {
@@ -2011,10 +2030,30 @@ React.useEffect(() => {
 
       setChats(prevChats => {
         const idx = prevChats.findIndex(c => c.id === data.chatInfo.id);
+        
+        // 调试时间戳问题
+        console.log('🕐 [ChatList] 消息时间戳调试:', {
+          messageTimestamp: data.message.timestamp,
+          currentTime: Date.now(),
+          timeDiff: Date.now() - data.message.timestamp,
+          chatId: data.chatInfo.id,
+          messageDate: new Date(data.message.timestamp).toLocaleString(),
+          currentDate: new Date().toLocaleString()
+        });
+        
+        // 修复时间戳问题：确保时间戳是有效的毫秒值
+        let messageTime = data.message.timestamp;
+        if (!messageTime || messageTime <= 0) {
+          messageTime = Date.now();
+        } else if (messageTime < 1000000000000) {
+          // 如果时间戳看起来像秒（小于1000000000000），转换为毫秒
+          messageTime = messageTime * 1000;
+        }
+        
         const updatedChatBase = {
           ...data.chatInfo,
-          lastMessage: data.message.content,
-          lastMessageTime: data.message.timestamp,
+          lastMessage: maskContentText(String(data.message.content || ''), { platform: data.chatInfo.platform as any }),
+          lastMessageTime: messageTime, // 使用修复后的时间戳
           lastMessageSender: data.message.sender,
           updatedAt: Date.now()
         } as ChatInfo;
@@ -2042,13 +2081,32 @@ React.useEffect(() => {
       // 正在查看该聊天时，追加消息并保持时间升序
       const isSameChat = selectedChat && selectedChat.id === data.chatInfo.id;
       const isSameGroup = selectedChat && selectedChat.type === 'group' && selectedChat.groupId && selectedChat.groupId === data.chatInfo.groupId;
+      
+      // 修复：如果当前没有选中的聊天，自动选择第一个聊天
+      if (!selectedChat && chats.length > 0) {
+        const firstChat = chats[0];
+        setSelectedChat(firstChat);
+        loadChatMessages(firstChat.id);
+      }
+      
+      // 修复：即使不是当前选中的聊天，也要检查是否需要更新消息列表
+      // 这解决了注册新用户后消息列表不更新的问题
       if (isSameChat || isSameGroup) {
         setMessages(prevMessages => {
           const incoming = data.message as any;
           const exists = prevMessages.some(msg => msg.id === incoming.id);
-          // 类型归一
+          // 类型归一并修复时间戳
+          let messageTimestamp = incoming.timestamp;
+          if (!messageTimestamp || messageTimestamp <= 0) {
+            messageTimestamp = Date.now();
+          } else if (messageTimestamp < 1000000000000) {
+            // 如果时间戳看起来像秒（小于1000000000000），转换为毫秒
+            messageTimestamp = messageTimestamp * 1000;
+          }
+          
           const convertedMessage: ChatMessage = {
             ...incoming,
+            timestamp: messageTimestamp, // 使用修复后的时间戳
             messageType: incoming.messageType === 'audio' ? 'voice' :
                         incoming.messageType === 'image' ? 'photo' :
                         incoming.messageType === 'file' ? 'document' :
@@ -2603,7 +2661,7 @@ React.useEffect(() => {
                       
 
                           <p className="text-sm text-muted-foreground truncate">
-                            {currentChat.lastMessage || t("chat.no_messages_yet")}
+                            {currentChat.lastMessage ? maskContentText(currentChat.lastMessage, { platform: currentChat.platform as any }) : t("chat.no_messages_yet")}
                           </p>
                         </div>
                       </div>
@@ -2632,7 +2690,7 @@ React.useEffect(() => {
                                 <div className="relative">
                                   <AvatarWithFallback
                                     src={resolveImageUrl(chat.avatar)}
-                                    name={maskChatName(chat.name)}
+                                    name={maskChatName(chat.name, { platform: chat.platform, chatType: chat.type || chat.chatType })}
                                     className="h-8 w-8 rounded-full"
                                   />
                                   <div className="absolute -bottom-0.5 -left-0.5 w-4 h-4 bg-muted rounded-full flex items-center justify-center border-2 border-background">
@@ -2648,7 +2706,7 @@ React.useEffect(() => {
                                 <div className="flex-1 min-w-0">
                                   <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-2">
-                                      <span className="text-sm font-medium">{maskChatName(chat.name)}</span>
+                                      <span className="text-sm font-medium">{maskChatName(chat.name, { platform: chat.platform, chatType: chat.type || chat.chatType })}</span>
                                       <div className="flex items-center gap-1 px-1.5 py-0.5 bg-muted rounded text-xs">
                                         {getPlatformIcon(chat.platform, 'sm')}
                                         <span className="text-muted-foreground">
@@ -2664,7 +2722,7 @@ React.useEffect(() => {
                                   </div>
 
                                   <p className="text-xs text-muted-foreground truncate">
-                                    {chat.lastMessage || t("chat.no_messages_yet")}
+                                    {chat.lastMessage ? maskContentText(chat.lastMessage, { platform: chat.platform as any }) : t("chat.no_messages_yet")}
                                   </p>
                                 </div>
                               </div>
@@ -2689,7 +2747,7 @@ React.useEffect(() => {
                       <div className="relative">
                         <AvatarWithFallback
                           src={resolveImageUrl(chat.avatar)}
-                          name={maskChatName(chat.name)}
+                          name={maskChatName(chat.name, { platform: chat.platform, chatType: chat.type || chat.chatType })}
                           className="h-12 w-12 rounded-full"
                         />
                         <div className="absolute -bottom-1 -left-1 w-5 h-5 bg-muted rounded-full flex items-center justify-center border-2 border-background">
@@ -2699,7 +2757,7 @@ React.useEffect(() => {
 
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between mb-1">
-                          <h3 className="font-medium text-sm truncate">{maskChatName(chat.name)}</h3>
+                          <h3 className="font-medium text-sm truncate">{maskChatName(chat.name, { platform: chat.platform, chatType: chat.type || chat.chatType })}</h3>
                           <div className="flex items-center gap-2">
                           <span className="text-xs text-muted-foreground">
                               {chat.lastMessageTime ? formatTime(chat.lastMessageTime) : ''}
@@ -2709,7 +2767,7 @@ React.useEffect(() => {
                       
 
                       <p className="text-sm text-muted-foreground truncate">
-                          {chat.lastMessage || t("chat.no_messages_yet")}
+                          {chat.lastMessage ? maskContentText(chat.lastMessage, { platform: chat.platform as any }) : t("chat.no_messages_yet")}
                         </p>
                     </div>
               </div>
@@ -2730,10 +2788,10 @@ React.useEffect(() => {
             <div className="flex items-center gap-3">
               <Avatar className="h-10 w-10">
                 <AvatarImage src={selectedChat?.avatar || "/placeholder.svg"} />
-                <AvatarFallback>{maskChatName(selectedChat?.name || 'U')[0] || 'U'}</AvatarFallback>
+                <AvatarFallback>{maskChatName(selectedChat?.name || 'U', { platform: selectedChat?.platform as any, chatType: (selectedChat as any)?.type || (selectedChat as any)?.chatType })[0] || 'U'}</AvatarFallback>
               </Avatar>
               <div>
-            <h3 className="font-medium">{selectedChat ? maskChatName(selectedChat.name) : t("chat.select_chat")}</h3>
+            <h3 className="font-medium">{selectedChat ? maskChatName(selectedChat.name, { platform: selectedChat.platform as any, chatType: (selectedChat as any)?.type || (selectedChat as any)?.chatType }) : t("chat.select_chat")}</h3>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -2789,7 +2847,7 @@ React.useEffect(() => {
 
                 {message.messageType === "system" ? (
                   <div className="text-xs text-muted-foreground italic bg-muted/40 px-3 py-1 rounded-lg text-center my-2 max-w-[80%]">
-                    {message.content}
+                    {maskContentText(message.content, { platform: selectedChat?.platform as any })}
                   </div>
                 ) : (
                 <div className={`max-w-[75%] ${message.isOwn ? "order-2" : "order-1"}`}>
@@ -2797,11 +2855,17 @@ React.useEffect(() => {
                   {!isConsecutive && (
                     <div className={`flex items-center gap-2 mb-1 ${message.isOwn ? "justify-end" : "justify-start"}`}>
                       <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center text-xs font-medium">
-                        {maskChatName(message.senderName || message.sender || 'U')[0] || 'U'}
+                        {maskChatName(
+                          message.senderName || message.sender || 'U',
+                          { platform: selectedChat?.platform as any, chatType: (selectedChat as any)?.type || (selectedChat as any)?.chatType }
+                        )[0] || 'U'}
                       </div>
                       <div className="flex items-center gap-2">
                         <span className="text-xs font-medium text-muted-foreground">
-                          {maskChatName(message.senderName || message.sender || '未知用户')}
+                          {maskChatName(
+                            message.senderName || message.sender || '未知用户',
+                            { platform: selectedChat?.platform as any, chatType: (selectedChat as any)?.type || (selectedChat as any)?.chatType }
+                          )}
                         </span>
                         {/* 群组消息显示发送账号 */}
                         {selectedChat?.type === 'group' && selectedChat.accountId && (
@@ -2998,7 +3062,7 @@ React.useEffect(() => {
                           <div className="flex items-center gap-2 p-2 bg-muted/50 rounded">
                             <FileText className="h-4 w-4" />
                             <span className="text-sm flex-1 truncate" title={message.content}>
-                              {message.content.replace('[document]', '').trim()}
+                              {maskContentText(message.content.replace('[document]', '').trim(), { platform: selectedChat?.platform as any })}
                             </span>
                             <button
                               onClick={() => handleDownload(message.content.replace('[document]', '').trim())}
@@ -3023,7 +3087,7 @@ React.useEffect(() => {
                             const isImageUrl = /(\.(jpg|jpeg|png|gif|webp)(\?.*)?$)/i.test(contentStr) || /\/api\/media\/.+\/(photo)\//.test(contentStr);
                             return message.messageType === 'photo' || isImageUrl;
                           })()) && (
-                            <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                            <p className="text-sm whitespace-pre-wrap">{maskContentText(message.content, { platform: selectedChat?.platform as any })}</p>
                           )
                         )}
                       </div>

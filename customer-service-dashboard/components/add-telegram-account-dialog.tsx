@@ -428,6 +428,42 @@ export function AddTelegramAccountDialog({ open, onOpenChange, onAccountAdded }:
       }
   
       console.log("✅ Telgram账号已保存到数据库:")
+      
+      // 🔄 通过WebSocket发送账户添加事件到后端
+      const telegramSessionId = `tg-${txId}`;
+      console.log('🔄 通过WebSocket发送Telegram账户添加事件:', { platform: "telegram", sessionId: telegramSessionId });
+      
+      // 检查WebSocket连接状态
+      const wsClient = (window as any).websocketClient;
+      if (wsClient && wsClient.getConnectionStatus) {
+        const status = wsClient.getConnectionStatus();
+        console.log('🔍 WebSocket连接状态:', status);
+        
+        if (status.isConnected) {
+          // 通过WebSocket发送事件到后端
+          wsClient.socket?.emit('accountAdded', {
+            platform: "telegram",
+            sessionId: telegramSessionId,
+            accountName: accountName.trim() || `Telegram ${telegramSessionId}`,
+            workspaceId: Number(workspaceId),
+            brandId: Number(brandId)
+          });
+          console.log('✅ Telegram账户添加事件已发送到后端');
+        } else {
+          console.warn('⚠️ WebSocket未连接，无法发送账户事件');
+        }
+      } else {
+        console.warn('⚠️ WebSocket客户端不可用');
+      }
+      
+      // 🔄 触发前端本地事件（用于UI更新）
+      window.dispatchEvent(new CustomEvent('refreshAccounts'));
+
+      // 🔄 延迟刷新，确保后端数据已保存
+      setTimeout(() => {
+        window.dispatchEvent(new CustomEvent('accountDataChanged'));
+      }, 500);
+      
       setTelegramLoginMethod("phone")
       setShowVerificationStep(false)
       setWorkspaceId(null)
@@ -538,6 +574,42 @@ export function AddTelegramAccountDialog({ open, onOpenChange, onAccountAdded }:
       }
   
       console.log("✅ Telgram账号已保存到数据库:")
+      
+      // 🔄 通过WebSocket发送账户添加事件到后端
+      const telegramSessionId = `tg-${txId}`;
+      console.log('🔄 通过WebSocket发送Telegram账户添加事件:', { platform: "telegram", sessionId: telegramSessionId });
+      
+      // 检查WebSocket连接状态
+      const wsClient = (window as any).websocketClient;
+      if (wsClient && wsClient.getConnectionStatus) {
+        const status = wsClient.getConnectionStatus();
+        console.log('🔍 WebSocket连接状态:', status);
+        
+        if (status.isConnected) {
+          // 通过WebSocket发送事件到后端
+          wsClient.socket?.emit('accountAdded', {
+            platform: "telegram",
+            sessionId: telegramSessionId,
+            accountName: accountName.trim() || `Telegram ${telegramSessionId}`,
+            workspaceId: Number(workspaceId),
+            brandId: Number(brandId)
+          });
+          console.log('✅ Telegram账户添加事件已发送到后端');
+        } else {
+          console.warn('⚠️ WebSocket未连接，无法发送账户事件');
+        }
+      } else {
+        console.warn('⚠️ WebSocket客户端不可用');
+      }
+      
+      // 🔄 触发前端本地事件（用于UI更新）
+      window.dispatchEvent(new CustomEvent('refreshAccounts'));
+
+      // 🔄 延迟刷新，确保后端数据已保存
+      setTimeout(() => {
+        window.dispatchEvent(new CustomEvent('accountDataChanged'));
+      }, 500);
+      
       setTelegramLoginMethod("phone")
       setShowVerificationStep(false)
       setWorkspaceId(null)

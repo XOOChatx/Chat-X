@@ -32,7 +32,6 @@ import uploadRoutes from './routes/upload';
 import path from 'path';
 import { executablePath as getChromeExec } from 'puppeteer';
 import { existsSync } from 'fs';
-
 // 提前设置 CHROME_PATH，供 open-wa / chrome-launcher 使用
 if (!process.env.CHROME_PATH) {
   try {
@@ -82,7 +81,6 @@ if (!process.env.CHROME_PATH) {
     console.log('🔧 将使用Puppeteer默认配置');
   }
 }
-
 // 允许的前端域名（全局常量，供 CORS 与 Socket.IO 共用）
 const ALLOWED_ORIGINS = [
   'https://frontend-production-56b7.up.railway.app',
@@ -93,19 +91,16 @@ const ALLOWED_ORIGINS = [
   'http://localhost:3001',
   'https://localhost:3001'
 ];
-
 const app = express();
 
 // ===== CORS CONFIG (MUST BE FIRST) =====
 // Aggressive Railway CORS fix - multiple layers of protection
-
 // Layer 1: Manual CORS headers for ALL requests (Railway-proof)
 app.use((req: any, res: any, next: any) => {
   const origin = req.headers.origin;
   const allowOrigin = origin && ALLOWED_ORIGINS.includes(origin)
     ? origin
     : '*';
-
   res.header('Access-Control-Allow-Origin', allowOrigin);
   res.header('Access-Control-Allow-Credentials', 'true');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
@@ -122,7 +117,6 @@ app.use((req: any, res: any, next: any) => {
   
   next();
 });
-
 // Layer 2: CORS middleware (backup)
 const corsOptions = {
   origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
@@ -141,8 +135,8 @@ const corsOptions = {
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   allowedHeaders: [
-    'Content-Type', 
-    'Authorization', 
+    'Content-Type',
+    'Authorization',
     'X-Requested-With',
     'Accept',
     'Origin',
@@ -153,10 +147,8 @@ const corsOptions = {
   optionsSuccessStatus: 200,
   preflightContinue: false
 };
-
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
-
 // Layer 3: Final fallback for Railway
 app.use((req: any, res: any, next: any) => {
   const origin = req.headers.origin;
@@ -172,7 +164,6 @@ app.use((req: any, res: any, next: any) => {
   
   next();
 });
-
 // ===== END CORS CONFIG =====
 
 app.use(cookieParser());
@@ -208,23 +199,60 @@ io.on("connection", (socket) => {
 app.set('io', io)
 websocketService.setSocketIO(io)
 
-// media.ts 文件已删除，WebSocket 功能已移除
 // 监听 WebSocket 连接事件，便于调试连接情况
 io.on('connection', (socket) => {
   try {
     console.log('✅ WebSocket client connected:', socket.id);
     console.log('🔗 传输方式:', (socket as any)?.conn?.transport?.name);
+    
+    // 监听客户端加入聊天室
     socket.on("join", ({ chatId }) => {
       socket.join(`chat:${chatId}`);
       console.log(`👤 Client joined room chat:${chatId}`);
     });
+    
+    // 监听客户端断开连接
     socket.on('disconnect', (reason) => {
       console.log('❌ WebSocket client disconnected:', socket.id, 'reason:', reason);
     });
     
+    // 监听客户端错误
     socket.on('error', (err: any) => {
       console.error('❌ WebSocket socket error:', socket.id, err?.message || err);
     });
+
+        // 监听测试事件
+        socket.on('test', (data) => {
+          console.log('🧪 [WebSocket] 收到测试消息:', data);
+          socket.emit('testResponse', { message: 'Test response from server', timestamp: Date.now() });
+        });
+
+        // 监听账户状态查询
+        socket.on('getAccountStatus', (data) => {
+          console.log('📊 [WebSocket] 客户端查询账户状态:', data);
+          const status = websocketService.getConnectionStatus();
+          socket.emit('accountStatusResponse', status);
+        });
+
+        // 监听账户添加事件
+        socket.on('accountAdded', (data) => {
+          console.log('🔄 [WebSocket] 收到账户添加事件:', data);
+          // 触发process事件，让websocketService处理
+          (process as any).emit('accountAdded', data);
+        });
+
+        // 监听账户状态变化事件
+        socket.on('accountStatusChanged', (data) => {
+          console.log('🔄 [WebSocket] 收到账户状态变化事件:', data);
+          (process as any).emit('accountStatusChanged', data);
+        });
+
+        // 监听账户数据变化事件
+        socket.on('accountDataChanged', (data) => {
+          console.log('🔄 [WebSocket] 收到账户数据变化事件:', data);
+          (process as any).emit('accountDataChanged', data);
+        });
+
   } catch (e) {
     console.error('❌ WebSocket connection handler error:', (e as any)?.message || e);
   }
@@ -348,7 +376,7 @@ app.use(notFoundHandler);
 // 错误处理中间件（必须放在最后）
 app.use(errorHandler);
 
-app.set('io', io);
+// app.set('io', io);
 //websocketService.setSocketIO(io);
 
 //app.set('io', io);
@@ -423,14 +451,17 @@ server.listen(config.PORT, async () => {
       
       // 🚀 启动WhatsApp Provider消息监听
       console.log("📱 启动WhatsApp Provider消息监听...");
-      const { WhatsAppProvider } = await import('./provider/whatsapp-provider');
-      const waProvider = new WhatsAppProvider();
-      await waProvider.start((payload) => {
+      const { ProviderRegistry } = await import('./provider/provider-registry');
+      const waProvider = ProviderRegistry.get('wa');
+      if (waProvider && 'start' in waProvider) {
+        await (waProvider as any).start(async (payload: any) => {
         console.log('📨 [WhatsApp] 收到消息，发送到WebSocket:', {
           chatId: payload.chatInfo.id,
           sender: payload.message.sender,
           content: payload.message.content.substring(0, 30) + '...'
         });
+        
+        // 注意：账户状态检查已在启动监听时完成，这里不再重复检查
         
         // 转换为WebSocket消息格式
         const webSocketMessage = {
@@ -460,20 +491,25 @@ server.listen(config.PORT, async () => {
         };
         
         websocketService.broadcastNewMessage(webSocketMessage);
-      });
-      console.log("✅ WhatsApp Provider消息监听已启动");
+        });
+        console.log("✅ WhatsApp Provider消息监听已启动");
+      } else {
+        console.log("❌ WhatsApp Provider 未找到或没有 start 方法");
+      }
       
       // 🚀 启动Telegram Provider消息监听
       console.log("📱 启动Telegram Provider消息监听...");
-      const { TelegramProvider } = await import('./provider/telegram-provider');
-      const tgProvider = new TelegramProvider();
-      await tgProvider.start((payload) => {
+      const tgProvider = ProviderRegistry.get('tg');
+      if (tgProvider && 'start' in tgProvider) {
+        await (tgProvider as any).start(async (payload: any) => {
         console.log('📨 [Telegram] 收到消息，发送到WebSocket:', {
           chatId: payload.chatInfo.id,
           sender: payload.message.sender,
           content: payload.message.content.substring(0, 30) + '...'
         });
         
+        // 注意：账户状态检查已在Provider启动监听时完成，这里不再重复检查
+
         // 转换为WebSocket消息格式
         const webSocketMessage = {
           platform: 'telegram' as const,
@@ -501,8 +537,11 @@ server.listen(config.PORT, async () => {
         };
         
         websocketService.broadcastNewMessage(webSocketMessage);
-      });
-      console.log("✅ Telegram Provider消息监听已启动");
+        });
+        console.log("✅ Telegram Provider消息监听已启动");
+      } else {
+        console.log("❌ Telegram Provider 未找到或没有 start 方法");
+      }
       
     } catch (error) {
       console.error("❌ 自动重连失败:", error);
@@ -538,21 +577,21 @@ process.on('uncaughtException', (error) => {
     return;
   }
   
-  console.error('❌ 未捕获的异常(不中止进程):', error);
-  // 不再退出进程，保持服务器可用，便于前端重试
+  console.error('❌ 未捕获的异常:', error);
+  process.exit(1);
 });
 
 process.on('unhandledRejection', (reason, promise) => {
   // 忽略 wmic.exe 相关的错误
   if (reason && typeof reason === 'object' && 'message' in reason && 
-      String((reason as any).message).includes('spawn wmic.exe ENOENT')) {
+      String(reason.message).includes('spawn wmic.exe ENOENT')) {
     console.warn('⚠️ 忽略 wmic.exe Promise 拒绝 (Windows 版本兼容性问题):', reason);
     return;
   }
   
-  console.error('❌ 未处理的Promise拒绝(不中止进程):', reason);
+  console.error('❌ 未处理的Promise拒绝:', reason);
   console.error('Promise:', promise);
-  // 不再退出进程，避免影响前端轮询与WebSocket连接
+  process.exit(1);
 });
 
 export default app;

@@ -921,14 +921,7 @@ class WhatsAppProvider implements MessageProvider {
               return;
             }
 
-            // 检查isActive状态，如果未定义则默认为true（活跃）
-            const isActive = session.data.isActive !== undefined ? session.data.isActive : true;
-            if (!isActive) {
-              console.log(`⚠️ [WhatsApp Provider] 账号 ${accountId} 已禁用，停止处理消息`);
-              // 停止该账号的监听
-              await this.stopAccountListening(accountId);
-              return;
-            }
+            // 注意：账户状态检查已在启动监听时完成，这里不再重复检查
 
             if (!message) {
               console.log(`⚠️ [WhatsApp Provider] 收到空消息，跳过`);
@@ -1070,6 +1063,65 @@ class WhatsAppProvider implements MessageProvider {
             } else {
               console.log('⚠️ [WhatsApp Provider] messageCallback 未设置，跳过回调触发');
             }
+
+            // 🔄 额外：当收到 WhatsApp 群组名称变更(gp2.subject)时，主动广播到前端
+            try {
+              const gp2Subtype = (message as any)?.subtype || (message as any)?._data?.subtype;
+              if ((message as any)?.type === 'gp2' && gp2Subtype === 'subject') {
+                const newName = (message as any)?.body || chatInfo.name;
+                const cacheKey = `${accountId}:${originalChatId}`;
+                const oldName = this.groupCache[cacheKey] || chatInfo.name || '(unknown)';
+                // 先更新缓存
+                this.groupCache[cacheKey] = newName;
+
+                // 构建用于前端的聊天信息（更新后的名称）
+                const wsChatInfo = {
+                  id: chatInfo.id,
+                  platform: chatInfo.platform,
+                  accountId: chatInfo.accountId,
+                  groupId: chatInfo.groupId,
+                  name: newName,
+                  avatar: chatInfo.avatar,
+                  type: chatInfo.type,
+                  username: (chatInfo as any).username,
+                  memberCount: chatInfo.memberCount,
+                  lastMessage: chatInfo.lastMessage,
+                  lastMessageTime: chatInfo.lastMessageTime || 0,
+                  lastMessageSender: chatInfo.lastMessageSender || '',
+                  unreadCount: chatInfo.unreadCount,
+                  status: chatInfo.status,
+                  createdAt: chatInfo.createdAt,
+                  updatedAt: Date.now()
+                } as any;
+
+                // 广播聊天更新（用于刷新会话列表等）
+                websocketService.broadcastChatUpdate(wsChatInfo);
+
+                // 解析操作者
+                let changedBy = 'Someone';
+                try {
+                  const authorId = (message as any)?.author || (message as any)?._data?.author;
+                  const name = authorId ? await this.getContactName(authorId, accountId, client) : null;
+                  if (name && name.trim()) changedBy = name;
+                } catch {}
+
+                // 广播细粒度事件（UI 内联系统提示与标题即时更新）
+                websocketService.emit('group_name_changed', {
+                  chatId: chatInfo.id,
+                  accountId,
+                  timestamp: (message as any)?.timestamp ? (message as any).timestamp * 1000 : Date.now(),
+                  actionType: 'MessageActionChatEditTitle',
+                  actionDetails: { oldTitle: oldName, newTitle: newName, changedBy },
+                  oldName,
+                  newName,
+                  changedBy,
+                  chatInfo: wsChatInfo
+                });
+                console.log(`📝 [WA] 群组名称变更已广播: "${oldName}" → "${newName}"`);
+              }
+            } catch (e) {
+              console.warn('⚠️ [WA] 广播群组名称变更失败:', e);
+            }
           } catch (e) {
             console.error('❌ [WhatsAppProvider.start] 处理事件失败:', e);
             // 添加重试机制
@@ -1159,11 +1211,11 @@ class WhatsAppProvider implements MessageProvider {
     if (handlerInfo) {
       try {
         const { handler, client } = handlerInfo;
-        if ((client as any).removeListener) {
+        // 移除监听器 - 使用与添加时相同的方法
+        if ((client as any).off) {
+          (client as any).off('message', handler);
+        } else if ((client as any).removeListener) {
           (client as any).removeListener('message', handler);
-        }
-        if ((client as any).offMessage) {
-          (client as any).offMessage(handler);
         }
 
         // 从handlers中移除
@@ -1203,9 +1255,33 @@ class WhatsAppProvider implements MessageProvider {
 
     // 检查账号是否活跃
     const activeSessions = sessionStateService.getActiveSessionsByProvider('whatsapp');
+    console.log(`🔍 [WhatsApp Provider] 活跃会话调试:`, {
+      accountId,
+      activeSessionsCount: activeSessions.length,
+      activeSessionIds: activeSessions.map(s => s.id),
+      allSessionsCount: sessionStateService.getAllSessions().length,
+      allSessionIds: sessionStateService.getAllSessions().map(s => s.id)
+    });
+    
     const session = activeSessions.find(s => s.id === accountId);
     if (!session || !session.data.isActive) {
-      console.log(`⚠️ [WhatsApp Provider] 账号 ${accountId} 未激活，跳过启动监听`);
+      console.log(`⚠️ [WhatsApp Provider] 账号 ${accountId} 未激活，跳过启动监听`, {
+        sessionFound: !!session,
+        isActive: session?.data?.isActive
+      });
+      return;
+    }
+    
+    // 额外检查数据库中的账户状态
+    try {
+      const { DatabaseService } = await import('../database/database.service');
+      const account = await DatabaseService.getAccountById(accountId);
+      if (!account || !account.is_active) {
+        console.log(`⚠️ [WhatsApp Provider] 账号 ${accountId} 在数据库中已禁用，跳过启动监听`);
+        return;
+      }
+    } catch (error) {
+      console.error(`❌ [WhatsApp Provider] 检查数据库账户状态失败:`, error);
       return;
     }
 
@@ -1213,6 +1289,49 @@ class WhatsAppProvider implements MessageProvider {
     if (this.handlers.has(accountId)) {
       console.log(`⚠️ [WhatsApp Provider] 账号 ${accountId} 已有监听器，跳过启动`);
       return;
+    }
+
+    // 确保有消息回调函数 - 这是关键修复！
+    if (!this.messageCallback) {
+      console.log(`⚠️ [WhatsApp Provider] 消息回调未设置，使用默认回调`);
+      // 设置默认的消息回调，直接调用WebSocket广播
+      this.messageCallback = async (payload: { message: ChatMessage; chatInfo: ChatInfo; accountId: string }) => {
+        try {
+          const { websocketService } = require('../services/websocket.service');
+          
+          // 注意：账户状态检查已在启动监听时完成，这里不再重复检查
+          
+          // 转换为WebSocket消息格式
+          const webSocketMessage = {
+            platform: 'whatsapp' as const,
+            message: {
+              ...payload.message,
+              messageType: (payload.message.messageType === 'photo' ? 'photo' :
+                          payload.message.messageType === 'video' ? 'video' :
+                          payload.message.messageType === 'voice' ? 'voice' :
+                          payload.message.messageType === 'document' ? 'document' :
+                          payload.message.messageType === 'sticker' ? 'sticker' :
+                          payload.message.messageType === 'location' ? 'location' :
+                          'text') as 'text' | 'photo' | 'video' | 'document' | 'sticker' | 'location' | 'voice'
+            },
+            chatInfo: {
+              ...payload.chatInfo,
+              lastMessage: payload.chatInfo.lastMessage || '',
+              lastMessageSender: payload.chatInfo.lastMessageSender || '',
+              lastMessageTime: payload.chatInfo.lastMessageTime || 0,
+              unreadCount: payload.chatInfo.unreadCount || 0,
+              createdAt: payload.chatInfo.createdAt || Date.now(),
+              updatedAt: payload.chatInfo.updatedAt || Date.now()
+            },
+            accountId: payload.accountId
+          };
+          
+          websocketService.broadcastNewMessage(webSocketMessage);
+          console.log(`📤 [WhatsApp Provider] 新账户消息已广播到WebSocket`);
+        } catch (error) {
+          console.error(`❌ [WhatsApp Provider] 默认消息回调执行失败:`, error);
+        }
+      };
     }
 
     try {
@@ -2550,14 +2669,7 @@ class WhatsAppProvider implements MessageProvider {
               return;
             }
 
-            // 检查isActive状态，如果未定义则默认为true（活跃）
-            const isActive = session.data.isActive !== undefined ? session.data.isActive : true;
-            if (!isActive) {
-              console.log(`⚠️ [WhatsApp Provider] 账号 ${accountId} 已禁用，停止处理消息`);
-              // 停止该账号的监听
-              await this.stopAccountListening(accountId);
-              return;
-            }
+            // 注意：账户状态检查已在启动监听时完成，这里不再重复检查
 
             if (!message) {
               console.log(`⚠️ [WhatsApp Provider] 收到空消息，跳过`);
@@ -2639,6 +2751,57 @@ class WhatsAppProvider implements MessageProvider {
             if (this.messageCallback) {
               this.messageCallback({ message: chatMessage, chatInfo, accountId, messageType });
             }
+
+            // 🔄 同步处理 reRegister 流程中的 WA 群名修改
+            try {
+              const gp2Subtype = (message as any)?.subtype || (message as any)?._data?.subtype;
+              if ((message as any)?.type === 'gp2' && gp2Subtype === 'subject') {
+                const newName = (message as any)?.body || chatInfo.name;
+                const cacheKey = `${accountId}:${originalChatId}`;
+                const oldName = this.groupCache[cacheKey] || chatInfo.name || '(unknown)';
+                this.groupCache[cacheKey] = newName;
+
+                const wsChatInfo = {
+                  id: chatInfo.id,
+                  platform: chatInfo.platform,
+                  accountId: chatInfo.accountId,
+                  groupId: chatInfo.groupId,
+                  name: newName,
+                  avatar: chatInfo.avatar,
+                  type: chatInfo.type,
+                  username: (chatInfo as any).username,
+                  memberCount: chatInfo.memberCount,
+                  lastMessage: chatInfo.lastMessage,
+                  lastMessageTime: chatInfo.lastMessageTime || 0,
+                  lastMessageSender: chatInfo.lastMessageSender || '',
+                  unreadCount: chatInfo.unreadCount,
+                  status: chatInfo.status,
+                  createdAt: chatInfo.createdAt,
+                  updatedAt: Date.now()
+                } as any;
+
+                websocketService.broadcastChatUpdate(wsChatInfo);
+
+                let changedBy = 'Someone';
+                try {
+                  const authorId = (message as any)?.author || (message as any)?._data?.author;
+                  const name = authorId ? await this.getContactName(authorId, accountId, client) : null;
+                  if (name && name.trim()) changedBy = name;
+                } catch {}
+
+                websocketService.emit('group_name_changed', {
+                  chatId: chatInfo.id,
+                  accountId,
+                  timestamp: (message as any)?.timestamp ? (message as any).timestamp * 1000 : Date.now(),
+                  actionType: 'MessageActionChatEditTitle',
+                  actionDetails: { oldTitle: oldName, newTitle: newName, changedBy },
+                  oldName,
+                  newName,
+                  changedBy,
+                  chatInfo: wsChatInfo
+                });
+              }
+            } catch {}
           } catch (e) {
             console.error('❌ [WhatsAppProvider.reRegisterListeners] 处理事件失败:', e);
           }

@@ -361,6 +361,19 @@ export class TelegramProvider implements MessageProvider {
           continue;
         }
         
+        // 额外检查数据库中的账户状态
+        try {
+          const { DatabaseService } = await import('../database/database.service');
+          const account = await DatabaseService.getAccountById(accountId);
+          if (!account || !account.is_active) {
+            console.log(`⚠️ [Telegram Provider] 账号 ${accountId} 在数据库中已禁用，跳过监听`);
+            continue;
+          }
+        } catch (error) {
+          console.error(`❌ [Telegram Provider] 检查数据库账户状态失败:`, error);
+          continue;
+        }
+        
         // 记录自己的用户ID
         try {
           const me = await (client as TelegramClient).getMe();
@@ -381,15 +394,7 @@ export class TelegramProvider implements MessageProvider {
         const builder = new NewMessage({ incoming: true, outgoing: true });
         const handler = async (event: any) => {
           try {
-            // 检查账号是否仍然活跃
-            const activeSessions = sessionStateService.getActiveSessionsByProvider('telegram');
-            const session = activeSessions.find((s: any) => s.id === accountId);
-            if (!session || !session.data.isActive) {
-              console.log(`⚠️ [Telegram Provider] 账号 ${accountId} 已禁用，停止处理消息`);
-              // 停止该账号的监听
-              await this.stopAccountListening(accountId);
-              return;
-            }
+            // 注意：账户状态检查已在启动监听时完成，这里不再重复检查
 
             const msg = event?.message;
             if (!msg) return;
@@ -664,9 +669,33 @@ export class TelegramProvider implements MessageProvider {
     
     // 检查账号是否活跃
     const activeSessions = sessionStateService.getActiveSessionsByProvider('telegram');
+    console.log(`🔍 [Telegram Provider] 活跃会话调试:`, {
+      accountId,
+      activeSessionsCount: activeSessions.length,
+      activeSessionIds: activeSessions.map(s => s.id),
+      allSessionsCount: sessionStateService.getAllSessions().length,
+      allSessionIds: sessionStateService.getAllSessions().map(s => s.id)
+    });
+    
     const session = activeSessions.find((s: any) => s.id === accountId);
     if (!session || !session.data.isActive) {
-      console.log(`⚠️ [Telegram Provider] 账号 ${accountId} 未激活，跳过启动监听`);
+      console.log(`⚠️ [Telegram Provider] 账号 ${accountId} 未激活，跳过启动监听`, {
+        sessionFound: !!session,
+        isActive: session?.data?.isActive
+      });
+      return;
+    }
+    
+    // 额外检查数据库中的账户状态
+    try {
+      const { DatabaseService } = await import('../database/database.service');
+      const account = await DatabaseService.getAccountById(accountId);
+      if (!account || !account.is_active) {
+        console.log(`⚠️ [Telegram Provider] 账号 ${accountId} 在数据库中已禁用，跳过启动监听`);
+        return;
+      }
+    } catch (error) {
+      console.error(`❌ [Telegram Provider] 检查数据库账户状态失败:`, error);
       return;
     }
     
@@ -674,6 +703,50 @@ export class TelegramProvider implements MessageProvider {
     if (this.handlers.has(accountId)) {
       console.log(`⚠️ [Telegram Provider] 账号 ${accountId} 已有监听器，跳过启动`);
       return;
+    }
+
+    // 确保有消息回调函数 - 这是关键修复！
+    if (!this.messageCallback) {
+      console.log(`⚠️ [Telegram Provider] 消息回调未设置，使用默认回调`);
+      // 设置默认的消息回调，直接调用WebSocket广播
+      this.messageCallback = async (payload: { message: ChatMessage; chatInfo: ChatInfo; accountId: string }) => {
+        try {
+          const { websocketService } = require('../services/websocket.service');
+          
+          // 注意：账户状态检查已在启动监听时完成，这里不再重复检查
+          
+          // 转换为WebSocket消息格式
+          const webSocketMessage = {
+            platform: 'telegram' as const,
+            message: {
+              ...payload.message,
+              messageType: (payload.message.messageType === 'photo' ? 'photo' :
+                          payload.message.messageType === 'video' ? 'video' :
+                          payload.message.messageType === 'voice' ? 'voice' :
+                          payload.message.messageType === 'document' ? 'document' :
+                          payload.message.messageType === 'sticker' ? 'sticker' :
+                          payload.message.messageType === 'location' ? 'location' :
+                          payload.message.messageType === 'encrypted' ? 'text' :
+                          'text') as 'text' | 'photo' | 'video' | 'document' | 'sticker' | 'location' | 'voice'
+            },
+            chatInfo: {
+              ...payload.chatInfo,
+              lastMessage: payload.chatInfo.lastMessage || '',
+              lastMessageSender: payload.chatInfo.lastMessageSender || '',
+              lastMessageTime: payload.chatInfo.lastMessageTime || 0,
+              unreadCount: payload.chatInfo.unreadCount || 0,
+              createdAt: payload.chatInfo.createdAt || Date.now(),
+              updatedAt: payload.chatInfo.updatedAt || Date.now()
+            },
+            accountId: payload.accountId
+          };
+          
+          websocketService.broadcastNewMessage(webSocketMessage);
+          console.log(`📤 [Telegram Provider] 新账户消息已广播到WebSocket`);
+        } catch (error) {
+          console.error(`❌ [Telegram Provider] 默认消息回调执行失败:`, error);
+        }
+      };
     }
 
     try {
@@ -809,17 +882,47 @@ export class TelegramProvider implements MessageProvider {
                 const userId = event.message?.fromId?.userId?.toString();
                 const peerUserId = event.message?.peerId?.userId?.toString();
                 
+                console.log(`🔍 [Telegram Provider] 用户ID调试:`, {
+                  userId,
+                  peerUserId,
+                  fromId: event.message?.fromId,
+                  peerId: event.message?.peerId
+                });
+                
                 if (userId) {
-                  const user = await (client as TelegramClient).getEntity(userId);
-                  senderName = (user as any)?.firstName || (user as any)?.username || `User ${userId}`;
+                  try {
+                    const user = await (client as TelegramClient).getEntity(userId);
+                    senderName = (user as any)?.firstName || (user as any)?.username || `User ${userId}`;
+                    console.log(`✅ [Telegram Provider] 发送者信息获取成功:`, { userId, senderName });
+                  } catch (userError) {
+                    console.log(`⚠️ [Telegram Provider] 获取发送者信息失败: ${userId}`, userError);
+                    senderName = `User ${userId}`;
+                  }
                 }
                 
                 if (peerUserId) {
-                  const peerUser = await (client as TelegramClient).getEntity(peerUserId);
-                  chatName = (peerUser as any)?.firstName || (peerUser as any)?.username || `User ${peerUserId}`;
+                  try {
+                    const peerUser = await (client as TelegramClient).getEntity(peerUserId);
+                    chatName = (peerUser as any)?.firstName || (peerUser as any)?.username || `User ${peerUserId}`;
+                    console.log(`✅ [Telegram Provider] 聊天用户信息获取成功:`, { peerUserId, chatName });
+                  } catch (peerError) {
+                    console.log(`⚠️ [Telegram Provider] 获取聊天用户信息失败: ${peerUserId}`, peerError);
+                    chatName = `User ${peerUserId}`;
+                  }
+                } else {
+                  console.log(`⚠️ [Telegram Provider] peerUserId 为空，无法获取聊天用户信息`);
                 }
               } catch (error) {
-                console.log(`⚠️ [Telegram Provider] 获取用户信息失败，使用默认名称`);
+                console.log(`⚠️ [Telegram Provider] 获取用户信息失败，使用默认名称:`, error);
+                // 确保有默认值
+                if (!senderName) {
+                  const userId = event.message?.fromId?.userId?.toString();
+                  senderName = userId ? `User ${userId}` : 'Unknown Sender';
+                }
+                if (!chatName) {
+                  const peerUserId = event.message?.peerId?.userId?.toString();
+                  chatName = peerUserId ? `User ${peerUserId}` : 'Unknown User';
+                }
               }
 
               // 构建ChatMessage对象
@@ -829,7 +932,7 @@ export class TelegramProvider implements MessageProvider {
                 sender: event.message?.fromId?.userId?.toString() || '',
                 senderName: senderName,
                 content: event.message?.message || '',
-                timestamp: event.message?.date || Math.floor(Date.now() / 1000),
+                timestamp: (event.message?.date || Math.floor(Date.now() / 1000)) * 1000, // 转换为毫秒
                 isOwn: event.message?.out || false,
                 messageType: 'text', // 默认文本消息
                 status: 'sent',
@@ -1834,13 +1937,13 @@ export class TelegramProvider implements MessageProvider {
         messageType = 'photo';
         await this.safeDownload(client, msg.photo, 'photo', accountId, msg.id);
         content = await this.getMediaUrl(msg.photo, 'photo', accountId, msg.id, client);
-  
+
       // --- 🎥 VIDEO ---
       } else if (msg.video) {
         messageType = 'video';
         await this.safeDownload(client, msg.video, 'video', accountId, msg.id);
         content = await this.getMediaUrl(msg.video, 'video', accountId, msg.id, client);
-  
+
       // --- 📄 DOCUMENT / FILE ---
       } else if (msg.document) {
         const mimeType = msg.document?.mimeType || '';
@@ -1849,7 +1952,7 @@ export class TelegramProvider implements MessageProvider {
                         attrs.some((a: any) => a.className === 'DocumentAttributeAudio' && a.voice);
         const isSticker = attrs.some((a: any) => a.className === 'DocumentAttributeSticker');
         const fileName = this.getDocumentFileName(msg.document);
-  
+
         if (isVoice) {
           messageType = 'voice';
           await this.safeDownload(client, msg.document, 'voice', accountId, msg.id);

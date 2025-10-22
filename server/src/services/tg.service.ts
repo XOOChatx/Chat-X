@@ -264,7 +264,8 @@ function startBackgroundPoller(loginKey: string) {
               phone: phone,
               firstName,
               lastName,
-              username
+              username,
+              isActive: true // 添加激活状态
             }, 
             createdAt: Date.now() 
           });
@@ -544,6 +545,7 @@ export async function tgPhoneVerify(txId: string, code: string, password?: strin
       username,
       workspace_id:normalizedWorkspaceId?? undefined,
       brand_id:normalizedBrandId?? undefined,
+      isActive: true // 添加激活状态
     }, 
     createdAt: Date.now(),
     createdBy: created_by,

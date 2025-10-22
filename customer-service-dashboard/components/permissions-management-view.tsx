@@ -411,7 +411,9 @@ export function PermissionsManagementView() {
       fetchSubordinates();
       fetchUsers();
     } else {
+      setIsUserDialogOpen(true);
       console.log("Update action failed", "Failed to update new record.")
+
     }
   };
 
@@ -834,7 +836,7 @@ export function PermissionsManagementView() {
             <Button
               onClick={async () => {
                 setIsEditConfirmOpen(false)
-                setIsUserDialogOpen(false)
+                //setIsUserDialogOpen(false)
                 handleSave()
               }}
             >

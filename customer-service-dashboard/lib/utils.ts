@@ -99,24 +99,78 @@ export function isUsername(name: string): boolean {
 }
 
 /**
+ * Mask in-text content based on platform rules
+ * - Both platforms: mask phone numbers anywhere in text
+ * - Telegram: also mask @usernames
+ * - WhatsApp: do not mask names/usernames, only phone numbers
+ */
+export function maskContentText(
+  text: string,
+  options?: { platform?: 'whatsapp' | 'telegram' }
+): string {
+  if (!text) return text;
+
+  let result = String(text);
+
+  // Helper: mask phone-like substrings if they are valid phone numbers by digits length
+  const phoneLike = /\+?[\d\-\s()]{7,20}/g;
+  result = result.replace(phoneLike, (match) => {
+    const digits = match.replace(/\D/g, '');
+    if (isPhoneNumber(digits)) {
+      const masked = maskPhoneNumber(digits);
+      return match.trim().startsWith('+') ? `+${masked}` : masked;
+    }
+    return match;
+  });
+
+  if (options?.platform === 'telegram') {
+    // Mask @username mentions
+    result = result.replace(/@([A-Za-z0-9_]{3,32})\b/g, (_m, uname: string) => `@${maskUsername(uname)}`);
+  }
+
+  return result;
+}
+
+/**
  * Mask chat name based on its content
  * - If it looks like a phone number, mask it as phone number
  * - If it looks like a username/nickname, mask it as username
  * - Otherwise, return as is (assuming it's an original name)
  */
-export function maskChatName(name: string): string {
+export function maskChatName(
+  name: string,
+  options?: {
+    platform?: 'whatsapp' | 'telegram';
+    chatType?: 'private' | 'group' | 'supergroup' | 'channel' | 'bot' | 'system' | 'topic';
+  }
+): string {
   if (!name) return name;
 
-  // If it looks like a phone number, mask it
-  if (isPhoneNumber(name)) {
-    return maskPhoneNumber(name);
+  const platform = options?.platform;
+  const chatType = options?.chatType;
+
+  // Platform-specific rules
+  if (platform === 'whatsapp') {
+    // Groups (and non-private) → no mask
+    if (chatType && chatType !== 'private') return name;
+    // Private: mask only if it's a phone number; names remain as-is
+    if (isPhoneNumber(name)) return maskPhoneNumber(name);
+    return name;
   }
 
-  // If it looks like a username/nickname, mask it
-  if (isUsername(name)) {
-    return maskUsername(name);
+  if (platform === 'telegram') {
+    // Groups/channels/topics → no mask
+    if (chatType && (chatType === 'group' || chatType === 'supergroup' || chatType === 'channel' || chatType === 'topic')) {
+      return name;
+    }
+    // Private (and others defaulting to private): mask phone numbers and usernames
+    if (isPhoneNumber(name)) return maskPhoneNumber(name);
+    if (isUsername(name)) return maskUsername(name);
+    return name;
   }
 
-  // Otherwise, return as is (original name)
+  // Fallback generic behavior (unknown platform): mask phone or username
+  if (isPhoneNumber(name)) return maskPhoneNumber(name);
+  if (isUsername(name)) return maskUsername(name);
   return name;
 }

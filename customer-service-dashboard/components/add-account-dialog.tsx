@@ -18,6 +18,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Separator } from "@/components/ui/separator"
 import { Card, CardContent } from "@/components/ui/card"
 import { useAuth } from "@/contexts/auth-context"
+import { accountWebSocketManager } from "@/lib/account-websocket-manager"
 
 interface AddAccountDialogProps {
   trigger?: React.ReactNode
@@ -69,6 +70,9 @@ export function AddAccountDialog({ trigger, open, onOpenChange }: AddAccountDial
     }else{
       getWorkspacesForUser();
     }
+    
+    // 初始化统一的WebSocket监听管理器
+    accountWebSocketManager.initialize();
   }, []); 
 
   React.useEffect(() => {
@@ -379,21 +383,39 @@ export function AddAccountDialog({ trigger, open, onOpenChange }: AddAccountDial
                     });
                   }
 
-                  console.log('🔄 触发全局账号刷新事件:', { platform: selectedPlatform, currentSessionId })
-                  window.dispatchEvent(new CustomEvent('accountAdded', { 
-                    detail: { 
-                      platform: selectedPlatform, 
-                      sessionId: currentSessionId 
-                    } 
-                  }))
-                  
-                  // 🔄 额外触发通用刷新事件（兼容其他可能的监听器）
-                  window.dispatchEvent(new CustomEvent('refreshAccounts'))
-                  
-                  // 🔄 延迟刷新，确保后端数据已保存
-                  setTimeout(() => {
-                    window.dispatchEvent(new CustomEvent('accountDataChanged'))
-                  }, 500)
+        // 🔄 通过WebSocket发送账户添加事件到后端
+        console.log('🔄 通过WebSocket发送账户添加事件:', { platform: selectedPlatform, currentSessionId })
+        
+        // 检查WebSocket连接状态
+        const wsClient = (window as any).websocketClient;
+        if (wsClient && wsClient.getConnectionStatus) {
+          const status = wsClient.getConnectionStatus();
+          console.log('🔍 WebSocket连接状态:', status);
+          
+          if (status.isConnected) {
+            // 通过WebSocket发送事件到后端
+            wsClient.socket?.emit('accountAdded', {
+              platform: selectedPlatform,
+              sessionId: currentSessionId,
+              accountName: accountName.trim() || `${selectedPlatform === "whatsapp" ? "WhatsApp" : "Telegram"} ${currentSessionId}`,
+              workspaceId: Number(workspaceId),
+              brandId: Number(brandId)
+            });
+            console.log('✅ 账户添加事件已发送到后端');
+          } else {
+            console.warn('⚠️ WebSocket未连接，无法发送账户事件');
+          }
+        } else {
+          console.warn('⚠️ WebSocket客户端不可用');
+        }
+        
+        // 🔄 触发前端本地事件（用于UI更新）
+        window.dispatchEvent(new CustomEvent('refreshAccounts'))
+        
+        // 🔄 延迟刷新，确保后端数据已保存
+        setTimeout(() => {
+          window.dispatchEvent(new CustomEvent('accountDataChanged'))
+        }, 500)
       
               
                   // ✅ 自动关闭弹窗并刷新列表
@@ -781,6 +803,9 @@ export function AddAccountDialog({ trigger, open, onOpenChange }: AddAccountDial
         detail: { platform: "telegram", sessionId: telegramSessionId },
       }));
       window.dispatchEvent(new CustomEvent('refreshAccounts'));
+
+      // 🔌 WebSocket监听由统一管理器处理
+
       setTimeout(() => {
         window.dispatchEvent(new CustomEvent('accountDataChanged'));
       }, 500);
@@ -931,6 +956,9 @@ export function AddAccountDialog({ trigger, open, onOpenChange }: AddAccountDial
         detail: { platform: "telegram", sessionId: telegramSessionId },
       }));
       window.dispatchEvent(new CustomEvent('refreshAccounts'));
+
+      // 🔌 WebSocket监听由统一管理器处理
+
       setTimeout(() => {
         window.dispatchEvent(new CustomEvent('accountDataChanged'));
       }, 500);
@@ -1066,6 +1094,8 @@ export function AddAccountDialog({ trigger, open, onOpenChange }: AddAccountDial
       
       // 🔄 额外触发通用刷新事件（兼容其他可能的监听器）
       window.dispatchEvent(new CustomEvent('refreshAccounts'))
+
+      // 🔌 WebSocket监听由统一管理器处理
       
       // 🔄 延迟刷新，确保后端数据已保存
       setTimeout(() => {
