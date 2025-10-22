@@ -17,3 +17,5 @@
 
 2. Click the start-dev.bat to run the Chat-X using localhost:3000.
 
+3. a
+
